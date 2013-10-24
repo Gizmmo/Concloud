@@ -1,6 +1,6 @@
 <head>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
-  <title>Concloud</title>
+	<title>Concloud</title>
 </head>
 
 <body>
@@ -9,6 +9,17 @@
 
 <template name="concloud">
 	{{> header}}
-	{{> menu}}
-    {{> projectsList}}
+	<div class="main-container">
+		<div class="main-container-inner">
+			{{> menu}}
+			<div class="main-content" id="main-container">
+				
+				
+				
+				{{> projectsList}}	
+			</div>
+		</div>
+	</div>
+	
+	
 </template>

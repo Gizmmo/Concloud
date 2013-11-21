@@ -1,24 +1,24 @@
-.pricesPage {
+.faqPage {
 	/*margin-left: -190px;*/
 }
 
-.pricesPage .header {
+.faqPage .header {
 	margin-top:100px;
 
 }
 
-.pricesPage .fullHeader {
+.faqPage .fullHeader {
 	background: #384047 url(/img/greenheader2.jpg) 0 -300px repeat;
 	margin-top: -20px;
 	padding-bottom: 89px;
 }
 
-.pricesPage .header h2 {
+.faqPage .header h2 {
 	color:white;
 	font-size: 46px;
 }
 
-.pricesPage .header h2 small{
+.faqPage .header h2 small{
 	color:white;
 	display: block;
 	font-size: 20px;
@@ -28,16 +28,27 @@
 	line-height: 0;
 }
 
-.pricesPage .overlap {
+.faqPage .overlap {
 	padding-top: 0;
 	padding-bottom: 0;
 }
 
-.pricesPage .plans-container {
+.starting h3 {
+	color:black!important;
+	padding-bottom:25px;
+}
+
+.section .container .plans-container .row #aboutus {
+	padding-top: 20px;
+}
+
+.faqPage .plans-container {
 	margin: 0 auto;
 	width: 1000px;
 	margin-top:-89px;
 	max-width: 100%;
+	padding:20px;
+	margin-bottom:80px;
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
 	-ms-border-radius: 8px;
@@ -59,7 +70,7 @@
 	padding-bottom: 100px;
 }
 
-.pricesPage .plans-container .row {
+.faqPage .plans-container .row {
 	border-bottom: 1px solid rgba(255,255,255,0.07);
 	color: #fff;
 }
@@ -112,7 +123,7 @@
 .icon-circle {
 	background-color: #64ce83;
 	display: inline-block;
-	width: 15px;
+	width: 15px!important;
 	height: 15px;
 	-webkit-border-radius: 1000px;
 	-moz-border-radius: 1000px;

@@ -25,8 +25,8 @@ Meteor.Router.add({
 			window.scrollTo(0,0);},1);}
 	},
 
-	'/prices' : {
-		to: "prices",
+	'/faq' : {
+		to: "faq",
 		and: function() {Meteor.setTimeout(function(){
 			window.scrollTo(0,0);},1);}
 	},
@@ -79,7 +79,7 @@ Meteor.Router.filters({
 
 
 Meteor
-.Router.filter('requireLogin', {except: ['splash','about','contactUs','prices']});
+.Router.filter('requireLogin', {except: ['splash','about','contactUs','faq']});
 
 /**
  * Creates a global function to search for the current URL. This will be used

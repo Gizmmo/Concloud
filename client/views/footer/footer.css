@@ -1,7 +1,7 @@
 /* Footer
 -------------------------------------------------- */
 #footer {
-    min-height: 260px;
+    min-height: 160px;
     background-color: #252528;
     color: #fff;
     padding-top: 35px;
@@ -445,6 +445,10 @@
     float: left;
     margin-right: 10px;
     margin-bottom: 10px;
+}
+
+#bottom {
+    margin-top: -20px;
 }
 
 #bottom .social_end a {

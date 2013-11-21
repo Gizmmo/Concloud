@@ -1,4 +1,4 @@
-Template.injectronics.rendered = function () {
+Template.concloud.rendered = function () {
     $('body').removeAttr('style');
 	jqueryui();
   metroNotifications();

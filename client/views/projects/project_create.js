@@ -15,7 +15,7 @@ Template.projectCreate.events({
 			description: $(event.target).find('[name=description]').val()
 		};
 
-		//Calls the newly created Project's pafe after creating
+		//Calls the newly created Project's path after creating
 		Meteor.call('project', project, function (error, id) {
 			if (error) {
                 // display the error to the user

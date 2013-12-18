@@ -12,7 +12,7 @@ Template.signInModal.events({
 			var user =  $('#email').val();
 			var password = $('#passwd').val();
 			Meteor.loginWithPassword(user, password, function (error) {
-				Meteor.Router.to('dashboard');
+				Router.go('dashboard');
 			});
 			$('#myModal').modal('hide');
 		}
@@ -52,7 +52,7 @@ Template.signInModal.events({
 		var user =  $('#email').val();
 		var password = $('#passwd').val();
 		Meteor.loginWithPassword(user, password, function (error) {
-			Meteor.Router.to('dashboard');
+			Router.go('dashboard');
 			$('#myModal').modal('hide');
 		});
 	},

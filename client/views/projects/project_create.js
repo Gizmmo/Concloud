@@ -22,11 +22,11 @@ Template.projectCreate.events({
                 throwError(error.reason);
                 // if the error is that the post already exists, take us there
                 if (error.error === 302){
-					Meteor.Router.to('projectPage', error.details);
+					Router.go('projectPage', error.details);
                 }
             } else {
                 //no errors send to the new page
-				Meteor.Router.to('projectPage', id);
+				Router.go('projectPage', _id);
             }
         });
 

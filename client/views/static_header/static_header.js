@@ -10,7 +10,7 @@ Handlebars.registerHelper('active', function(path) {
 
 Template.staticHeader.helpers({
 	navtype: function() {
-		if(Meteor.Router.page() === 'splash'){
+		if(Router.current().route.name === 'dashboard'){
 			return '';
 		}
 		else{

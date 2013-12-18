@@ -10,11 +10,11 @@
 
 		<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 			<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-				<a class="btn btn-success" href="{{projectsListPath}}">
+				<a class="btn btn-success" href="{{pathFor 'projectsList'}}">
 					<i class="fa fa-folder-open"></i>
 				</a>
 
-				<a class="btn btn-info" href = "{{projectCreatePath}}">
+				<a class="btn btn-info" href = "{{pathFor 'projectCreate'}}">
 					<i class="fa fa-pencil"></i>
 				</a>
 
@@ -22,7 +22,7 @@
 					<i class="fa fa-group"></i>
 				</button>
 
-				<a class="btn btn-danger" href="{{accountManagementPath}}">
+				<a class="btn btn-danger" href="{{pathFor 'accountManagement'}}">
 					<i class="fa fa-cogs"></i>
 				</a>
 			</div>
@@ -40,7 +40,7 @@
 
 		<ul class="nav nav-list">
 			<li class="active">
-				<a href="{{dashboardPath}}">
+				<a href="{{pathFor 'dashboard'}}">
 					<i class="fa fa-dashboard"></i>
 					<span class="menu-text"> Dashboard </span>
 				</a>
@@ -98,7 +98,7 @@
 			
 
 			<li>
-				<a href="{{adminPath}}">
+				<a href="{{pathFor 'admin'}}">
 					<i class="fa fa-gavel"></i>
 					<span class="menu-text"> Administration </span>
 				</a>
@@ -118,7 +118,7 @@
 			</li>
 
 			<li>
-				<a href="{{adminPath}}">
+				<a href="{{pathFor 'admin'}}">
 					<i class="fa fa-tasks"></i>
 					<span class="menu-text"> Reports </span>
 				</a>
@@ -132,7 +132,7 @@
 			</li>
 
 			<li>
-				<a href="{{accountManagementPath}}">
+				<a href="{{pathFor 'accountManagement'}}">
 					<i class="fa fa-gear"></i>
 					<span class="menu-text"> Settings </span>
 				</a>

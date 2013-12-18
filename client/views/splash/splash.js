@@ -2,7 +2,7 @@ Template.splash.events({
 	
 
 	'click #learnMore' : function() {
-		Meteor.Router.to('prices');
+		Router.go('prices');
 	}
 
 });

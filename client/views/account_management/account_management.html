@@ -1,19 +1,16 @@
 <template name = "accountManagement">
 	{{> breadcrumbs}}
 	<div class = "container accountManagement">
-		<input type="password" class="col-sm-6 signUpInput" name="password" id="sign-password" placeholder="Password">
-		
-		<input type="password" class="col-sm-6 signUpInput" name="confirm-password" id="sign-confirm-password" placeholder="Confirm Password">
-		
+		<div id = "edit-password">
+			<input type="password" class="col-sm-3 signUpInput" name="password" id="old-password" placeholder="Current Password">
 
-		<input type="text" class="col-sm-6 signUpInput" name="first-name" id="last-name" placeholder="First Name">
+			<input type="password" class="col-sm-3 signUpInput" name="password" id="sign-password" placeholder="New Password">
+			
+			<input type="password" class="col-sm-3 signUpInput" name="confirm-password" id="sign-confirm-password" placeholder="Confirm New Password">
 
-		<input type="text" class="col-sm-6 signUpInput" name="last-name" id="first-name" placeholder="Last Name">
-
-		<button class="btn btn-lg btn-danger" >Change Passwords</button>
-
-		<button class="btn btn-lg btn-primary" >Update Profile</button>
-
+			<button class="btn btn-sm col-sm-2 btn-danger" id="update-password" >Update Password</button>
+		</div>
+		<br>
 	</div>
 
 

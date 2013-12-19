@@ -9,12 +9,7 @@ Template.signInModal.events({
  'keypress .onSub': function (event) {
 		//This will stop the default submitting of the form
 		if(event.which === 13){
-			var user =  $('#email').val();
-			var password = $('#passwd').val();
-			Meteor.loginWithPassword(user, password, function (error) {
-				Router.go('dashboard');
-			});
-			$('#myModal').modal('hide');
+			logIn();
 		}
 	},
 
@@ -49,12 +44,7 @@ Template.signInModal.events({
 	//This event will run when the user clicks the
 	//log in button
 	'click #logButton': function () {
-		var user =  $('#email').val();
-		var password = $('#passwd').val();
-		Meteor.loginWithPassword(user, password, function (error) {
-			Router.go('dashboard');
-			$('#myModal').modal('hide');
-		});
+		logIn();
 	},
 	//This is the event to handle if the user clicks
 	//that they have forgotten their password
@@ -143,3 +133,17 @@ var changeModal = function (newValue){
 
 		});
 };
+
+function logIn() {
+	var user =  $('#email').val();
+	var password = $('#passwd').val();
+	Meteor.loginWithPassword(user, password, function (error) {
+		if(error){
+			console.log("There has been an error");
+		} else{
+			console.log("There was no error");
+			Router.go('dashboard');
+			$('#myModal').modal('hide');
+		}
+	});
+}

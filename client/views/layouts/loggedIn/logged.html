@@ -1,21 +1,19 @@
 <template name="logged">
-  <div>
-    {{yield 'header'}}
-  </div>
 
-  <div>
-    {{yield 'menu'}}
-  </div>
+	<div id ="fullTemplate">
+	{{> header}}
 
-  <div>
-    {{yield 'breadcrumbs'}}
-  </div>
 
-  <div>
-    {{yield}}
-  </div>
+	<div class="main-container">
+		<div class="main-container-inner">
+			{{> menu}}
+			<div class="main-content" id="main-container">
 
-  <footer>
-    {{yield 'footer'}}
-  </footer>
+
+
+				{{yield}}
+			</div>
+		</div>
+	</div>
+</div>
 </template>

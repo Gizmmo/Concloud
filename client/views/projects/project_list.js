@@ -18,6 +18,6 @@ Template.projectsList.helpers({
 			i += 1;
 			return project;
 		});
-	},
+	}
 });
 

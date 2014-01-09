@@ -1,15 +1,54 @@
 // Fixture data 
 if (Projects.find().count() === 0) {
     var now = new Date().getTime();
+    var time = new Date().getTime();
 
 
     // create two users
     var tomId = Meteor.users.insert({
-        profile: { name: 'Tom Coleman' }
+        profile: {
+            name: 'Tom Coleman',
+            userGroup : "Employee",
+            joinDate: time,
+            recent: {
+                lastLogin: time,
+                lastProjectName: "None",
+                lastProjectID: "None"
+                },
+            hr : {
+                sickDays: 0,
+                vacationDays: 0,
+                //Updates in an arryay conataining update objects
+                //that contain a value, and how it has changed
+                updates : [{
+                    hrValue: "User",
+                    valueChanged: "Was Created"
+                }]
+            }
+        }
     });
     var tom = Meteor.users.findOne(tomId);
     var sachaId = Meteor.users.insert({
-        profile: { name: 'Sacha Greif' }
+        profile: {
+            name: 'Sacha Greif',
+            userGroup : "Employee",
+            joinDate: time,
+            recent: {
+                lastLogin: time,
+                lastProjectName: "None",
+                lastProjectID: "None"
+                },
+            hr : {
+                sickDays: 0,
+                vacationDays: 0,
+                //Updates in an arryay conataining update objects
+                //that contain a value, and how it has changed
+                updates : [{
+                    hrValue: "User",
+                    valueChanged: "Was Created"
+                }]
+            }
+        }
     });
 
 

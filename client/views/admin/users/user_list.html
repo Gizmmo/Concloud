@@ -1,0 +1,18 @@
+<template name = "ManageUserList">
+	<div class = "users">
+		<div class = "page-content">
+			<div class="page-header">
+				<h1>Manage<small><i class="fa fa-angle-double-right"></i>Employees</small></h1>
+			</div>
+			<div class="row">
+				<div class = "projects col-xs-12">
+					
+							{{#each users}}
+							{{> userItem}}
+							{{/each}}
+						
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

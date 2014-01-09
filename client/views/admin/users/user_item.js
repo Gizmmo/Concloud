@@ -1,0 +1,5 @@
+Template.userItem.helpers({
+	convertedTime: function () {
+		return formatDate(this.profile.recent.lastLogin);
+	}
+});

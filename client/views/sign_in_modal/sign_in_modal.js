@@ -54,59 +54,55 @@ Template.signInModal.events({
 			email: Meteor.user().emails[0].address
 		});
 */
-	},
+},
 
 	//This is the event used if a user submits a new
 	//user signup form
 	'click #signUpButton': function (event) {
 		//This will stop the default submitting of the form
 		event.preventDefault();
-		console.log("Email : " + $('#sign-email').val());
-		console.log("Password : " + $('#sign-password').val());
-		console.log("firstname : " + $('#sign-first-name').val());
-		console.log("lastname : " + $('#sign-last-name').val());
 		var time = new Date().getTime();
 		var options = {
 			email : $('#sign-email').val(),
 			password : $('#sign-password').val(),
-			//Profile is the object within the user that can
-			//be freely edited by the user
-			profile : {
+                //Profile is the object within the user that can
+                //be freely edited by the user
+            profile : {
 				name : ($('#sign-first-name').val() + " " + $('#sign-last-name').val()),
-				templateCode : '545',
+				userGroup : 'Admin',
 				joinDate: time,
 				recent: {
 					lastLogin: time,
 					lastProjectName: "None",
 					lastProjectID: "None"
-				},
+					},
 				hr : {
 					sickDays: 0,
 					vacationDays: 0,
-					//Updates in an arryay conataining update objects
-					//that contain a value, and how it has changed
+                    //Updates in an arryay conataining update objects
+                    //that contain a value, and how it has changed
 					updates : [{
 						hrValue: "User",
 						valueChanged: "Was Created"
 					}]
-				}
-			}
-		};
+                }
+            }
+        };
 
-		Accounts.createUser(options, function () {
-			var entry = {};
+        Accounts.createUser(options, function () {
+            var entry = {};
 			//Calls the newly created User's function to create
 			//an ectry for the user
 			//Meteor.user()
 		});
-	}
+    }
 });
 
 /**
  * Changes the Modal with a fadeOut/fadeIn effect from one modal to another.
  * @param  {[String]} newValue [The selector for the new Model]
  */
-var changeModal = function (newValue){
+ var changeModal = function (newValue){
 	$newForm = $(newValue);
 		//The Modal Wrapper (Includes all forms);
 		var $form_wrapper = $('#myModal'),
@@ -120,11 +116,11 @@ var changeModal = function (newValue){
 
 			//animate the wrapper
 			$form_wrapper.stop()
-							.animate({
-								width: $newForm.data('500') + 'px',
-								height: $newForm.data('500') + 'px'
-									
-							},500,function(){
+			.animate({
+				width: $newForm.data('500') + 'px',
+				height: $newForm.data('500') + 'px'
+
+			},500,function(){
 								//new form gets class "active"
 								$newForm.addClass('active');
 								//show the new form
@@ -132,18 +128,22 @@ var changeModal = function (newValue){
 							});
 
 		});
-};
+	};
 
-function logIn() {
-	var user =  $('#email').val();
-	var password = $('#passwd').val();
-	Meteor.loginWithPassword(user, password, function (error) {
-		if(error){
-			console.log("There has been an error");
-		} else{
-			console.log("There was no error");
-			Router.go('dashboard');
-			$('#myModal').modal('hide');
-		}
-	});
-}
+	/**
+	 * Used to log in
+	 * @return null
+	 */
+	function logIn() {
+		var user =  $('#email').val();
+		var password = $('#passwd').val();
+		Meteor.loginWithPassword(user, password, function (error) {
+			if(error){
+				//Fill In Error Code
+			} else{
+				//Fill In LogIn Code
+				Router.go('dashboard');
+				$('#myModal').modal('hide');
+			}
+		});
+	}

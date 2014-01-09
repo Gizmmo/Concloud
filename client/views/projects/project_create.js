@@ -26,7 +26,8 @@ Template.projectCreate.events({
                 }
             } else {
                 //no errors send to the new page
-				Router.go('projectPage', _id);
+                project._id = id;
+				Router.go('projectPage', project);
             }
         });
 

@@ -15,6 +15,6 @@ Template.header.helpers({
 	 * @return String String value of first name
 	 */
 	'currentName' : function(){
-		return Meteor.user().profile.name.split(" ")[0];
+		return Meteor.user().profile.firstName;
 	}
 });

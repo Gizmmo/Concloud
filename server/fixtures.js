@@ -7,7 +7,8 @@ if (Projects.find().count() === 0) {
     // create two users
     var tomId = Meteor.users.insert({
         profile: {
-            name: 'Tom Coleman',
+            firstName: 'Tom',
+            lastName: 'Coleman',
             userGroup : "Employee",
             joinDate: time,
             recent: {
@@ -30,7 +31,8 @@ if (Projects.find().count() === 0) {
     var tom = Meteor.users.findOne(tomId);
     var sachaId = Meteor.users.insert({
         profile: {
-            name: 'Sacha Greif',
+            firstName: 'Sacha',
+            lastName: 'Greif',
             userGroup : "Employee",
             joinDate: time,
             recent: {

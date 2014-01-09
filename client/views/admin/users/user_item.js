@@ -1,5 +1,10 @@
 Template.userItem.helpers({
 	convertedTime: function () {
-		return formatDate(this.profile.recent.lastLogin);
+		if(this.profile.recent){
+			if(this.profile.recent.lastLogin){
+				return formatDate(this.profile.recent.lastLogin);
+			}
+		}
+		return formatDate(new Date().getTime());
 	}
 });

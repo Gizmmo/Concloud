@@ -1,0 +1,176 @@
+<template name="menu">
+	<!-- User must be logged in to see this -->
+	{{#if currentUser}}
+
+	<a class="menu-toggler" id="menu-toggler" href="#">
+		<span class="menu-text"></span>
+	</a>
+
+	<div class="sidebar" id="sidebar">
+
+		<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+			<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+				<a class="btn btn-success" href="{{pathFor 'projectsList'}}">
+					<i class="fa fa-folder-open"></i>
+				</a>
+
+				<a class="btn btn-info" href = "{{pathFor 'projectCreate'}}">
+					<i class="fa fa-pencil"></i>
+				</a>
+
+				<button class="btn btn-warning">
+					<i class="fa fa-group"></i>
+				</button>
+
+				<a class="btn btn-danger" href="{{pathFor 'accountManagement'}}">
+					<i class="fa fa-cogs"></i>
+				</a>
+			</div>
+
+			<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+				<span class="btn btn-success"></span>
+
+				<span class="btn btn-info"></span>
+
+				<span class="btn btn-warning"></span>
+
+				<span class="btn btn-danger"></span>
+			</div>
+		</div><!-- #sidebar-shortcuts -->
+
+		<ul class="nav nav-list">
+			<li class="active">
+				<a href="{{pathFor 'dashboard'}}">
+					<i class="fa fa-dashboard"></i>
+					<span class="menu-text"> Dashboard </span>
+				</a>
+			</li>
+<!--
+			<li>
+				<a href="typography.html">
+					<i class="fa fa-user"></i>
+					<span class="menu-text"> Profile </span>
+				</a>
+			</li>
+-->
+			<li>
+				<a href="#" class="dropdown-toggle">
+					<i class="fa fa-folder"></i>
+					<span class="menu-text"> My Projects </span>
+
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+<!--CREATE TEMPLATE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+				<ul class="submenu">
+
+					{{#each projects}}
+						{{> sidebarProject}}
+					{{/each}}
+
+				</ul>
+			</li>
+
+			<li>
+				<a href="#" class="dropdown-toggle">
+					<i class="fa fa-wrench"></i>
+					<span class="menu-text"> Subtrades </span>
+
+					<b class="arrow fa fa-angle-down"></b>
+				</a>
+
+				<ul class="submenu">
+					<li>
+						<a href="#">
+							<i class="fa fa-angle-double-right"></i>
+							Subtrades 1
+						</a>
+					</li>
+
+					<li>
+						<a href="#">
+							<i class="fa fa-angle-double-right"></i>
+							Subtrades 2
+						</a>
+					</li>
+				</ul>
+			</li>
+
+			
+
+			<li>
+				<a href="{{pathFor 'admin'}}">
+					<i class="fa fa-gavel"></i>
+					<span class="menu-text"> Administration </span>
+				</a>
+			</li>
+
+			<li>
+				<a href="#">
+					<i class="fa fa-smile-o"></i>
+
+					<span class="menu-text">
+						Human Resources
+						<span class="badge badge-transparent tooltip-error" title="" data-original-title="2&nbsp;Important&nbsp;Events">
+							<i class="fa fa-warning-sign red bigger-130"></i>
+						</span>
+					</span>
+				</a>
+			</li>
+
+			<li>
+				<a href="{{pathFor 'admin'}}">
+					<i class="fa fa-tasks"></i>
+					<span class="menu-text"> Reports </span>
+				</a>
+			</li>
+
+			<li>
+				<a href="#">
+					<i class="fa fa-inbox"></i>
+					<span class="menu-text"> Inbox </span>
+				</a>
+			</li>
+
+			<li>
+				<a href="{{pathFor 'accountManagement'}}">
+					<i class="fa fa-gear"></i>
+					<span class="menu-text"> Settings </span>
+				</a>
+			</li>
+
+			
+
+			<li>
+				<a href="#" class="dropdown-toggle">
+					<i class="fa fa-file-alt"></i>
+
+					<span class="menu-text">
+						Other Pages
+						<span class="badge badge-primary ">1</span>
+					</span>
+
+					<b class="arrow icon-angle-down"></b>
+				</a>
+
+				<ul class="submenu">
+					<li>
+						<a href="#">
+							<i class="fa fa-angle-double-right"></i>
+							FAQ
+						</a>
+					</li>
+
+					
+				</ul>
+			</li>
+		</ul><!-- /.nav-list -->
+
+		<div class="sidebar-collapse" id="sidebar-collapse">
+			<i id="menu-button-toggle" class="fa fa-angle-double-left" ></i>
+		</div>
+
+		
+	</div>
+	{{/if}}
+
+</template>

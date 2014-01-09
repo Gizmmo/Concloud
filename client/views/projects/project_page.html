@@ -1,6 +1,6 @@
 <template name="projectPage">
 	{{> breadcrumbs}}
-	{{#with currentProject}}
+
 	<div class = "projectData col-xs-12">
 		<div class="row no-margins">
 			<h3>{{title}}</h3>
@@ -147,9 +147,18 @@
 					</li>
 
 			</ol>
+			<div class="row">
 			<button type="button" class="btn btn-success" id="update-btn">Update Project</button>
+
+				<input type="file" id="upload" name="upload"/>
+				<button id="smartfile">Submit</button>
+
+				<button class='btn btn-primary' id="downloadMe">Download</button>
+
+				{{listSmartFiles}}
+			</div>
 
 		</div>
 	</div>
-	{{/with}}
+
 </template>

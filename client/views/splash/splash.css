@@ -1,0 +1,277 @@
+.splash-content {
+ 	padding-top:100px;
+ 	padding-bottom: 100px;
+ 	background-color:white;
+ }
+
+ .splash-content > .row{
+ 	margin-bottom:85px;
+ 	 margin-left:20px;
+ 	margin-right:20px;
+ }
+
+ .splash .row {
+ 	margin:0;
+ }
+
+ .splashpage {
+ 	margin-left:0px!important;
+ 	margin: 0 auto;
+ 	background-color:white;
+ 	font: 100%/1.5em 'PT Sans', sans-serif !important;
+	overflow-x:hidden;
+
+ }
+
+ .splash-header a.button {
+	background: #e33f0c;
+	text-align: center;
+	padding: .5em 1em;
+	color: white;
+	font-weight: bold;
+	text-decoration: none;
+	box-shadow: 0 0.2em 0 #ab3009;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	/*transition cross-browser stuff*/
+	-webkit-transition: background 0.2s ease-out;  /* Safari 3.2+, Chrome */
+	-moz-transition: background 0.2s ease-out;  /* Firefox 4-15 */
+	-o-transition: background 0.2s ease-out;  /* Opera 10.5–12.00 */
+	transition: background 0.2s ease-out;  /* Firefox 16+, Opera 12.50+ */
+}
+a.button:hover {
+	background: #ab3009;
+}
+
+@media only screen and (min-width: 767px) {
+	body {
+		font-size: 1.125em; /* 18px / 16px */
+		line-height: 1.7em;
+	}
+	.splash-header {
+		background-size: 100%;
+		color: #666;
+
+	}
+	.splash-header h1 {
+		font-size: 3.25em; /*52 / 16*/
+	}
+	.splash-header a.button {
+		padding: .75em 1.5em;
+	}
+}
+
+.splash-header {
+	background: #4b371f;
+	color: white;
+	text-align: center;
+	padding: 10% 0 22% 0;
+}
+
+.splash-header h1, h2, h3 {
+	font-family: 'PT Serif', serif!important;
+	font-weight: 700;
+	text-align: center;
+}
+.splash-header h1 {
+	font-size: 3em;
+	line-height: 1em;
+	margin-bottom: 1em;
+}
+
+ .logo {
+ 	margin: 0 auto;
+ 	text-align: center;
+ 	height: 40px;
+ }
+
+ .signup {
+ }
+
+ .signin {
+ 	padding: 10px 60px!important;
+ }
+
+ .signInButton {
+ 	padding-left:67px;
+ 	padding-right:67px;
+ }
+
+ .signupline {
+ 	color:#c3c3c3;
+ 	margin-top:16px;
+ 	font-size:14px;
+ 	line-height:19px;
+ }
+
+ .signUpInput {
+ 	margin-bottom: 10px;
+ }
+
+ .signupline{
+ 	margin-bottom: 10px;
+ }
+
+ .logo {
+ 	max-width:250px;
+ }
+ .splash{
+ 	margin:0 auto;
+
+ }
+
+ .brandName {
+ 	margin-bottom:20px;
+ 	 	color:white;
+
+ }
+
+ .submitSignIn {
+ 	margin-top: 10px;
+ }
+
+ .header-content{
+	margin-top: 150px;
+	margin-bottom:50px;
+
+}
+
+.header-content h1 {
+	color: #666;
+	display:block;
+	margin-top:0;
+	font-size: 54px;
+	font-family: "Gotham Rounded A", "Gotham Rounded B", Helvetica;
+}
+
+.sticky {
+	margin-bottom: 0px;
+	border-radius: 0;
+}
+
+.pastNav {
+	margin-top:86px;
+}
+
+.beforeNav {
+	background: rgba(0, 0, 0, 1)!important;
+}
+
+.header-content h1 small {
+	color: #666;
+	margin-left: 3px;
+	font-size: 26px;
+	letter-spacing : -0.02em;
+	margin-bottom: 25px;
+	line-height: 0;
+}
+
+.header-content h1+.subheading {
+	font-size: 22px;
+	margin-bottom: 55px;
+	color: rgba(30,30,30,0.6);
+	padding-right: 160px;
+	font-family: "Gotham Rounded A", "Gotham Rounded B", Helvetica;
+}
+
+.splash-header > .row {
+	margin-left:20px;
+	margin-right:0px;
+}
+
+.submitSignIn, .forgotPassword{
+	text-align: center;
+}
+
+ .splash-header{
+ 	background-color: #0a0705;
+	background-image: url(/img/workstation.jpg);
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: top center;
+	margin : 0;
+ }
+
+ #splashWrapper {
+ 	width:100%;
+ }
+ @media only screen and (max-width: 1300px) {
+     .splash-header{
+	 	background-size:150%;
+
+ }
+}
+
+@media only screen and (max-width: 768px) {
+     .splash-header{
+	 	background-color: #0a0705;
+		background-image: url(/img/darkPattern.png);
+		padding-bottom: 45px;
+
+ }
+
+	 .header-content h1{
+	 	font-size: 32px;
+	 }
+
+	 .header-content h1 small {
+	 	font-size: 20px;
+	 	margin-bottom: 16px;
+	 }
+
+	h1+.subheading, .header-content h1+.subheading{
+		font-size:19px;
+	}
+
+	.navbar-toggle {
+		margin-top:15px;
+	}
+
+	.splash-nav {
+		height : auto;
+	}
+
+	.header-content{
+		margin-top:20px;
+	}
+
+}
+
+@media only screen and (max-device-width: 768px) {
+     .splash-header{
+	 	background-color: #0a0705;
+		background-image: url(/img/darkPattern.png);
+		padding-bottom: 45px;
+
+ }
+
+	 .header-content h1{
+	 	font-size: 32px;
+	 }
+
+	 .header-content h1 small {
+	 	font-size: 20px;
+	 	margin-bottom: 16px;
+	 }
+
+	h1+.subheading, .header-content h1+.subheading{
+		font-size:19px;
+	}
+
+	.navbar-toggle {
+		margin-top:15px;
+	}
+
+	.splash-nav {
+		height : auto;
+	}
+
+	.header-content{
+		margin-top:20px;
+	}
+
+}
+
+.header-content .btn-learn {
+	background-color: #CCCCCC!important;
+}

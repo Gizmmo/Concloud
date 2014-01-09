@@ -94,6 +94,7 @@ Template.signInModal.events({
 			//Calls the newly created User's function to create
 			//an ectry for the user
 			//Meteor.user()
+			Router.go("dashboard");
 		});
     }
 });

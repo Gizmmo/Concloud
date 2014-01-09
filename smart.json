@@ -5,6 +5,7 @@
     "accounts-ui-bootstrap-3": {},
     "router": {},
     "spin": {},
-    "iron-router": {}
+    "iron-router": {},
+    "smartfile": {}
   }
 }

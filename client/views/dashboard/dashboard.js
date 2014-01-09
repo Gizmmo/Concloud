@@ -81,3 +81,27 @@ Template.dashboard.helpers({
 
 
 });
+
+var sf = new SmartFile({});
+
+Template.dashboard.events({
+	'click #smartfile': function (e, template) {
+		e.preventDefault();
+		var file = template.find('#upload').files[0];
+		sf.upload(file, 
+
+		{
+  			fileName: "myupload.jpg" //optional, overrides file.name
+ 		}, 
+
+ 		function (err, res){
+	    	if (err) {
+	        	console.log("upload failed", err);
+	        	return;
+	    	}
+
+	    	// Log the public URL of the upload
+	    	console.log("Upload public URL:" + sf.resolvePublic(res));
+		});
+	}
+});

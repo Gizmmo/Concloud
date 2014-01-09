@@ -7,13 +7,14 @@
       "accounts-ui-bootstrap-3": {},
       "router": {},
       "spin": {},
-      "iron-router": {}
+      "iron-router": {},
+      "smartfile": {}
     },
     "packages": {
       "bootstrap-3": {
         "git": "https://github.com/mangasocial/meteor-bootstrap-3.git",
-        "tag": "v0.3.6",
-        "commit": "711dbcabe333c8714298b2fd1de97fdcdae6efa7"
+        "tag": "v0.3.7",
+        "commit": "5dd0d142c870647b910be80bc777b96f0dd45e5e"
       },
       "accounts-ui-bootstrap-dropdown": {
         "git": "https://github.com/erobit/meteor-accounts-ui-bootstrap-dropdown.git",
@@ -39,6 +40,11 @@
         "git": "https://github.com/EventedMind/iron-router.git",
         "tag": "v0.6.1",
         "commit": "4e1ee0581d68bff422a915dacb0bd30eae10fe08"
+      },
+      "smartfile": {
+        "git": "https://github.com/sylvaingi/meteor-smartfile.git",
+        "tag": "v0.1.1",
+        "commit": "df8d5105b86e21fcbf73e787dd6e8f3b41a76a79"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

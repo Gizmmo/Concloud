@@ -1,16 +1,18 @@
 <template name = "userItem">
 		<div class = "user">
 		<div class="panel panel-primary">
+			
 			<div class="panel-heading">
 				<h3 class="panel-title">{{profile.firstName}} {{profile.lastName}}</h3>
 			</div>
+
 			<div class="panel-body">
 				<span class= "descriptionText">User Group: {{profile.userGroup}}</span>
 				<a class="btn btn-primary pull-right project-button" href="{{pathFor 'userPage'}}">Full Details</a>
 				<span class="authorText"><p>Last Project Worked On: {{profile.recent.lastProjectName}}</p></span>
-				<span class="lastUpdate"><p>Last Logged In: {{convertedTime}}</p></span>
-				
+				<span class="lastUpdate"><p>Last Logged In: {{convertedTime}}</p></span>				
 			</div>
+
 		</div>
 	</div>
 </template>

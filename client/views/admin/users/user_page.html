@@ -1,10 +1,32 @@
 <template name="userPage">
-	{{> breadcrumbs}}
-
 	<div class = "projectData col-xs-12">
 		<div class="row no-margins">
 			<h3>{{profile.firstName}} {{profile.lastName}}</h3>
+
+			<div class="control-group">
+	            <label class="control-label" for="first-name">First Name</label>
+	            <div class="label-area">
+	                <label id="first-name">{{profile.firstName}}</label> <a href="@">edit</a>
+	            </div>
+	        </div>
+
+	        <div class="control-group">
+	            <label class="control-label" for="last-name">Last Name</label>
+	            <div class="label-area">
+	                <label id="last-name">{{profile.lastName}}</label> <a href="@">edit</a>
+	            </div>
+	        </div>
+
+			<div class = "controls">
+                <select name="user-group" id ="user-group">
+                    <option value="Employee">Employee</option>
+                    <option value="Client">Client</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Sub-Trade">Sub-Trade</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn btn-success">Update</button>
 		</div>
 	</div>
-
 </template>

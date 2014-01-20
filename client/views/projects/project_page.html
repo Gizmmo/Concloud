@@ -1,6 +1,8 @@
 <template name="projectPage">
 	{{> breadcrumbs}}
 
+
+
 	<div class = "projectData col-xs-12">
 		<div class="row no-margins">
 			<h3>{{title}}</h3>
@@ -9,33 +11,67 @@
 					<span style="cursor: pointer;">
 						Name
 					</span>
-					<img src="https://dt8kf6553cww8.cloudfront.net/static/images/icons/icon_spacer-vflN3BYt2.gif" style="line-height: 100%; cursor: pointer;" class="sprite sprite_web s_web_sort-uptick-off" alt="">
 				</a>
 				<a id="kind-sorter" data-sort="FILES_BY_KIND" class="sortable-column-header noarrow col-xs-3" data-ascending="false" style="cursor: pointer;">
 					<span id="kind-sorter-label" style="cursor: pointer;">
 						Kind
 					</span>
-					<img src="https://dt8kf6553cww8.cloudfront.net/static/images/icons/icon_spacer-vflN3BYt2.gif" style="line-height: 100%; cursor: pointer;" class="sprite sprite_web s_web_downtick-spacer" alt="">
 				</a>
 				<a id="modified-sorter" data-sort="FILES_BY_MODIFIED" class="sortable-column-header col-xs-3" data-ascending="false" style="cursor: pointer;">
 					<span style="cursor: pointer;">
 						Modified
 					</span>
-					<img src="https://dt8kf6553cww8.cloudfront.net/static/images/icons/icon_spacer-vflN3BYt2.gif" style="line-height: 100%; cursor: pointer;" class="sprite sprite_web s_web_downtick-spacer" alt="">
 				</a>
 			</div>
+
+			<!--File and Folder Buttons -->
+			<div class="projectHeader">
+				<div class="btn btn-success" id="upload"  data-toggle="modal" data-target="#uploadData"><i class="fa fa-upload"></i> Upload</div> 
+				<div class="btn btn-primary"><i class="fa fa-download"></i> Download</div>
+				<div class="btn"><i class="fa fa-folder"></i> Add Folder</div>
+				<div class="btn btn-warning"><i class="fa fa-check-circle-o"></i> Select All</div>
+				<div class="btn btn-danger"><i class="fa fa-times"></i> Delete</div>
+			</div>
+
+						<!-- Modal -->
+			<div class="modal fade" id="uploadData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			        <h4 class="modal-title" id="myModalLabel">Upload</h4>
+			      </div>
+			      <div class="modal-body fileUpload">
+			        <input type="file" class="center" id="upload" name="upload"/>
+					
+			      </div>
+			      <div class="modal-footer">
+			      	<button id="smartfile" class="btn btn-success" data-dismiss="modal">Submit</button>
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 
 
 
 			<!-- Folders and Files -->
 
 			<ol id="browse-files" class="mouse-active" style="cursor: default;">
-
+		
 					<li class="browse-file" data-identity="121387510_46753" id="f_121387510_46753" dropzone="copy move">
 
+						
 						<div class="filename-col col-xs-6">
+							 <input type="checkbox" class="projectCheckbox">
+       
+
 							<img class="sprite sprite_web s_web_folder_user_32 icon" alt="marks" draggable="true" src="/img/icon_spacer.gif"> <a href="/home/marks" class="filename-link" draggable="true" hidefocus="hideFocus" target="_self">Change Orders</a> 
 						</div>
+
+
+
+
 
 						<div class="kind col-xs-3"> 
 							<span class="category">folder</span> 
@@ -53,6 +89,7 @@
 					<li class="browse-file" data-identity="121387510_46753" id="f_121387510_46753" dropzone="copy move">
 
 						<div class="filename-col col-xs-6">
+							<input type="checkbox" class="projectCheckbox">
 							<img class="sprite sprite_web s_web_folder_user_32 icon" alt="marks" draggable="true" src="/img/icon_spacer.gif"> <a href="/home/marks" class="filename-link" draggable="true" hidefocus="hideFocus" target="_self">Consultant</a> 
 						</div>
 
@@ -72,6 +109,7 @@
 					<li class="browse-file" data-identity="121387510_46753" id="f_121387510_46753" dropzone="copy move">
 
 						<div class="filename-col col-xs-6">
+							<input type="checkbox" class="projectCheckbox">
 							<img class="sprite sprite_web s_web_folder_user_32 icon" alt="marks" draggable="true" src="/img/icon_spacer.gif"> <a href="/home/marks" class="filename-link" draggable="true" hidefocus="hideFocus" target="_self">Contracts, P.O.'s &amp; L.O.I's</a> 
 						</div>
 
@@ -91,6 +129,7 @@
 					<li class="browse-file" data-identity="121387510_46753" id="f_121387510_46753" dropzone="copy move">
 
 						<div class="filename-col col-xs-6">
+							<input type="checkbox" class="projectCheckbox">
 							<img class="sprite sprite_web s_web_folder_user_32 icon" alt="marks" draggable="true" src="/img/icon_spacer.gif"> <a href="/home/marks" class="filename-link" draggable="true" hidefocus="hideFocus" target="_self">Daily Logs</a> 
 						</div>
 
@@ -110,6 +149,7 @@
 					<li class="browse-file" data-identity="121387510_46753" id="f_121387510_46753" dropzone="copy move">
 
 						<div class="filename-col col-xs-6">
+							<input type="checkbox" class="projectCheckbox">
 							<img class="sprite sprite_web s_web_folder_user_32 icon" alt="marks" draggable="true" src="/img/icon_spacer.gif"> <a href="/home/marks" class="filename-link" draggable="true" hidefocus="hideFocus" target="_self">Drawings</a> 
 						</div>
 
@@ -129,6 +169,7 @@
 					<li class="browse-file" data-identity="121387510_46753" id="f_121387510_46753" dropzone="copy move">
 
 						<div class="filename-col col-xs-6">
+							<input type="checkbox" class="projectCheckbox">
 							<img class="sprite sprite_web s_web_page_white_text_32 icon" alt="YAML Call.txt" draggable="true" src="/img/icon_spacer.gif">
 							<a href="/home/marks" class="filename-link" draggable="true" hidefocus="hideFocus" target="_self">Updates.txt</a> 
 						</div>
@@ -147,16 +188,7 @@
 					</li>
 
 			</ol>
-			<div class="row">
-			<button type="button" class="btn btn-success" id="update-btn">Update Project</button>
-
-				<input type="file" id="upload" name="upload"/>
-				<button id="smartfile">Submit</button>
-
-				<button class='btn btn-primary' id="downloadMe">Download</button>
-
-				{{listSmartFiles}}
-			</div>
+			
 
 		</div>
 	</div>

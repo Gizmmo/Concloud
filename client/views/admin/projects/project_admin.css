@@ -1,0 +1,26 @@
+  #sortable1, #sortable2, #sortable3 { 
+  	list-style-type: none; 
+  	padding: 5px;
+  	margin: auto; 
+  	background: #eee;
+  	width: 80%;
+  	text-align: center;
+  }
+
+  #sortable1 li, #sortable2 li, #sortable3 li {
+   margin: auto;
+   margin-top: 10px; 
+   margin-bottom: 10px;
+   padding: 5px; 
+   font-size: 100%; 
+   width: 90%; 
+   min-height: 30px;
+}
+
+.title-center {
+	text-align: center;
+}
+
+.list-title {
+	font-size: 14px;
+}

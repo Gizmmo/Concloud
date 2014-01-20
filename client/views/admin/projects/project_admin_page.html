@@ -1,0 +1,35 @@
+<template name="projectAdminPage">
+	{{> breadcrumbs}}
+
+	<div class="page-header">
+		<h1>Manage Project<small><i class="fa fa-angle-double-right"></i>Administration</small></h1>
+	</div>
+	
+	<div class = "SortableRows">
+		<div id = "table1" class = "col-xs-3 title-center">
+		<span class="list-title">Employees</span>
+		<br>
+		<ul id="sortable1" class="connectedSortable">
+			{{#each employees}}
+			  	<li class="ui-state-default">{{profile.firstName}} {{profile.lastName}}</li>
+		 	 {{/each}}
+		</ul>
+		</div>
+
+		<div id = "table2" class = "col-xs-3 title-center">
+			<span class="list-title">Project Leaders</span>
+			<br>
+			<ul id="sortable2" class="connectedSortable">
+			</ul>
+		</div>
+
+		<div id = "table3" class = "col-xs-3 title-center">
+			<span class="list-title">Project Employee</span>
+			<br>
+			<ul id="sortable3" class="connectedSortable">
+			</ul>
+		</div>
+
+	</div>
+
+</template>

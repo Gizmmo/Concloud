@@ -1,7 +1,7 @@
 var sf = new SmartFile({});
 
 
-Template.projectPage.events({
+Template.projectAdminPage.events({
 	/**
  	 * This will mimic an actual update to the current project
 	 * @param  Meteor.call('updateProject', this._id, function (error, result) {		});	}} [description]
@@ -17,16 +17,11 @@ Template.projectPage.events({
 		var file = template.find('#upload').files[0];
 		sf.upload(file,
 
- 		function (err, res){
-	    	if (err) {
-	        	console.log("upload failed", err);
+		function (err, res){
+			if (err) {
+		    	console.log("upload failed", err);
 	        	return;
 	    	}
-
-	    	//Successful Upload
-	    	// var fileData = {
-	    	// 	name: 
-	    	// }
 	    	
 		});
 	},
@@ -46,11 +41,24 @@ Template.projectPage.events({
 	}
 });
 
-Template.projectPage.helpers({
+Template.projectAdminPage.helpers({
 	
 	listSmartFiles : function() {
 		Meteor.call('getSmartFiles', function(err, response){
 			console.log(response);
 		});
+	},
+
+	employees : function () {
+		return Meteor.users.find({}).fetch();
 	}
 });
+
+Template.projectAdminPage.rendered = function() {
+    $( "#sortable1, #sortable2, #sortable3" ).sortable({
+      connectWith: ".connectedSortable"
+    }).disableSelection();
+	$( "#sortable1, #sortable2, #sortable3" ).sortable({
+      placeholder: "ui-state-highlight"
+    }).disableSelection();
+}

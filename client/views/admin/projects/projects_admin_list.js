@@ -1,4 +1,4 @@
-Template.projectsList.helpers({
+Template.projectsAdminList.helpers({
 	/**
 	 * Finds all projects
 	 * @return collection All projects in collection

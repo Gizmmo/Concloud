@@ -6,6 +6,8 @@
     "router": {},
     "spin": {},
     "iron-router": {},
-    "smartfile": {}
+    "smartfile": {},
+    "jquery-ui": {},
+    "jquery-ui-bootstrap": {}
   }
 }

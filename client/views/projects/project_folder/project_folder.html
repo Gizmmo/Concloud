@@ -1,0 +1,24 @@
+<template name="project_folder">
+  <li class="browse-file" data-identity="121387510_46753" id="f_121387510_46753" dropzone="copy move">
+
+    
+    <div class="filename-col col-xs-6">
+      <input type="checkbox" class="projectCheckbox">
+   
+
+      <img class="sprite sprite_web s_web_folder_user_32 icon" alt="marks" draggable="true" src="/img/icon_spacer.gif"> <a href="/home/marks" class="filename-link" draggable="true" hidefocus="hideFocus" target="_self">{{proData.folderName}}</a> 
+    </div>
+
+    <div class="kind col-xs-3"> 
+      <span class="category">folder</span> 
+      <span class="extension secondary"></span> 
+    </div>
+
+    <div class="modified col-xs-3"> 
+      <span class="modified-time">{{proData.folderUpdate.updateDate}}</span> 
+
+    </div>
+
+    <br class="clear">
+  </li>
+</template>

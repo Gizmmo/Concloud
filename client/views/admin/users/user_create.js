@@ -17,6 +17,7 @@ Template.userCreate.events({
             profile : {
 				firstName : capitalizeFirstLetter($('#first-name').val()),
 				lastName: capitalizeFirstLetter($('#last-name').val()),
+				email: $("#email").val().toLowerCase(),
 				userGroup : capitalizeFirstLetter($('#user-group').val()),
 				joinDate: time,
 				recent: {

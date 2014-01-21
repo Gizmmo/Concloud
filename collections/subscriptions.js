@@ -7,20 +7,17 @@ Meteor.methods({
  * @param  String proj The project to be subscribed to
  * @return String  The new subscription ID
  */
-	subscription: function(proj){
+	subscription: function(sub){
 		var user = Meteor.user();
-		var subCheck = Subscriptions.findOne({userID: user._id, projectID: proj._id});
+		var subCheck = Subscriptions.findOne( { $and: [ { userID: sub.userID}, {projectID: sub.projectID } ] } );
 		if(subCheck){
-			throw new Meteor.Meteor.Error(401, 'Subscription already exists!', details);
+			Meteor.call('removeSubscription', sub, function (error, id) {
+				if (error) {
+            	} 
+            	else {
+            	}
+        	});
 		}
-		//filling in other keys
-		var sub = {
-			userID : user._id,
-			projectID : proj._id,
-			projectName: proj.title
-
-		};
-
 		//Inserts new project into collection
 		var subID = Subscriptions.insert(sub);
 
@@ -33,12 +30,8 @@ Meteor.methods({
 	 * @param  String projID The ID of the projec to be removed from the subscription
 	 * @return void
 	 */
-	removeSubscription: function(projID){
-		var user = Meteor.user();
-		var sub = {
-			userID : user._id,
-			projectID : projID
-		};
-		Subscriptions.remove(sub);
+	removeSubscription: function(sub){
+		var subCheck = Subscriptions.findOne( { $and: [ { userID: sub.userID}, {projectID: sub.projectID } ] } );
+		Subscriptions.remove(subCheck._id);
 	}
 });

@@ -1,2 +1,0 @@
-401: Must be logged in
-402: Project must have a title

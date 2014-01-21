@@ -21,7 +21,7 @@ Meteor.methods({
 		}
 
 		//filling in other keys
-		var proj = _.extend(_.pick(projectAttributes, 'title', 'description'), {
+		var proj = _.extend(_.pick(projectAttributes, 'title', 'description', 'folders', 'files'), {
 			authorID: user._id,
 			authorName: user.profile.name,
 			submitted: new Date().getTime(),
@@ -35,7 +35,7 @@ Meteor.methods({
 				updateAuthorName: user.profile.name,
 				updateAuthorID: user._id
 			}
-			//NEED TO FILL IN DATA FOR HOLDING ACTUAL DOCUMENTS!!
+			
 		});
 
 		//Inserts new project into collection

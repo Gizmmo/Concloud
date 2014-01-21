@@ -20,22 +20,22 @@ Template.projectCreate.events({
 		    updateAuthorName : Meteor.user().profile.name
 		};
 
-	        var changeOrders = createFolder("Change Orders", folderCreation, folderUpdate);
-	        var consultant = createFolder("Consultant", folderCreation, folderUpdate);
-	        var contractsAndPO = createFolder("Contracts and PO's", folderCreation, folderUpdate);
-	        var dailyLogs = createFolder("Daily Log's", folderCreation, folderUpdate);
-	        var drawings = createFolder("Drawings", folderCreation, folderUpdate);
-	        var estimates = createFolder("Estimates", folderCreation, folderUpdate);
-	        var insRepTest = createFolder("Inspections, Reports & Tests", folderCreation, folderUpdate);
-	        var legalCivicUtility =  createFolder("Legal, Civic & Utility", folderCreation, folderUpdate);
-	        var meetingMinutes = createFolder("Minutes of Meetings", folderCreation, folderUpdate);
-	        var owner = createFolder("Owner", folderCreation, folderUpdate);
-	        var pcns = createFolder("PCN's", folderCreation, folderUpdate);
-	        var pictures = createFolder("Pictures", folderCreation, folderUpdate);
-	        var preliminary = createFolder("Preliminary", folderCreation, folderUpdate);
-	        var safety = createFolder("Safety", folderCreation, folderUpdate);
-	        var shopDrawings = createFolder("Shop Drawings", folderCreation, folderUpdate);
-	        var subtrades = createFolder("Subtrades", folderCreation, folderUpdate);
+	        var changeOrders = createFolder("Change Orders", "changeOrders", folderCreation, folderUpdate);
+	        var consultant = createFolder("Consultant", "consultant", folderCreation, folderUpdate);
+	        var contractsAndPO = createFolder("Contracts and PO's", "contractsAndPO", folderCreation, folderUpdate);
+	        var dailyLogs = createFolder("Daily Log's", "dailyLogs", folderCreation, folderUpdate);
+	        var drawings = createFolder("Drawings", "drawings", folderCreation, folderUpdate);
+	        var estimates = createFolder("Estimates", "estimates", folderCreation, folderUpdate);
+	        var insRepTest = createFolder("Inspections, Reports & Tests", "insRepTest", folderCreation, folderUpdate);
+	        var legalCivicUtility =  createFolder("Legal, Civic & Utility","legalCivicUtility", folderCreation, folderUpdate);
+	        var meetingMinutes = createFolder("Minutes of Meetings","meetingMinutes", folderCreation, folderUpdate);
+	        var owner = createFolder("Owner", "owner", folderCreation, folderUpdate);
+	        var pcns = createFolder("PCN's", "pcns", folderCreation, folderUpdate);
+	        var pictures = createFolder("Pictures", "pictures", folderCreation, folderUpdate);
+	        var preliminary = createFolder("Preliminary","preliminary", folderCreation, folderUpdate);
+	        var safety = createFolder("Safety", "safety", folderCreation, folderUpdate);
+	        var shopDrawings = createFolder("Shop Drawings", "shopDrawings", folderCreation, folderUpdate);
+	        var subtrades = createFolder("Subtrades", "subtrades", folderCreation, folderUpdate);
 
 	        var update = createFile("Update", "txt", folderCreation, folderUpdate);
 	        var receipt = createFile("Reciept", "txt", folderCreation, folderUpdate);
@@ -91,11 +91,12 @@ Template.projectCreate.events({
 	}
 });
 
-function createFolder(name, folderCreation, folderUpdate){
+function createFolder(name, vartype, folderCreation, folderUpdate){
     return {
 	folderCreation : folderCreation,
 	folderUpdate : folderUpdate,
-	folderName : name
+	folderName : name,
+	vartype : vartype
     };
 }
 

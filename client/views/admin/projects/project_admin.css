@@ -1,4 +1,4 @@
-  #sortable1, #sortable2, #sortable3 { 
+  #sortable1, #sortable2, #sortable3, #sortable4 { 
   	list-style-type: none; 
   	padding: 5px;
   	margin: auto; 
@@ -7,7 +7,7 @@
   	text-align: center;
   }
 
-  #sortable1 li, #sortable2 li, #sortable3 li {
+  #sortable1 li, #sortable2 li, #sortable3 li, #sortable4 li {
    margin: auto;
    margin-top: 10px; 
    margin-bottom: 10px;

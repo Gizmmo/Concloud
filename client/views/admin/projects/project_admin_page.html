@@ -12,31 +12,59 @@
 					<i class="fa fa-search icon-search nav-search-icon"></i>
 				</span>
 			</form>
-		</div><!-- #nav-search -->
+	</div><!-- #nav-search -->
 
 	<div class = "sortable-rows">
-		<div id = "table1" class = "col-xs-4 title-center">
-		<span class="list-title">Employees</span>
-		<br>
-		<ul id="sortable1" class="connectedSortable">
-			{{#each employees}}
-			  	<li class="ui-state-default" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
-		 	 {{/each}}
-		</ul>
-		</div>
-
-		<div id = "table2" class = "col-xs-4 title-center">
-			<span class="list-title">Project Leaders</span>
+		<div class = "row">
+			<div id = "table1" class = "col-xs-4 title-center">
+			<span class="list-title">Concord Staff</span>
 			<br>
-			<ul id="sortable2" class="connectedSortable">
+			<ul id="sortable1" class="connectedSortable">
+				{{#each employees}}
+				  	<li class="ui-state-default" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
+			 	 {{/each}}
 			</ul>
-		</div>
+			</div>
 
-		<div id = "table3" class = "col-xs-4 title-center">
-			<span class="list-title">Project Employee</span>
-			<br>
-			<ul id="sortable3" class="connectedSortable">
-			</ul>
+			<div id = "table2" class = "col-xs-4 title-center">
+				<span class="list-title">Project Staff</span>
+				<br>
+				<ul id="sortable2" class="connectedSortable">
+					{{#each projectEmployees}}
+				  	<li class="ui-state-default" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
+			 	 {{/each}}
+				</ul>
+			</div>
+		</div>
+		<div class = "row">
+			<div id="client-search">
+				<form class="form-search">
+					<span class="input-icon">
+						<input type="text" placeholder="Search ..." class="nav-search-input" id="search-client-field" autocomplete="off">
+						<i class="fa fa-search icon-search nav-search-icon"></i>
+					</span>
+				</form>
+			</div><!-- #nav-search -->
+		</div>
+		<div class = "row">
+			<div id = "table3" class = "col-xs-4 title-center">
+				<span class="list-title">Client List</span>
+				<br>
+				<ul id="sortable3" class="connectedClientSortable">
+					{{#each clients}}
+				  	<li class="ui-state-default" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
+			 	 {{/each}}
+				</ul>
+			</div>
+			<div id = "table4" class = "col-xs-4 title-center">
+				<span class="list-title">Project Clients</span>
+				<br>
+				<ul id="sortable4" class="connectedClientSortable">
+					{{#each projectClients}}
+				  	<li class="ui-state-default" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
+			 	 {{/each}}
+				</ul>
+			</div>
 		</div>
 
 	</div>

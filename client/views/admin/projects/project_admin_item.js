@@ -1,11 +1,4 @@
-Template.projectItem.helpers({
-	/**
-	 * This function returns the id of the project
-	 * @return String A string containing the id of the project
-	 */
-	projectId: function () {
-		return this._id;
-	},
+Template.projectAdminItem.helpers({
 	/**
 	 * Returns the time in a readable format
 	 * @return String A readable date string

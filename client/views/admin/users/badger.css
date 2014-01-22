@@ -1,6 +1,12 @@
 /* Badger
 ------------------------- */
+.userBtn {
+    min-width: 162px;
+}
 
+.above-content{
+    text-align: center;
+}
 [class*="badger"] {
     position: relative;
     margin: 15px 0;

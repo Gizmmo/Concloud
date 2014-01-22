@@ -5,8 +5,17 @@
 				<h1>Manage<small><i class="fa fa-angle-double-right"></i>Employees</small></h1>
 			</div>
 			<div class ="above-content">
-				<a class="btn btn-success emp-btn" href="{{pathFor 'userCreate'}}">Create New User</a>
-				<a class="btn btn-success emp-btn" href="{{pathFor 'userCreate'}}">Manage User Roles</a>
+				<a class="btn btn-primary emp-btn userBtn" href="{{pathFor 'projectsAdminList'}}">
+					<i class="fa fa-folder-open-o"></i> Manage Projects</a>
+				<a class="btn btn-success emp-btn userBtn" data-toggle="modal" data-target="#createData">
+					<i class="fa fa-pencil-square-o"></i> Create New User
+				</a>
+				<a class="btn btn-warning emp-btn userBtn" href="{{pathFor 'userCreate'}}">
+					<i class="fa fa-flag-o"></i> Manage User Roles
+				</a>
+				<a class="btn btn-danger userBtn" id="delbtn">
+					<i class="fa fa-times"></i> Delete User
+				</a>
 			</div>
 			<div class = "search-buffer">
 				<div id="emp-search">
@@ -22,67 +31,167 @@
 				<div class = "projects col-xs-12">
 					
 							{{#each users}}
-								<div class="badger-left badger-info col-xs-12 col-sm-6 col-md-3 b-user-item" data-toggle="modal" data-target="#updateData" data-badger="{{profile.firstName}} {{profile.lastName}}">
+								<div class="{{badgerData}} col-xs-12 col-sm-6 col-md-3 b-user-item" data-toggle="modal" data-target="{{dataToggle}}" data-badger="{{profile.lastName}}, {{profile.firstName}}">
 									<span class = "my-title">User Group: </span>{{profile.userGroup}}<br>
-									<span class = "my-title">Last Project Worked On: </span>{{profile.recent.lastProjectName}} <br>
+									<span class = "my-title">Email: </span>{{profile.email}} <br>
 									<span class = "my-title">Last Logged In: </span>{{convertedTime}}
 								</div>
 							{{/each}}
 						
 				</div>
-				   
-	 <div class="modal fade" id="updateData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-	  <div class="modal-content">
-	    <div class="modal-header">
-	      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	      <h4 class="modal-title" id="myModalLabel">Update User</h4>
-	    </div>
-	    <div class="modal-body">
-	      	<div class="control-group">
-	            <div class="label-area col-xs-4">
-	                <label id="first-name-label">First Name: </label> 
-	                <textarea id="first-name" class="modal-text"></textarea> 
-	            </div>
-	            <div class="label-area col-xs-4">
-	            	<label id="last-name-label">Last Name: </label>
-	                <textarea id="last-name" class="modal-text"></textarea>
-	            </div>
-	        </div>
-
-	        <div class="control-group col-xs-4">
-	            <label class="control-label" for="user-group">User Group</label>
-	            <div class = "controls">
-	                <select name="user-group" id ="user-group">
-	                    <option value="Employee">Employee</option>
-	                    <option value="Client">Client</option>
-	                    <option value="Admin">Admin</option>
-	                    <option value="Sub-Trade">Sub-Trade</option>
-	                </select>
-	            </div>
-        	</div>
-
-        	<div class = "further-info">
-        		<div class="last-worked col-xs-12">
-        			<label class = "my-title">Last Project Worked On: </span>
-        			<label id="last-worked-label"></label>
-        		</div>
-        		<div class="last-logged col-xs-12">
-					<label class = "my-title">Last Logged In: </span>
-					<label id="last-logged-label"></label>
-				</div>
-			</div>
-
-
-	    </div>
-	    <div class="modal-footer">
-	      <button id="update-user" class="btn btn-success" data-dismiss="modal">Submit</button>
-	      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	    </div>
-	  </div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-      </div><!-- /.modal -->
 			</div>
 		</div>
 	</div>
+				   
+	<div class="modal fade" id="updateData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+	  		<div class="modal-content">
+	    		<div class="modal-header">
+	      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		      	    <h4 class="modal-title" id="myModalLabel">Update User</h4>
+	    		</div>
+	    		<div class="modal-body">
+	    			<div class = "row">
+		      			<div class="control-group">
+			            	<div class="label-area col-xs-4">
+			                	<label id="first-name-label">First Name: </label> 
+		                		<textarea id="first-name" class="modal-text"></textarea> 
+		            		</div>
+		            		<div class="label-area col-xs-4">
+		            			<label id="last-name-label">Last Name: </label>
+		                		<textarea id="last-name" class="modal-text"></textarea>
+		            		</div>
+		        		</div>
+
+		        		<div class="control-group col-xs-4">
+			            	<label class="control-label" for="user-group">User Group</label>
+			            	<div class = "controls">
+		    	            	<select name="user-group" id ="user-group">
+		        	            	<option value="Employee">Employee</option>
+		            	        	<option value="Client">Client</option>
+		                	    	<option value="Admin">Admin</option>
+		                    		<option value="Sub-Trade">Sub-Trade</option>
+		                		</select>
+		            		</div>
+	        			</div>
+        			</div>
+
+        			<div class = "row">
+        				<div class="last-worked col-xs-12">
+        					<label class = "my-title">Last Project Worked On: </label>
+        					<label id="last-worked-label"></label>
+        				</div>
+        			</div>
+        			
+        			<div class = "row">
+        				<div class="last-logged col-xs-12">
+							<label class = "my-title">Last Logged In:</label>
+							<label id="last-logged-label"></label>
+						</div>
+					</div>
+
+
+	    		</div>
+	    		<div class="modal-footer">
+		      		<button id="update-user" class="btn btn-success" data-dismiss="modal">Submit</button>
+	      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	    		</div>
+	  		</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
+	<div class="modal fade" id="createData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+	  		<div class="modal-content">
+	    		<div class="modal-header">
+	      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		      	    <h4 class="modal-title" id="myModalLabel">Update User</h4>
+	    		</div>
+	    		<div class="modal-body">
+	      			<div class="control-group">
+	      				<div class = "row">
+		      				<div class="label-area col-xs-6">
+			                	<label id="email-label">Email: </label> 
+		                		<textarea id="email" class="modal-text"></textarea> 
+		            		</div>
+	            		</div>
+	            		<br>
+	            		<div class = "row">
+			            	<div class="label-area col-xs-4">
+			                	<label id="first-create-name-label">First Name: </label> 
+		                		<textarea id="first-create-name" class="modal-text"></textarea> 
+		            		</div>
+		            		<div class="label-area col-xs-4">
+		            			<label id="last-create-name-label">Last Name: </label>
+		                		<textarea id="last-create-name" class="modal-text"></textarea>
+		            		</div>
+
+			        		<div class="control-group col-xs-4">
+				            	<label class="control-label" for="user-create-group">User Group</label>
+				            	<div class = "controls">
+			    	            	<select name="user-group" id ="user-create-group">
+			        	            	<option value="Employee">Employee</option>
+			            	        	<option value="Client">Client</option>
+			                	    	<option value="Admin">Admin</option>
+			                    		<option value="Sub-Trade">Sub-Trade</option>
+			                		</select>
+			            		</div>
+		        			</div>
+		        		</div>
+        			</div>
+
+	    		</div>
+	    		<div class="modal-footer">
+		      		<button id="create-user" class="btn btn-success" data-dismiss="modal">Create User</button>
+	      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	    		</div>
+	  		</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+	<div class="modal fade" id="deleteData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+	  		<div class="modal-content">
+	    		<div class="modal-header">
+	      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		      	    <h4 class="modal-title" id="myModalLabel">Delete User</h4>
+	    		</div>
+	    		<div class="modal-body">
+	      			<div class="control-group">
+	      				<div class = "row">
+		      				<div class="label-area col-xs-6">
+			                	<span class = "my-title">
+			                		<label id="email-label">Email: </label> 
+			                	</span>
+		                		<label id="delete-email"></label> 
+		            		</div>
+	            		</div>
+	            		<br>
+	            		<div class = "row">
+			            	<div class="label-area col-xs-4">
+			            		<span class = "my-title">
+			                		<label id="first-delete-name-label">First Name: </label> 
+			                	</span>
+		                		<label id="first-delete-name"></label> 
+		            		</div>
+		            		<div class="label-area col-xs-4">
+		            			<span class = "my-title">
+		            				<label id="last-delete-name-label">Last Name: </label>
+		            			</span>
+		                		<label id="last-delete-name"></label>
+		            		</div>
+		        		</div>
+        			</div>
+
+	    		</div>
+	    		<div class="modal-footer">
+		      		<button id="delete-user" class="btn btn-danger" data-dismiss="modal">Delete User</button>
+	      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	    		</div>
+	  		</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
 </template>

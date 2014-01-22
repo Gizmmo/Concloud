@@ -4,9 +4,19 @@
 			<div class="page-header">
 				<h1>Manage<small><i class="fa fa-angle-double-right"></i>Employees</small></h1>
 			</div>
-			<div class "above-content">
+			<div class ="above-content">
 				<a class="btn btn-success emp-btn" href="{{pathFor 'userCreate'}}">Create New User</a>
 				<a class="btn btn-success emp-btn" href="{{pathFor 'userCreate'}}">Manage User Roles</a>
+			</div>
+			<div class = "search-buffer">
+				<div id="emp-search">
+					<form class="form-search">
+						<span class="input-icon">
+							<input type="text" placeholder="Search ..." class="nav-search-input" id="search-emp-field" autocomplete="off">
+							<i class="fa fa-search icon-search nav-search-icon"></i>
+						</span>
+					</form>
+				</div><!-- #nav-search -->
 			</div>
 			<div class="row">
 				<div class = "projects col-xs-12">

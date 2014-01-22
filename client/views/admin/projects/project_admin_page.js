@@ -34,10 +34,10 @@ Template.projectAdminPage.events({
 function updateRemove(searchString){
 	masterEmployees.find({}).forEach(function (employee) {
 		if(searchString.length > 0){
-			searchStrings = searchString.split();
+			searchStrings = searchString.split(" ");
 			var found = false;
 			for (var i = 0; i < searchStrings.length; i++) {
-				if(employee.profile.firstName.indexOf(searchString[i] ) != -1 || employee.profile.lastName.indexOf(searchString[i] ) != -1)
+				if(employee.profile.firstName.indexOf(searchStrings[i] ) != -1 || employee.profile.lastName.indexOf(searchStrings[i] ) != -1)
 				found = true;
 			}
 

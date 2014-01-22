@@ -12,6 +12,27 @@ Technical Lead-> Alex O.
 Lead Design-> Yifeng Zhang								
 Lead QA-> Kevin M.
 
+HOW TO LOAD FROM GITHUB + RUN
+================================
+Fork to you repository
+Clone it to your computer : "git clone https://github.com/USERNAME/concloud.git"
+Get the correct branch : "git checkout origin/development", "git branch development", "git checkout development"
+Add Necessary Packages : sudo mrt add iron-router
+Start Meteor Server : sudo meteor
+
+HOW TO PUSH TO GITHUB
+=================================
+Add It : "git add -A"
+Commit it : "git commit -m 'This is my message'""
+Push it : "git push origin development"
+
+
+HOW TO PULL REQUEST
+==================================
+Go to your concloud repository
+Hit the big green button that says "pull request"
+
+
 FINDING FURTHER README FILES
 ================================							
 

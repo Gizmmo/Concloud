@@ -1,4 +1,5 @@
 var sf = new SmartFile({});
+var folderStack = [];
 
 
 Template.projectPage.events({
@@ -94,3 +95,17 @@ Template.projectPage.helpers({
 	    return Projects.findOne({_id : Session.get("currentProject")}).files;
 	}
 });
+
+addToFolderStack = function(name){
+    folderStack.push(name);
+    console.log(folderStack);
+};
+
+removeFromFolderStack = function(){
+    folderStack.pop();
+    console.log(folderStack);
+};
+
+getFolderStack = function() {
+    return folderStack;
+};

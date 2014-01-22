@@ -54,17 +54,21 @@
 
 
       <!-- Folders and Files -->
-
+      
       <ol id="browse-files" class="mouse-active" style="cursor: default;">
 	<!-- Individual Folders -->
+	<div id="projectFolders">
 	{{#each arrayify projectData}}
             {{> project_folder}}
 	{{/each}}
+	</div>
 	
 	<!-- Project Files -->
+	<div id="projectFiles">
 	{{#each arrayify projectFiles}}
 	    {{> project_files}}
 	{{/each}}
+	</div>
 
       </ol>
       

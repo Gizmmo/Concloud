@@ -7,17 +7,18 @@ Template.projectCreate.events({
 	'submit form': function (event) {
 		//This will stop the default submitting of the form
 		event.preventDefault();
+		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
 
 	        var folderCreation = {
-		    createdByAuthorID : Meteor.user()._id,
-		    createdByAuthorName : Meteor.user().profile.name,
-		    createdDate : new Date()
-		}; 
+			    createdByAuthorID : Meteor.user()._id,
+			    createdByAuthorName : userName,
+			    createdDate : new Date()
+			}; 
 
 	        var folderUpdate = {
 		    updateDate : new Date(),
 		    updateAuthorID : Meteor.user()._id,
-		    updateAuthorName : Meteor.user().profile.name
+		    updateAuthorName : userName
 		};
 
 	        var changeOrders = createFolder("Change Orders", "changeOrders", folderCreation, folderUpdate);

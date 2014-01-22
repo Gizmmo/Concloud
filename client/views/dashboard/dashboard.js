@@ -59,7 +59,7 @@ Template.dashboard.helpers({
 
 	isProject : function(){
 		var lastProject = Meteor.user().profile.recent.lastProjectID;
-		if(lastProject === undefined || lastProject === null){
+		if(lastProject === undefined || lastProject === null || lastProject === "None"){
 			return false;
 		}
 		return true;
@@ -71,8 +71,7 @@ Template.dashboard.helpers({
 
 	lastProject : function() {
 		var lastProject = Meteor.user().profile.recent.lastProjectName;
-
-		if(lastProject === undefined || lastProject === null)
+		if(lastProject === undefined || lastProject === null || lastProject === "None")
 			return 'No Project';
 		return lastProject;
 	},

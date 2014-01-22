@@ -10,6 +10,7 @@ Meteor.methods({
 	 */
 	project: function(projectAttributes){
 		var user = Meteor.user();
+		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
 
 		//Ensures that the user is logged in
 		if (!user){
@@ -23,16 +24,16 @@ Meteor.methods({
 		//filling in other keys
 		var proj = _.extend(_.pick(projectAttributes, 'title', 'description', 'folders', 'files'), {
 			authorID: user._id,
-			authorName: user.profile.name,
+			authorName: userName,
 			submitted: new Date().getTime(),
 			updates: [{
 				updateDate: new Date().getTime(),
-				updateAuthorName: user.profile.name,
+				updateAuthorName: userName,
 				updateAuthorID: user._id
 			}],
 			recentUpdate: {
 				updateDate: new Date().getTime(),
-				updateAuthorName: user.profile.name,
+				updateAuthorName: userName,
 				updateAuthorID: user._id
 			}
 			
@@ -53,12 +54,13 @@ Meteor.methods({
 	 */
 	updateProject: function(id){
 		var user = Meteor.user();
+		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
 
 		var project = Projects.findOne(id);
 		Meteor.users.update({_id: Meteor.userId()}, {$set : {'profile.recent.lastProjectID' : id, 'profile.recent.lastProjectName' : project.title } });
 		var update = {
 				updateDate: new Date().getTime(),
-				updateAuthorName: user.profile.name,
+				updateAuthorName: userName,
 				updateAuthorID: user._id
 			};
 

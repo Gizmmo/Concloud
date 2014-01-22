@@ -1,3 +1,5 @@
+onProjectDelete = false;
+rowAmount = 0;
 Template.projectsList.helpers({
 	/**
 	 * Finds all projects
@@ -6,6 +8,7 @@ Template.projectsList.helpers({
 	projects: function() {
 		return Projects.find({}, {sort: {"recentUpdate.updateDate" : -1}});
 	},
+
 
 	/**
 	 * Finad all projects and give them an integer rank for animation
@@ -18,6 +21,37 @@ Template.projectsList.helpers({
 			i += 1;
 			return project;
 		});
+	},
+
+	rowIsFull: function () {
+		if (rowAmount === 0){
+			return true;
+		}
+		return false;
+	},
+
+	needClose : function() {
+		console.log(rowAmount);
+		if(rowAmount === 3){
+			rowAmount = 0;
+			return true;
+		}
+		rowAmount++;
+		return false;
+	},
+
+	finalClose : function () {
+		if (rowAmount === 0){
+			return false;
+		}
+		return true;
 	}
 });
+
+Template.projectsList.events({
+});
+
+Template.projectsList.created = function () {
+	rowAmount = 0;
+};
 

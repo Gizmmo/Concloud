@@ -3,7 +3,7 @@
 
   <div class = "projectData col-xs-12">
     <div class="row no-margins">
-      <h3>{{title}}</h3>
+      <h3 class="alignLeft" id="projectBreadcrumbs">{{title}}</h3>
       <div id="browse-sort" class="clearfix">
 	<a id="name-sorter" data-sort="FILES_BY_NAME" class="sortable-column-header bolded col-xs-6" data-ascending="true" style="cursor: pointer;">
 	  <span style="cursor: pointer;">
@@ -23,6 +23,7 @@
       </div>
 
       <!--File and Folder Buttons -->
+	
       <div class="projectHeader">
 	<div class="btn btn-success" id="upload"  data-toggle="modal" data-target="#uploadData"><i class="fa fa-upload"></i> Upload</div> 
 	<div class="btn btn-primary"><i class="fa fa-download"></i> Download</div>

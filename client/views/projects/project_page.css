@@ -19,6 +19,10 @@
 	margin:9px!important;
 }
 
-.floatLeft{
+.float-left{
 	float:left;
+}
+
+.alignLeft {
+    text-align:left;
 }

@@ -41,7 +41,14 @@ Template.projectCreate.events({
 	        var receipt = createFile("Reciept", "txt", folderCreation, folderUpdate);
 
 	        var inChange = createFolder("inChange", "inChange", folderCreation, folderUpdate);
+	        var updateChange = createFile("Update", "txt", folderCreation, folderUpdate);
+	       
+	        changeOrders.files = {
+		    updateChange : updateChange
+		};
+
 	        changeOrders.folders = {inChange : inChange};
+
 	       
 
 		//Creates a project var that will pass the arg
@@ -99,6 +106,7 @@ function createFolder(name, vartype, folderCreation, folderUpdate){
 	folderUpdate : folderUpdate,
 	folderName : name,
 	vartype : vartype,
+	files : {},
 	folders : {}
     };
 }

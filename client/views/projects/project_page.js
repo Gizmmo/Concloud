@@ -1,7 +1,6 @@
 var sf = new SmartFile({});
 var folderStack = [];
 
-
 Template.projectPage.events({
 	/**
 	 * This will mimic an actual update to the current project
@@ -95,6 +94,10 @@ Template.projectPage.helpers({
 	    return Projects.findOne({_id : Session.get("currentProject")}).files;
 	}
 });
+
+Template.projectPage.rendered = function() {
+    folderStack = [];
+};
 
 addToFolderStack = function(name){
     folderStack.push(name);

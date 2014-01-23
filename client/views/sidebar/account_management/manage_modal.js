@@ -6,14 +6,21 @@ Template.manageModal.events({
 		if(newPass === confimPass){
 			Accounts.changePassword(oldPass, newPass, function (error){
 				if(error){
-					console.log("You either entered an incorrect old password, or there was an internal error");
+					$("#incorrect-label").text("You either entered an incorrect old password, or there was an internal error");
 				} else {
-					console.log("Your password was changed successfully!");
+					$("#updatePass").modal("hide");
 				}
 			});
 		} else {
-			console.log("Passwords did not match");
-			//Fill in Error code here
+			$("#not-match-label").text("Passwords did not match");
 		}
 	}
 });
+
+Template.manageModal.created = function() {
+	$('#old-password').val("");
+	$('#sign-password').val("");
+	$('#sign-confirm-password').val("");
+	$("#incorrect-label").text("");
+	$("#not-match-label").text("");
+}

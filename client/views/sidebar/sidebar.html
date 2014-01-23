@@ -22,7 +22,7 @@
 					<i class="fa fa-group"></i>
 				</button>
 
-				<a class="btn btn-danger" href="{{pathFor 'accountManagement'}}">
+				<a class="btn btn-danger" data-toggle="modal" data-target="#updatePass">
 					<i class="fa fa-cogs"></i>
 				</a>
 			</div>
@@ -171,6 +171,8 @@
 
 		
 	</div>
+
+	{{> manageModal}}
 	{{/if}}
 
 </template>

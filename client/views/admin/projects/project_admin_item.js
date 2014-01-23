@@ -1,11 +1,47 @@
+
+Template.projectAdminItem.events({
+  'click' : function () {
+    if(onProjectRoles){
+      Router.go('projectAdminPage', {"_id": this._id});
+    }
+  }
+});
+
 Template.projectAdminItem.helpers({
-	/**
-	 * Returns the time in a readable format
-	 * @return String A readable date string
-	 */
-	convertedTime: function () {
-		return formatDate(this.recentUpdate.updateDate);
-	}
+  /**
+   * This function returns the id of the project
+   * @return String A string containing the id of the project
+   */
+  projectId: function () {
+    return this._id;
+  },
+  /**
+   * Returns the time in a readable format
+   * @return String A readable date string
+   */
+  convertedTime: function () {
+    return formatDate(this.recentUpdate.updateDate);
+  },
+
+  badgerData: function () {
+    if(onProjectDelete){
+      return "badger-danger badger-right"
+    }
+    if(onProjectRoles){
+      return "badger-warning badger-right"
+    }
+    return "badger-info badger-left";
+  },
+
+  dataToggle : function () {
+    if(onProjectDelete){
+      return "#deleteData"
+    }
+    if(onProjectRoles){
+      return ""
+    }
+    return "#updateData";
+  }
 });
 
 Template.projectItem.rendered = function(){

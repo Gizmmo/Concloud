@@ -133,7 +133,6 @@ Template.userList.events({
 		Meteor.users.update({_id: clickedID}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
 		masterEmps.update({_id: clickedID}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
 		workingEmps.update({_id: clickedID}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
-		//Meteor.users.findOne({"_id" : clickedID});
 	},
 		/**
 	 * Creates a projects and inserts it in the project collection

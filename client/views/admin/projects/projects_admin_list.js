@@ -78,9 +78,9 @@ Template.projectsAdminList.events({
 		Projects.update({_id: clickedID}, {$set:{"title": title, "description": description}});
 		masterProjects.update({_id: clickedID}, {$set:{"title": title, "description": description}});
 		workingProjects.update({_id: clickedID}, {$set:{"title": title, "description": description}});
-		//Meteor.users.findOne({"_id" : clickedID});
 	},
 });
+
 Template.projectsAdminList.helpers({
 	/**
 	 * Finad all projects and give them an integer rank for animation

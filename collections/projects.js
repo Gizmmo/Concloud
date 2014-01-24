@@ -51,7 +51,7 @@ Meteor.methods({
 	 * @param  String id The id of the project to be updated
 	 * @return void    Returns nothing
 	 */
-	updateProject: function(id){
+	updateProject: function(id, folders){
 		var user = Meteor.user();
 
 		var project = Projects.findOne(id);
@@ -61,6 +61,9 @@ Meteor.methods({
 				updateAuthorName: user.profile.name,
 				updateAuthorID: user._id
 			};
+	        if(typeof folders != 'undefined'){
+	            Projects.update(id,{$set : {folders: folders}});
+		}
 
 		Projects.update(id, {$addToSet: {updates: update}});
 		Projects.update(id, {$set : {recentUpdate: update}});

@@ -11,6 +11,9 @@ Template.projectPage.events({
 		Meteor.call('updateProject', this._id, function (error, result) {
 		});
 	},
+        'click #selectAllItems' : function () {
+	    $('.projectCheckbox').prop('checked', true);
+	},
 
 	'click #smartfile': function (e, template) {
 		e.preventDefault();
@@ -106,7 +109,14 @@ Template.projectPage.events({
 	   
     },
     'click #submitNewFolder' : function(){
-	console.log("clicked submit");
+	var folderTitle = $('#addFolderName').val();
+	if(folderTitle != 'undefined'){
+	    var projectData = Projects.findOne({_id: Session.get("currentProject")});
+	    var folderData = getFolderData(projectData);
+	    folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
+	    console.log(projectData);
+	    Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+	}
     }
 });
 
@@ -127,8 +137,20 @@ Template.projectPage.helpers({
 	}
 });
 
+Template.projectPage.created = function() {
+    folderStack = []; 
+};
+
 Template.projectPage.rendered = function() {
-    folderStack = [];
+   var stackSession = Session.get('folderStack');
+    if(typeof stackSession != 'undefined'){
+	folderStack = stackSession;
+	constructProject();
+    }
+};
+
+Template.projectPage.destroyed = function() {
+    Session.set("folderStack", []);
 };
 
 addToFolderStack = function(name){

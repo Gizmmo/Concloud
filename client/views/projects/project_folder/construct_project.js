@@ -43,6 +43,7 @@ constructProject = function(){
 enterFolder = function (element) {
     	var folderClicked = $(element).attr('id'); 
 	addToFolderStack(folderClicked);
+        Session.set('folderStack', getFolderStack());
 	
 	//construct the project from the found folderData
 	var folderData = constructProject();
@@ -55,3 +56,67 @@ function constructBreadcrumbs (title, folderData) {
     title.html(title.html() + "/" +  "<span class='headerLink' id='header-" + folderData.vartype + "'>" + folderData.folderName + "</span>");    
 };
 
+getFolderData = function(folderData){
+    if(typeof folderData === 'undefined'){
+     //Query the database for this project
+	folderData = Projects.findOne({_id: Session.get("currentProject")});
+    }
+    //Get the stack of folders that we are currently in
+    var projectStack = getFolderStack();
+    //Iterate trough the stack until we are in at the depth we currently are
+    for(var i = 0; i < projectStack.length; i++) {
+	folderData = folderData.folders[projectStack[i]];
+    }
+    return folderData;
+};
+
+
+createFolder = function(name, vartype, folderCreation, folderUpdate){
+    if(typeof folderCreation === 'undefined'){
+	folderCreation = createFolderCreation();
+    }
+    if(typeof folderUpdate === 'undefined'){
+	folderUpdate = createFolderUpdate();
+    }
+    return {
+	folderCreation : folderCreation,
+	folderUpdate : folderUpdate,
+	folderName : name,
+	vartype : vartype,
+	files : {},
+	folders : {}
+    };
+};
+
+createFile = function(name, type, fileCreation, fileUpdate){
+     if(typeof folderCreation === 'undefined'){
+	folderCreation = createFolderCreation();
+    }
+    if(typeof folderUpdate === 'undefined'){
+	folderUpdate = createFolderUpdate();
+    }
+    return {
+	fileCreation : fileCreation,
+	fileUpdate : fileUpdate,
+	fileName : name,
+	fileType : type
+    };
+};
+
+createFolderCreation = function(){
+    var folderCreation = {
+	createdByAuthorID : Meteor.user()._id,
+	createdByAuthorName : Meteor.user().profile.name,
+	createdDate : new Date()
+    };
+    return folderCreation;
+};
+
+createFolderUpdate = function(){
+    var folderUpdate = {
+	updateDate : new Date(),
+	updateAuthorID : Meteor.user()._id,
+	updateAuthorName : Meteor.user().profile.name
+    };
+    return folderUpdate;
+};

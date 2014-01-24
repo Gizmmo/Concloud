@@ -1,3 +1,13 @@
+Template.signInModal.rendered = function () {
+   $('#myModal').on('shown.bs.modal', function () {
+	   $("#incorrect-log-label").text("");
+	   $("#incorrect-email-label").text("");
+	   $('#email').val("");
+	   $('#passwd').val("");
+	   $('#find-email').val("");
+	});
+};
+
 Template.signInModal.events({
 /**
  * If a user presses enter while on a subfield when signing up
@@ -13,13 +23,19 @@ Template.signInModal.events({
 		}
 	},
 
-	'click .registerAccount': function (e) {
-		changeModal('.signUpModal');
-		e.preventDefault();
-
+	 'keypress #find-email': function (event) {
+		//This will stop the default submitting of the form
+		if(event.which === 13){
+			forgotPass();
+		}
 	},
 
 	'click .returnLogin': function (e) {
+		$("#incorrect-log-label").text("");
+	   	$("#incorrect-email-label").text("");
+	   	$('#email').val("");
+	   	$('#passwd').val("");
+	   	$('#find-email').val("");
 		changeModal('.logInModal');
 		e.preventDefault();
 
@@ -27,19 +43,25 @@ Template.signInModal.events({
 
 	'click .close-me' : function (e) {
 		e.preventDefault();
+		$("#incorrect-log-label").text("");
+	   	$("#incorrect-email-label").text("");
+	   	$('#email').val("");
+	   	$('#passwd').val("");
+	   	$('#find-email').val("");
+
 		$('#myModal').modal('hide');
+		changeModal('.logInModal');
 	},
 
 	'click .newPass': function (e) {
+		$("#incorrect-log-label").text("");
+	   	$("#incorrect-email-label").text("");
+	   	$('#email').val("");
+	   	$('#passwd').val("");
+	   	$('#find-email').val("");
 		changeModal('.newPassModal');
 		e.preventDefault();
 
-	},
-
-	//This will cause the slow appearing of the input fields
-	//when a user clicks to "Sign Up"
-	'click #signup': function () {
-		$('#effect').slideDown('slow');
 	},
 	//This event will run when the user clicks the
 	//log in button
@@ -49,54 +71,9 @@ Template.signInModal.events({
 	//This is the event to handle if the user clicks
 	//that they have forgotten their password
 	'click #forgot-btn': function (){
-		
-		/*Accounts.forgotPassword({
-			email: Meteor.user().emails[0].address
-		});
-*/
-},
+		forgotPass();
+	}
 
-	//This is the event used if a user submits a new
-	//user signup form
-	'click #signUpButton': function (event) {
-		//This will stop the default submitting of the form
-		event.preventDefault();
-		var time = new Date().getTime();
-		var options = {
-			email : $('#sign-email').val(),
-			password : $('#sign-password').val(),
-                //Profile is the object within the user that can
-                //be freely edited by the user
-            profile : {
-				name : ($('#sign-first-name').val() + " " + $('#sign-last-name').val()),
-				userGroup : 'Admin',
-				joinDate: time,
-				recent: {
-					lastLogin: time,
-					lastProjectName: "None",
-					lastProjectID: "None"
-					},
-				hr : {
-					sickDays: 0,
-					vacationDays: 0,
-                    //Updates in an arryay conataining update objects
-                    //that contain a value, and how it has changed
-					updates : [{
-						hrValue: "User",
-						valueChanged: "Was Created"
-					}]
-                }
-            }
-        };
-
-        Accounts.createUser(options, function () {
-            var entry = {};
-			//Calls the newly created User's function to create
-			//an ectry for the user
-			//Meteor.user()
-			Router.go("dashboard");
-		});
-    }
 });
 
 /**
@@ -138,13 +115,39 @@ Template.signInModal.events({
 	function logIn() {
 		var user =  $('#email').val();
 		var password = $('#passwd').val();
-		Meteor.loginWithPassword(user, password, function (error) {
-			if(error){
-				//Fill In Error Code
-			} else{
-				//Fill In LogIn Code
-				Router.go('dashboard');
-				$('#myModal').modal('hide');
+		if(user.length != 0){
+			if(password.length !=0){
+				Meteor.loginWithPassword(user, password, function (error) {
+					if(error){
+						$("#incorrect-log-label").text("Incorrect Username or Password");
+					} else{
+						//Fill In LogIn Code
+						Router.go('dashboard');
+						$('#myModal').modal('hide');
+					}
+				});
+			}else{
+				$("#incorrect-log-label").text("Please Fill in Password Field");
 			}
-		});
+		} else{
+			$("#incorrect-log-label").text("Please Fill in a User Name Field");
+		}
+	}
+
+	function forgotPass() {
+		foundEmail = $('#find-email').val();
+		if(foundEmail.length != 0){
+			var options = {
+				email:foundEmail
+			}
+				Accounts.forgotPassword(options, function (error) {
+					if(error){
+						$("#incorrect-email-label").text("Given email was not found in our records");
+					}else{
+						$('#myModal').modal('hide');
+					}
+				});
+			} else {
+				$("#incorrect-email-label").text("Please enter an email address.");
+			}
 	}

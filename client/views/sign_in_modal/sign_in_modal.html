@@ -16,13 +16,16 @@
 						<div class="row passwordLine">
 							<p><input type="password" class="col-xs-10 onSub" name="passwd" id="passwd" placeholder="Password"></p>
 						</div>
+						<div class="row">
+							<label id="incorrect-log-label" class = "col-xs-12"></label>
+						</div>
 						<hr>
 						<div class="row submitSignIn">
 
-							<button type="button" class="btn btn-primary signInButton " id="logButton" data-dismiss="modal" aria-hidden="true">Sign in</button>
+							<button type="button" class="btn btn-primary signInButton " id="logButton" aria-hidden="true">Sign in</button>
 						</div>
 						<div class="row forgotPassword">
-							<a href="#" id = "forgot-btn" class="submitUnderText newPass">Forgot Password?</a>    
+							<a href="#" class="submitUnderText newPass">Forgot Password?</a>    
 						</div>
 
 					</form>
@@ -40,14 +43,21 @@
 				</div>
 				<div class="modal-body">
 					<form method="post" id = "login_form" action='' name="login_form">
-						<div class="row passwordLine">
-							<p><input type="password" class="col-xs-10 onSub" name="passwd" id="passwd" placeholder="Password"></p>
+						<div class = "row">
+							<label>Please Enter Your Email Address.  An email will be sent to you shortly, follow the steps given in it.</label>
 						</div>
+						<div class="row emailLine">
+							<p><input type="text" class="col-xs-10 onSub" id="find-email" placeholder="Enter Email"></p>
+						</div>
+						<div class="row">
+							<label id="incorrect-email-label" class = "col-xs-12"></label>
+						</div>
+						<hr>
 						<div class="row submitSignIn">
-							<button type="button" class="btn btn-primary signInButton " id="logButton" data-dismiss="modal" aria-hidden="true">Sign in</button>
+							<button type="button" class="btn btn-primary signInButton " id="forgot-btn" aria-hidden="true">Reset</button>
 						</div>
 						<div class="row fogotPassword">
-							<a href="#" class="returnLogin submitUnderText">Return to Login.</a>    
+							<a class=" col-xs-12 returnLogin submitUnderText">Return to Login.</a>    
 						</div>
 					</form>
 				</div>

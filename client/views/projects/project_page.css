@@ -26,3 +26,11 @@
 .alignLeft {
     text-align:left;
 }
+
+.folderName {
+    width:100%;
+}
+
+.folderLabel {
+    font-weight:bold!important;
+}

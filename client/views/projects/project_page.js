@@ -102,7 +102,11 @@ Template.projectPage.events({
 		       
 	       }
 	   }
+	  
 	   
+    },
+    'click #submitNewFolder' : function(){
+	console.log("clicked submit");
     }
 });
 

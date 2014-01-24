@@ -75,7 +75,35 @@ Template.projectPage.events({
 			});
 
 
-	}
+	},
+       'click .headerLink' : function(e, template) {
+	   //Find which folder in the breadcrumbs has been clicked
+	   var folderClicked = $(e.target).attr('id');
+	   folderClicked = folderClicked.split("-")[1];
+	   //Check if the folder stack is empty, thus being at base
+	   if(folderStack.length != 0){
+	       //check if the clicked folder is last in the stack, thus being the currently viewed folder
+	       if(folderClicked != folderStack[(folderStack.length - 1)]){
+		   folderStack.pop();
+		   var foundFolder = true;
+		   while(foundFolder){
+		       if(folderClicked === folderStack[(folderStack.length - 1)]){
+			    console.log("foundProject");
+			   constructProject();
+			   foundFolder = false;
+		       }else if(folderStack.length == 0){
+			   console.log("in base resolution");
+			   constructProject();
+			   foundFolder = false;
+		       }else{
+			   folderStack.pop();
+		       }
+		   }
+		       
+	       }
+	   }
+	   
+    }
 });
 
 Template.projectPage.helpers({
@@ -102,6 +130,10 @@ Template.projectPage.rendered = function() {
 addToFolderStack = function(name){
     folderStack.push(name);
     console.log(folderStack);
+};
+
+topOfFolderStack = function(){
+    return folderStack(folderStack.length).folderName;
 };
 
 removeFromFolderStack = function(){

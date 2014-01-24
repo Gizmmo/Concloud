@@ -1,26 +1,14 @@
-Template.dashboardEntry.helpers({
+Template.projectAdminItem.helpers({
 	/**
-	 * Concerts the time into a readable format
-	 * @return String containing english readable time
+	 * Returns the time in a readable format
+	 * @return String A readable date string
 	 */
 	convertedTime: function () {
-		return formatDate(this.submitted);
-	},
-
-	getAvatar: function (){
-		if(this.type === "project"){
-			return "img/project.png";
-		}
-		else{
-			return "img/avatar.png";
-		}
+		return formatDate(this.recentUpdate.updateDate);
 	}
 });
 
-Template.dashboardEntry.events({
-});
-
-Template.dashboardEntry.rendered = function(){
+Template.projectItem.rendered = function(){
   // animate post from previous position to new position
   var instance = this;
   var rank = instance.data._rank;
@@ -33,7 +21,7 @@ Template.dashboardEntry.rendered = function(){
     // calculate difference between old position and new position and send element there
     var delta = previousPosition - newPosition;
     $this.css("top", delta + "px");
-  } else {
+  }else {
     // it's the first ever render, so hide element
     $this.addClass("invisible");
   }

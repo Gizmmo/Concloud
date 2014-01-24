@@ -7,11 +7,5 @@ accounts-ui-bootstrap-3
 spin
 iron-router
 smartfile
-/accounts-ui-bootstrap-dropdown
-/accounts-ui-bootstrap-3
-/router
-/spin
-/iron-router
-/smartfile
-/page-js-ie-support
-/HTML5-History-API
+jquery-ui
+jquery-ui-bootstrap

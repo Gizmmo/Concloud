@@ -38,7 +38,11 @@ Template.dashboard.helpers({
 	},
 
 	userName : function() {
-		return Meteor.user().profile.name;
+		return Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName ;
+	},
+
+	userGroup : function() {
+		return Meteor.user().profile.userGroup;
 	},
 
 	joinDate : function() {

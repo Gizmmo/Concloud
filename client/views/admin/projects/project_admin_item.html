@@ -1,4 +1,4 @@
-<template name = "projectItem">
+<template name = "projectAdminItem">
 	<div class = "project">
 		<div class="panel panel-primary">
 			<div class="panel-heading">
@@ -6,7 +6,7 @@
 			</div>
 			<div class="panel-body">
 				<span class= "descriptionText">Description: {{description}}</span>
-				<a class="btn btn-primary pull-right project-button" href="{{pathFor 'projectPage'}}">Enter Project</a>
+				<a class="btn btn-primary pull-right project-button" href="{{pathFor 'projectAdminPage'}}">Enter Project</a>
 				<span class="authorText"><p>Submitted by: {{authorName}}</p></span>
 				<span class="lastUpdate"><p>Last Updated: {{convertedTime}}</p></span>
 				

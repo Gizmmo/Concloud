@@ -1,5 +1,5 @@
 var sf = new SmartFile({});
-
+var folderStack = [];
 
 Template.projectPage.events({
 	/**
@@ -10,6 +10,9 @@ Template.projectPage.events({
 	'click #update-btn': function () {
 		Meteor.call('updateProject', this._id, function (error, result) {
 		});
+	},
+        'click #selectAllItems' : function () {
+	    $('.projectCheckbox').prop('checked', true);
 	},
 
 	'click #smartfile': function (e, template) {
@@ -75,7 +78,46 @@ Template.projectPage.events({
 			});
 
 
+	},
+       'click .headerLink' : function(e, template) {
+	   //Find which folder in the breadcrumbs has been clicked
+	   var folderClicked = $(e.target).attr('id');
+	   folderClicked = folderClicked.split("-")[1];
+	   //Check if the folder stack is empty, thus being at base
+	   if(folderStack.length != 0){
+	       //check if the clicked folder is last in the stack, thus being the currently viewed folder
+	       if(folderClicked != folderStack[(folderStack.length - 1)]){
+		   folderStack.pop();
+		   var foundFolder = true;
+		   while(foundFolder){
+		       if(folderClicked === folderStack[(folderStack.length - 1)]){
+			    console.log("foundProject");
+			   constructProject();
+			   foundFolder = false;
+		       }else if(folderStack.length == 0){
+			   console.log("in base resolution");
+			   constructProject();
+			   foundFolder = false;
+		       }else{
+			   folderStack.pop();
+		       }
+		   }
+		       
+	       }
+	   }
+	  
+	   
+    },
+    'click #submitNewFolder' : function(){
+	var folderTitle = $('#addFolderName').val();
+	if(folderTitle != 'undefined'){
+	    var projectData = Projects.findOne({_id: Session.get("currentProject")});
+	    var folderData = getFolderData(projectData);
+	    folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
+	    console.log(projectData);
+	    Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
 	}
+    }
 });
 
 Template.projectPage.helpers({
@@ -94,3 +136,37 @@ Template.projectPage.helpers({
 	    return Projects.findOne({_id : Session.get("currentProject")}).files;
 	}
 });
+
+Template.projectPage.created = function() {
+    folderStack = []; 
+};
+
+Template.projectPage.rendered = function() {
+   var stackSession = Session.get('folderStack');
+    if(typeof stackSession != 'undefined'){
+	folderStack = stackSession;
+	constructProject();
+    }
+};
+
+Template.projectPage.destroyed = function() {
+    Session.set("folderStack", []);
+};
+
+addToFolderStack = function(name){
+    folderStack.push(name);
+    console.log(folderStack);
+};
+
+topOfFolderStack = function(){
+    return folderStack(folderStack.length).folderName;
+};
+
+removeFromFolderStack = function(){
+    folderStack.pop();
+    console.log(folderStack);
+};
+
+getFolderStack = function() {
+    return folderStack;
+};

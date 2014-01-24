@@ -3,7 +3,7 @@
 
   <div class = "projectData col-xs-12">
     <div class="row no-margins">
-      <h3>{{title}}</h3>
+      <h3 class="alignLeft" id="projectBreadcrumbs"><span class="headerLink" id="header-base">{{title}}</span></h3>
       <div id="browse-sort" class="clearfix">
 	<a id="name-sorter" data-sort="FILES_BY_NAME" class="sortable-column-header bolded col-xs-6" data-ascending="true" style="cursor: pointer;">
 	  <span style="cursor: pointer;">
@@ -23,15 +23,16 @@
       </div>
 
       <!--File and Folder Buttons -->
+	
       <div class="projectHeader">
 	<div class="btn btn-success" id="upload"  data-toggle="modal" data-target="#uploadData"><i class="fa fa-upload"></i> Upload</div> 
 	<div class="btn btn-primary"><i class="fa fa-download"></i> Download</div>
-	<div class="btn"><i class="fa fa-folder"></i> Add Folder</div>
-	<div class="btn btn-warning"><i class="fa fa-check-circle-o"></i> Select All</div>
+	<div class="btn" id="add-folder" data-toggle="modal" data-target="#addFolder"><i class="fa fa-folder"></i> Add Folder</div>
+	<div class="btn btn-warning" id="selectAllItems"><i class="fa fa-check-circle-o"></i> Select All</div>
 	<div class="btn btn-danger"><i class="fa fa-times"></i> Delete</div>
       </div>
 
-      <!-- Modal -->
+      <!-- Upload Modal -->
       <div class="modal fade" id="uploadData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 	  <div class="modal-content">
@@ -51,20 +52,49 @@
 	</div><!-- /.modal-dialog -->
       </div><!-- /.modal -->
 
+      <!-- Add Folder Modal -->
+      <div class="modal fade" id="addFolder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	      <h4 class="modal-title" id="myModalLabel">Add Folder</h4>
+	    </div>
+	    
+	    <div class="modal-body addFolder">
+	      <div class="form-group">
+		<label for="addFolderName" class="folderLabel">Folder Name</label>
+		<div class="col-xs-12">
+		<input type="text" class="folderName" id="addFolderName" name="addFolderName" placeholder="Enter the Folder Name"/>
+		</div>
+	      </div>
+	    </div>
+	    <div class="modal-footer">
+	      <button id="submitNewFolder" class="btn btn-success" data-dismiss="modal">Submit</button>
+	      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	    </div>
+	  </div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
 
 
       <!-- Folders and Files -->
-
+      
       <ol id="browse-files" class="mouse-active" style="cursor: default;">
 	<!-- Individual Folders -->
+	<div id="projectFolders">
 	{{#each arrayify projectData}}
             {{> project_folder}}
 	{{/each}}
+	</div>
 	
 	<!-- Project Files -->
+	<div id="projectFiles">
 	{{#each arrayify projectFiles}}
 	    {{> project_files}}
 	{{/each}}
+	</div>
 
       </ol>
       

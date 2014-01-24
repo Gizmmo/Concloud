@@ -8,19 +8,9 @@ Template.projectCreate.events({
 		//This will stop the default submitting of the form
 		event.preventDefault();
 		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
-
-	        var folderCreation = {
-			    createdByAuthorID : Meteor.user()._id,
-			    createdByAuthorName : userName,
-			    createdDate : new Date()
-			}; 
-
-	        var folderUpdate = {
-		    updateDate : new Date(),
-		    updateAuthorID : Meteor.user()._id,
-		    updateAuthorName : userName
-		};
-
+	    
+	        var folderUpdate = createFolderUpdate();
+	        var folderCreation = createFolderCreation();
 	        var changeOrders = createFolder("Change Orders", "changeOrders", folderCreation, folderUpdate);
 	        var consultant = createFolder("Consultant", "consultant", folderCreation, folderUpdate);
 	        var contractsAndPO = createFolder("Contracts and PO's", "contractsAndPO", folderCreation, folderUpdate);
@@ -40,6 +30,15 @@ Template.projectCreate.events({
 
 	        var update = createFile("Update", "txt", folderCreation, folderUpdate);
 	        var receipt = createFile("Reciept", "txt", folderCreation, folderUpdate);
+
+	        var inChange = createFolder("inChange", "inChange", folderCreation, folderUpdate);
+	        var updateChange = createFile("Update", "txt", folderCreation, folderUpdate);
+	       
+	        changeOrders.files = {
+		    updateChange : updateChange
+		};
+
+	        changeOrders.folders = {inChange : inChange};
 
 	       
 
@@ -91,21 +90,3 @@ Template.projectCreate.events({
 
 	}
 });
-
-function createFolder(name, vartype, folderCreation, folderUpdate){
-    return {
-	folderCreation : folderCreation,
-	folderUpdate : folderUpdate,
-	folderName : name,
-	vartype : vartype
-    };
-}
-
-function createFile(name, type, fileCreation, fileUpdate){
-    return {
-	fileCreation : fileCreation,
-	fileUpdate : fileUpdate,
-	fileName : name,
-	fileType : type
-    };
-}

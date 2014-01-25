@@ -200,10 +200,11 @@ function deleteFolder(folderName){
 }
 
 function deleteFile(fileName){
-    console.log("Delete Files");
+    console.log("Delete File " + fileName);
     var projectData = Projects.findOne({_id: Session.get("currentProject")});
     var folderData = getFolderData(projectData);
     delete folderData.files[fileName];
+    console.log(projectData);
     Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
 }   
 

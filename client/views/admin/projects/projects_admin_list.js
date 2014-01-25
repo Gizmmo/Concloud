@@ -41,7 +41,7 @@ Template.projectsAdminList.events({
 	        var subtrades = createFolder("Subtrades", folderCreation, folderUpdate);
 
 	        var update = createFile("Update", "txt", folderCreation, folderUpdate);
-	        var receipt = createFile("Reciept", "txt", folderCreation, folderUpdate);
+	        var receipt = createFile("Receipt", "txt", folderCreation, folderUpdate);
 
 	        var inChange = createFolder("inChange", folderCreation, folderUpdate);
 	        var updateChange = createFile("Update Change", "txt", folderCreation, folderUpdate);

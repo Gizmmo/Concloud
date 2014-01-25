@@ -15,6 +15,23 @@ Template.projectPage.events({
 	    $('.projectCheckbox').prop('checked', true);
 	},
 
+        'click #deleteItem' : function () {
+	   $('input:checkbox.projectCheckbox').each(function() {
+	       var thisVal = (this.checked ? $(this).attr('id') : "");
+	       
+	       if(thisVal != ""){
+		   var itemType = thisVal.split("-")[0];
+		   var itemName = thisVal.split("-")[1];
+		   if(itemType == 'folder'){
+		       deleteFolder(itemName);
+		   }else if (itemType == "file"){
+		       deleteFile(itemName);
+		   }
+	       }
+	   });
+	    
+	 },
+
 	'click #smartfile': function (e, template) {
 		e.preventDefault();
 		var file = template.find('#upload').files[0];
@@ -170,3 +187,18 @@ removeFromFolderStack = function(){
 getFolderStack = function() {
     return folderStack;
 };
+
+function deleteFolder(folderName){
+    var projectData = Projects.findOne({_id: Session.get("currentProject")});
+    console.log(projectData);
+    var folderData = getFolderData(projectData);
+    console.log(folderData);
+    delete folderData.folders[folderName];
+    console.log(folderData);
+    Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+    console.log(Projects.findOne({_id: Session.get("currentProject")}));
+}
+
+function deleteFile(fileName){
+   console.log("Delete file " + fileName); 
+}

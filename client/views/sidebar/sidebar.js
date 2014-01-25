@@ -7,6 +7,7 @@ Template.menu.rendered = function () {
 	ace_elements();
 	ace_extra();
 
+$("[rel='tooltip']").tooltip();
 };
 
 Template.menu.helpers({

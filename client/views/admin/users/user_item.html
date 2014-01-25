@@ -1,18 +1,7 @@
 <template name = "userItem">
-		<div class = "user">
-		<div class="panel panel-primary">
-			
-			<div class="panel-heading">
-				<h3 class="panel-title">{{profile.firstName}} {{profile.lastName}}</h3>
-			</div>
- 
-			<div class="panel-body">
-				<span class= "descriptionText">User Group: {{profile.userGroup}}</span>
-				<div class="btn btn-success" id="upload"  data-toggle="modal" data-target="#uploadData"><i class="fa fa-pencil-square-o"></i>Edit</div> 
-				<span class="authorText"><p>Last Project Worked On: {{profile.recent.lastProjectName}}</p></span>
-				<span class="lastUpdate"><p>Last Logged In: {{convertedTime}}</p></span>				
-			</div>
-
-		</div>
+	<div class="{{badgerData}} col-xs-12 col-sm-6 col-md-3 b-user-item" data-toggle="modal" data-target="{{dataToggle}}" data-badger="{{profile.lastName}}, {{profile.firstName}}">
+		<span class = "my-title">User Group: </span>{{profile.userGroup}}<br>
+		<span class = "my-title">Email: </span>{{profile.email}} <br>
+		<span class = "my-title">Last Logged In: </span>{{convertedTime}}
 	</div>
 </template>

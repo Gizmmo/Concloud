@@ -112,8 +112,9 @@ Template.projectsAdminList.events({
 			//var xImage = $();
 			for(var i = 0; i < boxes.length; i++){
 				$(boxes[i]).attr("data-target", "");
-				$(boxes[i]).append('<i class="fa fa-times fa-2x close-x" id="close-x"></i>');
+				$(boxes[i]).append('<i class="fa fa-times fa-2x close-x" id="close-x" title="Delete Project" rel="tooltip"></i>');
 				$('i').remove('.rightBtn');
+				$("[rel=tooltip").tooltip();
 			}
 			//data-target="#updateData
 		} else{
@@ -122,7 +123,8 @@ Template.projectsAdminList.events({
 			for(var i = 0; i < boxes.length; i++){
 				$(boxes[i]).attr("data-target", "#updateData");
 				$('i').remove('#close-x');
-				$(boxes[i]).append('<i class="fa fa-arrow-circle-o-right rightBtn fa-2x"></i>');
+				$(boxes[i]).append('<i class="fa fa-arrow-circle-o-right rightBtn fa-2x" title="Go To Project" rel="tooltip"></i>');
+				$("[rel=tooltip").tooltip();
 			}
 		}
 	},
@@ -142,10 +144,13 @@ Template.projectsAdminList.events({
 		onProjectRoles = !onProjectRoles;
 		onProjectDelete = false;
 		if(onProjectRoles){
-			$( ".b-project-item" ).removeClass( "badger-info badger-left badger-danger" ).addClass( "badger-warning badger-right" );
+			$( ".b-project-item" ).removeClass( "badger-info badger-left badger-danger" ).addClass( "badger-warning badger-left" );
 			var boxes = $( ".b-project-item" );
 			for(var i = 0; i < boxes.length; i++){
 				$(boxes[i]).attr("data-target", "");
+				$('i').remove('.rightBtn');
+				$('i').remove('#close-x');
+				$("[rel=tooltip").tooltip();
 			}
 			//data-target="#updateData
 		} else{
@@ -153,6 +158,10 @@ Template.projectsAdminList.events({
 			var boxes = $( ".b-project-item" );
 			for(var i = 0; i < boxes.length; i++){
 				$(boxes[i]).attr("data-target", "#updateData");
+			    $(boxes[i]).append('<i class="link fa fa-arrow-circle-o-right rightBtn fa-2x" title="Go To Project" rel="tooltip"></i>');
+			    $('i').remove('#close-x');
+			    $("[rel=tooltip").tooltip();
+
 			}
 		}
 	},
@@ -189,11 +198,15 @@ Template.projectsAdminList.rendered = function () {
 			var boxes = $( ".b-project-item" );
        		for(var i = 0; i < boxes.length; i++){
 				$(boxes[i]).attr("data-target", "");
-				$(boxes[i]).append('<i class="fa fa-times fa-2x close-x" id="close-x"></i>');
+				$(boxes[i]).append('<i class="fa fa-times fa-2x close-x" id="close-x" title="Go To Project" rel="tooltip"></i>');
 				$('i').remove('.rightBtn');
 			}
     } else if (onProjectRoles){
-       "";
+       		$( ".b-project-item" ).removeClass( "badger-info badger-left badger-danger" ).addClass( "badger-warning badger-left" );
+			var boxes = $( ".b-project-item" );
+			for(var i = 0; i < boxes.length; i++){
+				$(boxes[i]).attr("data-target", "");
+			}
     }else{
 	}
 };

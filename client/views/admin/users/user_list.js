@@ -1,7 +1,7 @@
 var clickedID = null;
-var masterEmps = new Meteor.Collection(null);
-var workingEmps = new Meteor.Collection(null);
-var onDelete;
+masterEmps = new Meteor.Collection(null);
+workingEmps = new Meteor.Collection(null);
+onUserDelete = false;
 
 Template.userList.helpers({
 	/**
@@ -25,19 +25,6 @@ Template.userList.helpers({
 			}
 		}
 		return formatDate(new Date().getTime());
-	},
-
-	dataToggle: function () {
-		if(onDelete){
-			return "#deleteData";
-		}
-		return "#updateData";
-	},
-	badgerData: function () {
-		if(onDelete){
-			return "badger-danger badger-right";
-		}
-		return "badger-info badger-left";
 	}
 
 });
@@ -103,27 +90,23 @@ Template.userList.events({
 		clickedID = this._id;
 	},
 	'click #delbtn' : function () {
-		onDelete = !onDelete;
-		if(onDelete){
-			$( ".b-user-item" ).removeClass( "badger-info badger-left" ).addClass( "badger-danger badger-right" );
+		onUserDelete = !onUserDelete;
+		if(onUserDelete){
+			$( ".b-user-item" ).removeClass( "badger-info badger-left" ).addClass( "badger-danger badger-left" );
 			var boxes = $( ".b-user-item" );
 			for(var i = 0; i < boxes.length; i++){
-				$(boxes[i]).attr("data-target", "#deleteData");
+				$(boxes[i]).attr("data-target", "");
+				$(boxes[i]).append('<i class="fa fa-times fa-2x close-x" id="close-x" title="Delete Project" rel="tooltip"></i>');
+				$("[rel=tooltip").tooltip();
 			}
-			//data-target="#updateData
 		} else{
-			$( ".b-user-item" ).removeClass( "badger-danger badger-right" ).addClass( "badger-info badger-left" );
+			$( ".b-user-item" ).removeClass( "badger-danger badger-left" ).addClass( "badger-info badger-left" );
 			var boxes = $( ".b-user-item" );
 			for(var i = 0; i < boxes.length; i++){
 				$(boxes[i]).attr("data-target", "#updateData");
+				$('i').remove('#close-x');
 			}
 		}
-	},
-
-	'click #delete-user' : function () {
-		workingEmps.remove({_id: clickedID});
-		Meteor.users.remove({_id: clickedID});
-
 	},
 
 	'click #update-user': function () {
@@ -196,5 +179,18 @@ Template.userList.created = function () {
 		workingEmps.insert(employee);
 		masterEmps.insert(employee);
 	});
-	onDelete = false;
+	onUserDelete = false;
+};
+
+Template.userList.rendered = function () {
+		if(onUserDelete){
+			$( ".b-user-item" ).removeClass( "badger-info badger-left" ).addClass( "badger-danger badger-left" );
+			var boxes = $( ".b-user-item" );
+			for(var i = 0; i < boxes.length; i++){
+				$(boxes[i]).attr("data-target", "");
+				$(boxes[i]).append('<i class="fa fa-times fa-2x close-x" id="close-x" title="Delete Project" rel="tooltip"></i>');
+				$("[rel=tooltip").tooltip();
+			}
+    } else{
+	}
 };

@@ -23,8 +23,10 @@ Template.projectPage.events({
 		   var itemType = thisVal.split("-")[0];
 		   var itemName = thisVal.split("-")[1];
 		   if(itemType == 'folder'){
+		       console.log("in folder delete : " + itemName);
 		       deleteFolder(itemName);
 		   }else if (itemType == "file"){
+		       console.log("in here");
 		       deleteFile(itemName);
 		   }
 	       }
@@ -190,15 +192,25 @@ getFolderStack = function() {
 
 function deleteFolder(folderName){
     var projectData = Projects.findOne({_id: Session.get("currentProject")});
-    console.log(projectData);
     var folderData = getFolderData(projectData);
-    console.log(folderData);
     delete folderData.folders[folderName];
-    console.log(folderData);
+    console.log("folder data before update : " + projectData.folders);
     Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
-    console.log(Projects.findOne({_id: Session.get("currentProject")}));
+   
 }
 
 function deleteFile(fileName){
-   console.log("Delete file " + fileName); 
-}
+    console.log("Delete Files");
+    var projectData = Projects.findOne({_id: Session.get("currentProject")});
+    var folderData = getFolderData(projectData);
+    delete folderData.files[fileName];
+    Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+}   
+
+
+
+
+
+
+
+

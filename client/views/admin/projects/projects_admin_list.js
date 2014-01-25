@@ -44,10 +44,12 @@ Template.projectsAdminList.events({
 	        var receipt = createFile("Reciept", "txt", folderCreation, folderUpdate);
 
 	        var inChange = createFolder("inChange", folderCreation, folderUpdate);
-	        var updateChange = createFile("Update", "txt", folderCreation, folderUpdate);
+	        var updateChange = createFile("Update Change", "txt", folderCreation, folderUpdate);
 	       
 	        changeOrders.files = {
-		    updateChange : updateChange
+		    'Update Change' : updateChange,
+		    Update: update,
+		    Receipt: receipt
 		};
 
 	        changeOrders.folders = {inChange : inChange};
@@ -63,7 +65,7 @@ Template.projectsAdminList.events({
 			    "Change Orders" : changeOrders,
 			    Consultant : consultant,
 			    "Contracts and PO's" : contractsAndPO,
-			    "Dailt Log's" : dailyLogs,
+			    "Daily Log's" : dailyLogs,
 			    Drawings : drawings,
 			    Estimates : estimates,
 			    "Inspections, Reports & Tests" : insRepTest,
@@ -76,12 +78,8 @@ Template.projectsAdminList.events({
 			    Safety : safety,
 			    "Shop Drawings" : shopDrawings,
 			    Subtrades : subtrades
-			},
+			}
 
-		        files : {
-		  	    update : update,
-			    receipt : receipt
-		     }
 		};
 
 			//Calls the newly created Project's path after creating

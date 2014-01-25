@@ -70,5 +70,32 @@ Meteor.methods({
 		Projects.update(id, {$addToSet: {updates: update}});
 		Projects.update(id, {$set : {recentUpdate: update}});
 		createProjectNotification(project);
+	},
+
+/**
+	 * This function will update the project passed to
+	 * have a new update Author and update Time
+	 * @param  String id The id of the project to be updated
+	 * @return void    Returns nothing
+	 */
+	updateProjectFiles: function(id, files){
+		var user = Meteor.user();
+		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
+
+		var project = Projects.findOne(id);
+		Meteor.users.update({_id: Meteor.userId()}, {$set : {'profile.recent.lastProjectID' : id, 'profile.recent.lastProjectName' : project.title } });
+		var update = {
+				updateDate: new Date().getTime(),
+				updateAuthorName: userName,
+				updateAuthorID: user._id
+			};
+	    
+	        if(typeof files != 'undefined'){
+	            Projects.update(id,{$set : {files: files}});
+		}
+
+		Projects.update(id, {$addToSet: {updates: update}});
+		Projects.update(id, {$set : {recentUpdate: update}});
+		createProjectNotification(project);
 	}
 });

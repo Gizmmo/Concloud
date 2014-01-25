@@ -1,5 +1,16 @@
 
 Template.projectAdminItem.events({
+    'click .rightBtn' : function () {
+    $(".b-project-item").attr("data-target", "");
+      Router.go('projectPage', {"_id": this._id});
+  },
+
+  'click .close-x' : function () {
+    $(".b-project-item").attr("data-target", "");
+    workingProjects.remove({_id: this._id});
+    Projects.remove({_id: this._id});
+  },
+
   'click' : function () {
     if(onProjectRoles){
       Router.go('projectAdminPage', {"_id": this._id});
@@ -27,19 +38,12 @@ Template.projectAdminItem.helpers({
 
   badgerData: function () {
     if(onProjectDelete){
-      return "badger-danger badger-right"
+      return "badger-danger badger-left"
     }
     if(onProjectRoles){
       return "badger-warning badger-right"
     }
     return "badger-info badger-left";
-  },
-
-  checkX: function () {
-    if(onProjectDelete){
-      return "<i class='fa fa-times deleteX'></i>";
-    }
-    return "";
   },
 
   dataToggle : function () {
@@ -53,27 +57,7 @@ Template.projectAdminItem.helpers({
   }
 });
 
-Template.projectItem.rendered = function(){
-  // animate post from previous position to new position
-  var instance = this;
-  var rank = instance.data._rank;
-  var $this = $(this.firstNode);
-  var postHeight = 80;
-  var newPosition = rank * postHeight;
-  // if element has a currentPosition (i.e. it's not the first ever render)
-  if (typeof(instance.currentPosition) !== 'undefined') {
-    var previousPosition = instance.currentPosition;
-    // calculate difference between old position and new position and send element there
-    var delta = previousPosition - newPosition;
-    $this.css("top", delta + "px");
-  }else {
-    // it's the first ever render, so hide element
-    $this.addClass("invisible");
-  }
-  // let it draw in the old position, then..
-  Meteor.defer(function() {
-    instance.currentPosition = newPosition;
-    // bring element back to its new original position
-    $this.css("top",  "0px").removeClass("invisible");
-  });
+Template.projectAdminItem.rendered = function(){
+  $("#test").tooltip();
+  //$('.link').tooltip()
 };

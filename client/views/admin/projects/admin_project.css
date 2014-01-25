@@ -4,3 +4,14 @@
 	right: 5px;
 	top: 2px;
 }
+
+.rightBtn {
+	color: green;
+	position: absolute;
+	right: 5px;
+	top: 2px;
+}
+#test{
+	 color: black !important;
+	font-family: sans-serif;
+}

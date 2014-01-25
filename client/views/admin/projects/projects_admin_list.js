@@ -1,8 +1,8 @@
 onProjectDelete = false;
 onProjectRoles = false;
 searchProjFieldLength = 0;
-var masterProjects = new Meteor.Collection(null);
-var workingProjects = new Meteor.Collection(null);
+masterProjects = new Meteor.Collection(null);
+workingProjects = new Meteor.Collection(null);
 
 Template.projectsAdminList.events({
 	'keyup' : function () {
@@ -16,6 +16,7 @@ Template.projectsAdminList.events({
 		searchProjFieldLength = searchProjString.length;
 		
 	},
+
 
 	'click #create-project' : function () {
 				//This will stop the default submitting of the form
@@ -110,8 +111,9 @@ Template.projectsAdminList.events({
 			var boxes = $( ".b-project-item" );
 			//var xImage = $();
 			for(var i = 0; i < boxes.length; i++){
-				$(boxes[i]).attr("data-target", "#deleteData");
+				$(boxes[i]).attr("data-target", "");
 				$(boxes[i]).append('<i class="fa fa-times fa-2x close-x" id="close-x"></i>');
+				$('i').remove('.rightBtn');
 			}
 			//data-target="#updateData
 		} else{
@@ -120,6 +122,7 @@ Template.projectsAdminList.events({
 			for(var i = 0; i < boxes.length; i++){
 				$(boxes[i]).attr("data-target", "#updateData");
 				$('i').remove('#close-x');
+				$(boxes[i]).append('<i class="fa fa-arrow-circle-o-right rightBtn fa-2x"></i>');
 			}
 		}
 	},
@@ -154,12 +157,6 @@ Template.projectsAdminList.events({
 		}
 	},
 
-	'click #delete-project' : function () {
-		workingProjects.remove({_id: clickedID});
-		Projects.remove({_id: clickedID});
-
-	},
-
 	'click #update-project': function () {
 		var title =$("#update-title").val();
 		var description = $("#update-description").val();
@@ -185,6 +182,21 @@ Template.projectsAdminList.helpers({
 		return workingProjects.find({}, {sort : {"title" : 1}});
 	}
 });
+
+Template.projectsAdminList.rendered = function () {
+	    if(onProjectDelete){
+	    	$( ".b-project-item" ).removeClass( "badger-info badger-warning" ).addClass( "badger-danger" );
+			var boxes = $( ".b-project-item" );
+       		for(var i = 0; i < boxes.length; i++){
+				$(boxes[i]).attr("data-target", "");
+				$(boxes[i]).append('<i class="fa fa-times fa-2x close-x" id="close-x"></i>');
+				$('i').remove('.rightBtn');
+			}
+    } else if (onProjectRoles){
+       "";
+    }else{
+	}
+};
 
 Template.projectsAdminList.created = function () {
 	onProjectDelete = false;
@@ -229,5 +241,10 @@ function updateProjAdd(searchString){
 			}
 		}
 	});
+}
+
+function deleteProject(passedID){
+	workingProjects.remove({_id: passedID});
+    Projects.remove({_id: passedID});
 }
 

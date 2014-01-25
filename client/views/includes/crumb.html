@@ -1,0 +1,17 @@
+<template name = "crumb">
+	{{#if indPage}}
+	<li>
+	 	<a id="indPage" >{{name}}</a>
+	</li>
+	{{/if}}
+	{{#if openPage}}
+	<li>
+	 	<a href="{{pathFor route}}" >{{name}}</a>
+	</li>
+	{{/if}}
+	{{#if lastLink}}
+	<li>
+	 	{{name}}
+	</li>
+	{{/if}}
+</template>

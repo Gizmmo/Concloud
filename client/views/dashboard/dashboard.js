@@ -1,5 +1,3 @@
-
-
 Template.dashboard.helpers({
 	/**
 	 * This will cycle through all collections that can be

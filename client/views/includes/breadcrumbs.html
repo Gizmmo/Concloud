@@ -3,11 +3,14 @@
 
 
 		<ul class="breadcrumb">
-			<li>
-				<i class="icon-home home-icon"></i>
+			<!--<li>
+				<i class="<i class="fa fa-home"></i> "></i>
 				<a href="#">Home</a>
 			</li>
-			<li class="active">Projects</li>
+			<li class="active">Projects</li>-->
+			{{#each breadtrails}}
+				{{>crumb}}
+			{{/each}}
 		</ul><!-- .breadcrumb -->
 
 		<div class="nav-search" id="nav-search">

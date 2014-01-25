@@ -20,7 +20,9 @@ Template.projectAdminItem.helpers({
    * @return String A readable date string
    */
   convertedTime: function () {
-    return formatDate(this.recentUpdate.updateDate);
+    if(this.recentUpdate){
+      return formatDate(this.recentUpdate.updateDate);
+    }
   },
 
   badgerData: function () {
@@ -31,6 +33,13 @@ Template.projectAdminItem.helpers({
       return "badger-warning badger-right"
     }
     return "badger-info badger-left";
+  },
+
+  checkX: function () {
+    if(onProjectDelete){
+      return "<i class='fa fa-times deleteX'></i>";
+    }
+    return "";
   },
 
   dataToggle : function () {

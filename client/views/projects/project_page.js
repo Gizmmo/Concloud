@@ -92,7 +92,7 @@ Template.projectPage.events({
 			function(err, result){
 				if(err)
 					console.log(err);
-				window.location.href = result;
+				
 				
 			});
 
@@ -128,15 +128,25 @@ Template.projectPage.events({
 	   
     },
     'click #submitNewFolder' : function(){
-	var folderTitle = $('#addFolderName').val();
-	if(folderTitle != 'undefined'){
-	    var projectData = Projects.findOne({_id: Session.get("currentProject")});
-	    var folderData = getFolderData(projectData);
-	    folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
-	    console.log(projectData);
-	    Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
-	}
-    }
+		var folderTitle = $('#addFolderName').val();
+		if(folderTitle != 'undefined'){
+		    var projectData = Projects.findOne({_id: Session.get("currentProject")});
+		    var folderData = getFolderData(projectData);
+		    folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
+		    console.log(projectData);
+		    Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+		}
+    },
+    'click #upload' : function() {
+		Meteor.call('exchangeSmartFiles', "Questions for Concord.doc", function (error, result) {
+    		if(error){
+    			console.log(error);
+    		}else{
+    			window.location.href = result;
+    		}
+    	});
+
+    },
 });
 
 Template.projectPage.helpers({

@@ -64,8 +64,12 @@ Meteor.methods({
 				updateAuthorID: user._id
 			};
 	        if(typeof folders != 'undefined'){
-	            Projects.update(id,{$set : {folders: folders}});
-		}
+	            try{
+	            	Projects.update(id,{$set : {folders: folders}});
+				}catch(e){
+					console.log("Error in folder update " + e.message);
+				}
+	}
 
 		Projects.update(id, {$addToSet: {updates: update}});
 		Projects.update(id, {$set : {recentUpdate: update}});

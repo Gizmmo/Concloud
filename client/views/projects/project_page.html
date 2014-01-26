@@ -10,12 +10,12 @@
 	    Name
 	  </span>
 	</a>
-	<a id="kind-sorter" data-sort="FILES_BY_KIND" class="sortable-column-header noarrow col-xs-3" data-ascending="false" style="cursor: pointer;">
+	<a id="kind-sorter" data-sort="FILES_BY_KIND" class="sortable-column-header noarrow col-xs-2" data-ascending="false" style="cursor: pointer;">
 	  <span id="kind-sorter-label" style="cursor: pointer;">
 	    Kind
 	  </span>
 	</a>
-	<a id="modified-sorter" data-sort="FILES_BY_MODIFIED" class="sortable-column-header col-xs-3" data-ascending="false" style="cursor: pointer;">
+	<a id="modified-sorter" data-sort="FILES_BY_MODIFIED" class="sortable-column-header col-xs-4" data-ascending="false" style="cursor: pointer;">
 	  <span style="cursor: pointer;">
 	    Modified
 	  </span>
@@ -25,11 +25,11 @@
       <!--File and Folder Buttons -->
 	
       <div class="projectHeader">
-	<div class="btn btn-success" id="upload"  data-toggle="modal" data-target="#uploadData"><i class="fa fa-upload"></i> Upload</div> 
-	<div class="btn btn-primary"><i class="fa fa-download"></i> Download</div>
+	<div class="btn btn-success" id="uploadItem"  data-toggle="modal" data-target="#uploadData"><i class="fa fa-upload"></i> Upload</div> 
+	<div class="btn btn-primary" id='downloadItems'><i class="fa fa-download"></i> Download</div>
 	<div class="btn" id="add-folder" data-toggle="modal" data-target="#addFolder"><i class="fa fa-folder"></i> Add Folder</div>
 	<div class="btn btn-warning" id="selectAllItems"><i class="fa fa-check-circle-o"></i> Select All</div>
-	<div class="btn btn-danger"><i class="fa fa-times"></i> Delete</div>
+	<div class="btn btn-danger" id="deleteItem"><i class="fa fa-times"></i> Delete</div>
       </div>
 
       <!-- Upload Modal -->

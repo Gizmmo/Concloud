@@ -1,5 +1,6 @@
 constructProject = function(){
 
+
     //Query the database for this project
     var folderData = Projects.findOne({_id: Session.get("currentProject")});
     //Get the stack of folders that we are currently in
@@ -8,6 +9,7 @@ constructProject = function(){
     var baseData = $('#header-base').clone(); 
     title.empty();
     title.html(baseData);
+    console.log("Project Stack for breadcrumbs" + projectStack);
     //Iterate trough the stack until we are in at the depth we currently are
     for(var i = 0; i < projectStack.length; i++) {
 	folderData = folderData.folders[projectStack[i]];
@@ -23,7 +25,7 @@ constructProject = function(){
 	for(var i = 0; i < arrayFolders.length; i++) {
 	  var currentFolder = arrayFolders[i].proData;
 	    $('#projectFolders').append(
-		"<li class=\"browse-file\" dropzone=\"copy move\"><div class=\"filename-col col-xs-6\"><input type=\"checkbox\" class=\"projectCheckbox\"> <img class=\"sprite sprite_web s_web_folder_user_32 icon\" alt=\"marks\" draggable=\"true\" src=\"/img/icon_spacer.gif\"> <a class=\"filename-link\" draggable=\"true\" hidefocus=\"hideFocus\" id=\"" + currentFolder.vartype + "\" onclick =\"enterFolder(this)\" target=\"_self\">" + currentFolder.folderName + "</a></div><div class=\"kind col-xs-3\"><span class=\"category\">folder</span><span class=\"extension secondary\"></span></div><div class=\"modified col-xs-3\"><span class=\"modified-time\">" + currentFolder.folderUpdate.updateDate + "</span></div><br class=\"clear\"></li>"
+		"<li class=\"browse-file\" dropzone=\"copy move\"><div class=\"filename-col col-xs-6\"><input type=\"checkbox\" class=\"projectCheckbox\" id=\"folder-" + currentFolder.folderName + "\"> <img class=\"sprite sprite_web s_web_folder_user_32 icon\" alt=\"marks\" draggable=\"true\" src=\"/img/icon_spacer.gif\"> <a class=\"filename-link\" draggable=\"true\" hidefocus=\"hideFocus\" id=\"" + currentFolder.folderName + "\" onclick =\"enterFolder(this)\" target=\"_self\">" + currentFolder.folderName + "</a></div><div class=\"kind col-xs-2\"><span class=\"category\">folder</span><span class=\"extension secondary\"></span></div><div class=\"modified col-xs-4\"><span class=\"modified-time\">" + currentFolder.folderUpdate.updateDate + "</span></div><br class=\"clear\"></li>"
 	    );
 	}
 
@@ -33,7 +35,7 @@ constructProject = function(){
 	for(var i = 0; i < arrayFiles.length; i++) {
 	    var currentFile = arrayFiles[i].proData;
 	    projectFiles.append(
-		"<li class=\"browse-file\" data-identity=\"121387510_46753\" id=\"f_121387510_46753\" dropzone=\"copy move\"><div class=\"filename-col col-xs-6\"><input type=\"checkbox\" class=\"projectCheckbox\"><img class=\"sprite sprite_web s_web_page_white_text_32 icon\" alt=\"YAML Call.txt\" draggable=\"true\" src=\"/img/icon_spacer.gif\"><a href=\"/home/marks\" class=\"filename-link\" draggable=\"true\" hidefocus=\"hideFocus\" target=\"_self\">" + currentFile.fileName + "</a></div><div class=\"kind col-xs-3\"><span class=\"category\">document</span><span class=\"extension secondary\">" + currentFile.fileType + "</span></div><div class=\"modified col-xs-3\"><span class=\"modified-time\">" + currentFile.fileUpdate.updateDate + "</span></div><br class=\"clear\"></li>"
+		"<li class=\"browse-file\" data-identity=\"121387510_46753\" id=\"f_121387510_46753\" dropzone=\"copy move\"><div class=\"filename-col col-xs-6\"><input type=\"checkbox\" class=\"projectCheckbox\" id=\"file-" + currentFile.fileName + "\"><img class=\"sprite sprite_web s_web_page_white_text_32 icon\" alt=\"YAML Call.txt\" draggable=\"true\" src=\"/img/icon_spacer.gif\"><a href=\"/home/marks\" class=\"filename-link\" draggable=\"true\" hidefocus=\"hideFocus\" target=\"_self\">" + currentFile.fileName + "</a></div><div class=\"kind col-xs-2\"><span class=\"category\">document</span><span class=\"extension secondary\">" + currentFile.fileType + "</span></div><div class=\"modified col-xs-4\"><span class=\"modified-time\">" + currentFile.fileUpdate.updateDate + "</span></div><br class=\"clear\"></li>"
 	    );
 	}
 
@@ -48,12 +50,11 @@ enterFolder = function (element) {
 	//construct the project from the found folderData
 	var folderData = constructProject();
 	
-
 };
 
 function constructBreadcrumbs (title, folderData) {
     //Adjust the breadcrumbs
-    title.html(title.html() + "/" +  "<span class='headerLink' id='header-" + folderData.vartype + "'>" + folderData.folderName + "</span>");    
+    title.html(title.html() + "/" +  "<span class='headerLink' id='header-" + folderData.folderName + "'>" + folderData.folderName + "</span>");    
 };
 
 getFolderData = function(folderData){
@@ -71,52 +72,54 @@ getFolderData = function(folderData){
 };
 
 
-createFolder = function(name, vartype, folderCreation, folderUpdate){
+createFolder = function(name, folderCreation, folderUpdate){
+    console.log(folderCreation);
     if(typeof folderCreation === 'undefined'){
 	folderCreation = createFolderCreation();
     }
     if(typeof folderUpdate === 'undefined'){
 	folderUpdate = createFolderUpdate();
     }
+    
+    
     return {
-	folderCreation : folderCreation,
-	folderUpdate : folderUpdate,
-	folderName : name,
-	vartype : vartype,
-	files : {},
-	folders : {}
+    	folderCreation : folderCreation,
+    	folderUpdate : folderUpdate,
+    	folderName : name,
+    	files : {},
+    	folders : {}
     };
 };
 
 createFile = function(name, type, fileCreation, fileUpdate){
-     if(typeof folderCreation === 'undefined'){
-	folderCreation = createFolderCreation();
+     if(typeof fileCreation === 'undefined'){
+	   fileCreation = createFolderCreation();
     }
-    if(typeof folderUpdate === 'undefined'){
-	folderUpdate = createFolderUpdate();
+    if(typeof fileUpdate === 'undefined'){
+	   fileUpdate = createFolderUpdate();
     }
     return {
-	fileCreation : fileCreation,
-	fileUpdate : fileUpdate,
-	fileName : name,
-	fileType : type
+    	fileCreation : fileCreation,
+    	fileUpdate : fileUpdate,
+    	fileName : name,
+    	fileType : type
     };
 };
 
 createFolderCreation = function(){
     var folderCreation = {
-	createdByAuthorID : Meteor.user()._id,
-	createdByAuthorName : Meteor.user().profile.name,
-	createdDate : new Date()
+    	createdByAuthorID : Meteor.user()._id,
+    	createdByAuthorName : Meteor.user().profile.name,
+    	createdDate : new Date()
     };
     return folderCreation;
 };
 
 createFolderUpdate = function(){
     var folderUpdate = {
-	updateDate : new Date(),
-	updateAuthorID : Meteor.user()._id,
-	updateAuthorName : Meteor.user().profile.name
+    	updateDate : new Date(),
+    	updateAuthorID : Meteor.user()._id,
+    	updateAuthorName : Meteor.user().profile.name
     };
     return folderUpdate;
 };

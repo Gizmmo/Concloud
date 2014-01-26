@@ -2,17 +2,17 @@
   <li class="browse-file" data-identity="121387510_46753" id="f_121387510_46753" dropzone="copy move">
 
     <div class="filename-col col-xs-6">
-      <input type="checkbox" class="projectCheckbox">
+      <input type="checkbox" class="projectCheckbox" id="file-{{proData.fileName}}">
       <img class="sprite sprite_web s_web_page_white_text_32 icon" alt="YAML Call.txt" draggable="true" src="/img/icon_spacer.gif">
       <a href="/home/marks" class="filename-link" draggable="true" hidefocus="hideFocus" target="_self">{{proData.fileName}}</a> 
     </div>
 
-    <div class="kind col-xs-3"> 
+    <div class="kind col-xs-2"> 
       <span class="category">document</span> 
       <span class="extension secondary">{{proData.fileType}}</span> 
     </div>
 
-    <div class="modified col-xs-3"> 
+    <div class="modified col-xs-4"> 
       <span class="modified-time">{{proData.fileUpdate.updateDate}}</span>
 
     </div>

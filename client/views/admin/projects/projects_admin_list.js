@@ -39,20 +39,9 @@ Template.projectsAdminList.events({
 	        var safety = createFolder("Safety", folderCreation, folderUpdate);
 	        var shopDrawings = createFolder("Shop Drawings", folderCreation, folderUpdate);
 	        var subtrades = createFolder("Subtrades", folderCreation, folderUpdate);
-
-	        var update = createFile("Update", "txt", folderCreation, folderUpdate);
-	        var receipt = createFile("Receipt", "txt", folderCreation, folderUpdate);
-
 	        var inChange = createFolder("inChange", folderCreation, folderUpdate);
-	        var updateChange = createFile("Update Change", "txt", folderCreation, folderUpdate);
-	       
-	        changeOrders.files = {
-		    'Update Change' : updateChange,
-		    Update: update,
-		    Receipt: receipt
-		};
 
-	        changeOrders.folders = {inChange : inChange};
+
 
 	       
 

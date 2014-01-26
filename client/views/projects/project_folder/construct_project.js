@@ -83,43 +83,43 @@ createFolder = function(name, folderCreation, folderUpdate){
     
     
     return {
-	folderCreation : folderCreation,
-	folderUpdate : folderUpdate,
-	folderName : name,
-	files : {},
-	folders : {}
+    	folderCreation : folderCreation,
+    	folderUpdate : folderUpdate,
+    	folderName : name,
+    	files : {},
+    	folders : {}
     };
 };
 
 createFile = function(name, type, fileCreation, fileUpdate){
-     if(typeof folderCreation === 'undefined'){
-	folderCreation = createFolderCreation();
+     if(typeof fileCreation === 'undefined'){
+	   fileCreation = createFolderCreation();
     }
-    if(typeof folderUpdate === 'undefined'){
-	folderUpdate = createFolderUpdate();
+    if(typeof fileUpdate === 'undefined'){
+	   fileUpdate = createFolderUpdate();
     }
     return {
-	fileCreation : fileCreation,
-	fileUpdate : fileUpdate,
-	fileName : name,
-	fileType : type
+    	fileCreation : fileCreation,
+    	fileUpdate : fileUpdate,
+    	fileName : name,
+    	fileType : type
     };
 };
 
 createFolderCreation = function(){
     var folderCreation = {
-	createdByAuthorID : Meteor.user()._id,
-	createdByAuthorName : Meteor.user().profile.name,
-	createdDate : new Date()
+    	createdByAuthorID : Meteor.user()._id,
+    	createdByAuthorName : Meteor.user().profile.name,
+    	createdDate : new Date()
     };
     return folderCreation;
 };
 
 createFolderUpdate = function(){
     var folderUpdate = {
-	updateDate : new Date(),
-	updateAuthorID : Meteor.user()._id,
-	updateAuthorName : Meteor.user().profile.name
+    	updateDate : new Date(),
+    	updateAuthorID : Meteor.user()._id,
+    	updateAuthorName : Meteor.user().profile.name
     };
     return folderUpdate;
 };

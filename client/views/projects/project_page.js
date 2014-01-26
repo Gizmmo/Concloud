@@ -34,12 +34,21 @@ Template.projectPage.events({
 
 	 },
 
+	 /**
+	  * Upload file to Smart file and to our database
+	  * @param  {[type]} e        event returned
+	  * @param  {[type]} template Parameter of the used template
+	  */
 	 'click #smartfile': function (e, template) {
 	 	e.preventDefault();
 	 	var file = template.find('#upload').files[0];
-
+	 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
+		console.log("Directory " + getDirectoryFromStack(projectData));	 
 	 	if(folderStack.length > 0){
-	 		sf.upload(file,
+	 		sf.upload(file, {
+	 			file: file.name,
+	 			path : getDirectoryFromStack(projectData)
+	 		},
 
 	 			function (err, res){
 	 				if (err) {
@@ -47,7 +56,7 @@ Template.projectPage.events({
 	 					return;
 	 				}
 
-	 				var projectData = Projects.findOne({_id: Session.get("currentProject")});
+	 				
 	 				var folderData = getFolderData(projectData);
 
 				    //Find the document type by splitting on the .
@@ -180,6 +189,7 @@ Template.projectPage.helpers({
 
 Template.projectPage.created = function() {
 	folderStack = []; 
+
 };
 
 Template.projectPage.rendered = function() {
@@ -199,6 +209,22 @@ addToFolderStack = function(name){
 	console.log(folderStack);
 };
 
+getDirectoryFromStack = function(projectData){
+	
+	if(typeof projectData === 'undefined'){
+		projectData = Projects.findOne({_id: Session.get("currentProject")});
+	}
+
+	var directory = projectData.title;
+	for (var i = 0; i < folderStack.length; i++) {
+		var hold = folderStack[i].replace(/\s/g, "%20");
+		directory += "/" + hold;
+
+	};
+
+	return directory;
+}
+
 topOfFolderStack = function(){
 	return folderStack(folderStack.length).folderName;
 };
@@ -213,7 +239,7 @@ getFolderStack = function() {
 };
 
 function deleteFolder(folderName){
-	var projectData = Projects.findOne({_id: Session.get("currentProject")});
+	var projectData = Projects.findOne({_id: Session.get("currentProject")});	
 	var folderData = getFolderData(projectData);
 	delete folderData.folders[folderName];
 	console.log("folder data before update : " + projectData.folders);

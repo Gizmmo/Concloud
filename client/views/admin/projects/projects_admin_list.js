@@ -21,6 +21,11 @@ Template.projectsAdminList.events({
 				//This will stop the default submitting of the form
 		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
 	    
+	    	Meteor.call('createNewProjectDirectories', $('#create-title').val(), function (error, result) {
+	    		if(error)
+	    			console.log(error);
+	    	});
+
 	        var folderUpdate = createFolderUpdate();
 	        var folderCreation = createFolderCreation();
 	        var changeOrders = createFolder("Change Orders",  folderCreation, folderUpdate);
@@ -39,8 +44,6 @@ Template.projectsAdminList.events({
 	        var safety = createFolder("Safety", folderCreation, folderUpdate);
 	        var shopDrawings = createFolder("Shop Drawings", folderCreation, folderUpdate);
 	        var subtrades = createFolder("Subtrades", folderCreation, folderUpdate);
-	        var inChange = createFolder("inChange", folderCreation, folderUpdate);
-
 
 
 	       

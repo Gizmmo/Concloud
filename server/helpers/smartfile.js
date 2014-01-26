@@ -35,30 +35,35 @@ Meteor.methods({
 			var url = httpResponse.data.url;
 			console.log(url);
 			return url;
-		// 	auth: key+":"+password,
-		// 	data : {
-		// 	path: "Questions for Concord.doc",
-		// 	mode: "r",
-		// 	expires: "20",
-		// },
-			
-		// 	redirect : "http://www.cnn.com",
-		// 	fetch: "Questions for Concord.doc",
-		
-		// }, function(){
 
-		// 	console.log("Completed Post");
-		// });
-		// console.log(httpResponse.data);
 		}catch(e){
 			console.log(e.message);
 		}
 
 	},
 
-	downloadFile : function(fileName, window) {
-		
-		return "https://file.ac/CSB6GqDSJvM/" + fileName + "?download=true";
+	/**
+	 * Create the inital Project directory in smart file
+	 * @param  {[String]} projectName Project Name, used for creation in smart file
+	 */
+	createNewProjectDirectories : function(projectName) {
+		sf.mkdir(projectName);
+		sf.mkdir(projectName + "/Change Orders");
+		sf.mkdir(projectName + "/Consultant");
+		sf.mkdir(projectName + "/Contracts and PO's");
+		sf.mkdir(projectName + "/Daily Log's");
+		sf.mkdir(projectName + "/Drawings");
+		sf.mkdir(projectName + "/Estimates");
+		sf.mkdir(projectName + "/Inspections, Reports & Tests");
+		sf.mkdir(projectName + "/Legal, Civic & Utility");
+		sf.mkdir(projectName + "/Minutes of Meetings");
+		sf.mkdir(projectName + "/Owner");
+		sf.mkdir(projectName + "/PCN's");
+		sf.mkdir(projectName + "/Pictures");
+		sf.mkdir(projectName + "/Preliminary");
+		sf.mkdir(projectName + "/Safety");
+		sf.mkdir(projectName + "/Shop Drawings");
+		sf.mkdir(projectName + "/Subtrades");
 	},
 
 	createDirectory : function (name) {

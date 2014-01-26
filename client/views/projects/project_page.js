@@ -43,11 +43,11 @@ Template.projectPage.events({
 	 	e.preventDefault();
 	 	var file = template.find('#upload').files[0];
 	 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
-		console.log("Directory " + getDirectoryFromStack(projectData));	 
+		console.log("Directory " + getDirectoryFromStack(projectData, true));	 
 	 	if(folderStack.length > 0){
 	 		sf.upload(file, {
 	 			file: file.name,
-	 			path : getDirectoryFromStack(projectData)
+	 			path : getDirectoryFromStack(projectData, true)
 	 		},
 
 	 			function (err, res){
@@ -154,7 +154,9 @@ Template.projectPage.events({
 					var folderData = getFolderData(projectData);
 					var fileType = folderData.files[itemName].fileType;
 
-					Meteor.call('exchangeSmartFiles', itemName + "." + fileType, function (error, result) {
+					var directory = getDirectoryFromStack(projectData, false) + itemName + "." + fileType;
+
+					Meteor.call('exchangeSmartFiles', directory, function (error, result) {
 						if(error){
 							console.log(error);
 						}else{
@@ -209,16 +211,22 @@ addToFolderStack = function(name){
 	console.log(folderStack);
 };
 
-getDirectoryFromStack = function(projectData){
+getDirectoryFromStack = function(projectData, fillSpaces){
 	
 	if(typeof projectData === 'undefined'){
 		projectData = Projects.findOne({_id: Session.get("currentProject")});
 	}
 
-	var directory = projectData.title;
+	var directory = projectData.title + "/";
 	for (var i = 0; i < folderStack.length; i++) {
-		var hold = folderStack[i].replace(/\s/g, "%20");
-		directory += "/" + hold;
+		var hold = "";
+		if(fillSpaces){
+			hold = folderStack[i].replace(/\s/g, "%20");
+		}else{
+			hold = folderStack[i];
+		}
+		
+		directory += hold + "/"
 
 	};
 

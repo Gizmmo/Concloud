@@ -133,7 +133,10 @@ Template.projectPage.events({
 			var projectData = Projects.findOne({_id: Session.get("currentProject")});
 			var folderData = getFolderData(projectData);
 			folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
-			console.log(projectData);
+			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
+				if(error)
+					console.log(error);
+			});
 			Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
 		}
 	},

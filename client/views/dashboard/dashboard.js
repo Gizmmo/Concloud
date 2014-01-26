@@ -1,3 +1,13 @@
+function createProject(project, rank){
+			project.description =  "This project has been recently updated.";
+			project.name = project.title;
+			project.submitted = project.recentUpdate.updateDate;
+			project.author = project.recentUpdate.updateAuthorName;
+			project.projectId = project._id;
+			project._rank = rank;
+			return project;
+}
+
 Template.dashboard.helpers({
 	/**
 	 * This will cycle through all collections that can be
@@ -7,29 +17,24 @@ Template.dashboard.helpers({
 	 */
 	entry: function () {
 		var user = Meteor.user();
-		var subs = Subscriptions.find({userID: user._id});
 		var ids = [];
-		subs.forEach(function (post) {
-			ids.push(post.projectID);
-		});
-		var TWELVE_HOURS = new Date() + 12* 60 * 60 * 1000; /* ms */
-		var allProjects = new Meteor.Collection(null);
-		var projects = Projects.find({}, {sort: {"recentUpdate.updateDate" : -1}}).fetch();
+		if(Meteor.user().profile.userGroup == "Admin"){
+			var projs = Projects.find();
+			projs.forEach(function (post) {
+				ids.push(post._id);
+			});
+		}else {
+			var subs = Subscriptions.find({userID: user._id});
+			subs.forEach(function (post) {
+				ids.push(post.projectID);
+			});
+		}
 
 		var i = 0;
 
 		var options = {sort: {"recentUpdate.updateDate" : -1}};
-		return Projects.find({$or : [{submitted: {$lte : TWELVE_HOURS}}, {_id : { $in: ids}}]}, options).map(function(project) {
-			if(ids.indexOf(project._id) === -1){
-				project.description = "This is a new project that has just been made.  Perhaps you would like to subscribe to it?";
-			} else {
-				project.description =  "This project has been recently updated.";
-			}
-			project.name = project.title;
-			project.submitted = project.recentUpdate.updateDate;
-			project.author = project.recentUpdate.updateAuthorName;
-			project.projectId = project._id;
-			project._rank = i;
+		return Projects.find({_id : { $in: ids}}, options).map(function(project) {
+			project = createProject(project, i);
 			i += 1;
 			return project;
 		});

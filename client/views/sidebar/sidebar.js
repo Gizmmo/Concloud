@@ -24,5 +24,13 @@ Template.menu.events({
 		$('#sign-confirm-password').val("");
 		$("#incorrect-label").text("");
 		$("#not-match-label").text("");
+		closeTips();
+	},
+	'click': function () {
+		closeTips();
 	}
 });
+
+function closeTips() {
+		$('.ui-tooltip').remove();
+}

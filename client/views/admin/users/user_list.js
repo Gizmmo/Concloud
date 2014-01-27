@@ -31,12 +31,13 @@ Template.userList.helpers({
 	});
 
 function updateEmpRemove(searchString){
+	searchString = searchString.toLowerCase();
 	masterEmps.find({}).forEach(function (employee) {
 		if(searchString.length > 0){
 			searchStrings = searchString.split(" ");
 			var found = false;
 			for (var i = 0; i < searchStrings.length; i++) {
-				if(employee.profile.firstName.indexOf(searchStrings[i] ) != -1 || employee.profile.lastName.indexOf(searchStrings[i] ) != -1)
+				if(employee.profile.firstName.toLowerCase().indexOf(searchStrings[i] ) != -1 || employee.profile.lastName.toLowerCase().indexOf(searchStrings[i] ) != -1)
 					found = true;
 			}
 
@@ -49,9 +50,10 @@ function updateEmpRemove(searchString){
 }
 
 function updateEmpAdd(searchString){
+	searchString = searchString.toLowerCase();
 	masterEmps.find({}).forEach(function (employee){
 		if(!(workingEmps.findOne({"_id" : employee._id}))){
-			if(employee.profile.firstName.indexOf(searchString) != -1 || employee.profile.lastName.indexOf(searchString) != -1){
+			if(employee.profile.firstName.toLowerCase().indexOf(searchString) != -1 || employee.profile.lastName.toLowerCase().indexOf(searchString) != -1){
 				workingEmps.insert(employee);
 			}
 		}

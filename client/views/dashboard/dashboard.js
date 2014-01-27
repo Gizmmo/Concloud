@@ -69,6 +69,7 @@ Template.dashboard.helpers({
 	},
 
 	lastProjectID : function() {
+		console.log(Meteor.user().profile.recent.lastProjectID)
 		return Meteor.user().profile.recent.lastProjectID;
 	},
 

@@ -12,7 +12,15 @@ $("[rel='tooltip']").tooltip();
 
 Template.menu.helpers({
 	projects: function () {
-		return Subscriptions.find({userID:Meteor.user()._id}, {sort:{ created_at : -1}, limit: 5});
+		var returnProjs = new Meteor.Collection(null);
+		subs = Subscriptions.find({userID:Meteor.user()._id});
+
+		subs.forEach(function (sub) {
+			var proj = Projects.findOne({"_id": sub.projectID});
+			returnProjs.insert(proj);
+		});
+
+		return returnProjs.find({}, {sort: {"recentUpdate.updateDate" : -1}, limit: 5});
 	}
 });
 

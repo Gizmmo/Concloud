@@ -116,7 +116,7 @@ Template.projectAdminPage.created = function () {
 
 	searchFieldLength = 0;
 	searchClientFieldLength = 0;
-	employees = Meteor.users.find({"profile.userGroup" : "Employee"});
+	employees = Meteor.users.find({$or: [{"profile.userGroup" : "Employee"}, {"profile.userGroup" : "Admin"}, {"profile.userGroup" : "Office Manager"}]});
 	clients = Meteor.users.find({"profile.userGroup" : "Client"});
 	projectID = this.data._id;
 	
@@ -170,14 +170,14 @@ Template.projectAdminPage.rendered = function() {
  	  	remove: function( event, ui ) {
   			current = $(ui.item);
   			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.userGroup" : "Employee"}, {"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
+  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
   			projectEmployees.remove(removedEmployee._id);
   		},
 
 		receive: function( event, ui ) {
   			current = $(ui.item);
   			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.userGroup" : "Employee"}, {"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
+  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
   			sub = {
   				userID: removedEmployee._id,
   				projectID: projectID,
@@ -200,7 +200,7 @@ Template.projectAdminPage.rendered = function() {
   		remove: function( event, ui ) {
   			current = $(ui.item);
   			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.userGroup" : "Employee"}, {"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
+  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
   			masterEmployees.remove(removedEmployee._id);
   			workingEmployees.remove(removedEmployee._id);
   		},
@@ -208,7 +208,7 @@ Template.projectAdminPage.rendered = function() {
 		receive: function( event, ui ) {
   			current = $(ui.item);
   			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.userGroup" : "Employee"}, {"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
+  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
   			sub = {
   				userID: removedEmployee._id,
   				projectID: projectID

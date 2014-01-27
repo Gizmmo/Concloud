@@ -12,7 +12,7 @@ Template.userList.helpers({
 	 users: function() {
 	 	masterEmps = new Meteor.Collection(null);
 	 	var employees = Meteor.users.find({});
-	 	
+
 	 	employees.forEach(function (employee){
 	 		masterEmps.insert(employee);
 	 	});
@@ -88,6 +88,9 @@ Template.userList.events({
 	 	} else{
 	 		$("#last-worked-label").text("None");
 	 	}
+	 	$("#hr-email").text(this.profile.email);
+	 	$("#sick-days").val(this.profile.hr.sickDays);
+	 	$("#vacation-days").val(this.profile.hr.vacationDays);
 	 	clickedID = this._id;
 	 },
 	 'click #delbtn' : function () {
@@ -124,7 +127,7 @@ Template.userList.events({
 	 		$( ".b-user-item" ).removeClass( "badger-info badger-left badger-danger" ).addClass( "badger-warning badger-left" );
 	 		var boxes = $( ".b-user-item" );
 	 		for(var i = 0; i < boxes.length; i++){
-	 			$(boxes[i]).attr("data-target", "");
+	 			$(boxes[i]).attr("data-target", "#hrData");
 	 			userID = $(boxes[i]).attr("id");
 	 			tempUser = Meteor.users.findOne({"_id":userID});
 	 			$('i').remove('#close-x');
@@ -135,7 +138,7 @@ Template.userList.events({
 	 				'<span class = "my-title"> Sick Days: </span>'+tempUser.profile.hr.sickDays+'<br>'+
 	 				'<span class = "my-title">Vacation Days: </span>'+tempUser.profile.hr.vacationDays+
 	 				'</div>');
-	 			
+
 	 		}
 			//data-target="#updateData
 		} else{
@@ -159,6 +162,14 @@ Template.userList.events({
 		Meteor.users.update({_id: clickedID}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
 		masterEmps.update({_id: clickedID}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
 		workingEmps.update({_id: clickedID}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
+	},
+
+	'click #hr-update-btn': function () {
+		var sickDays = $("#sick-days").val();
+		var vacationDays = $("#vacation-days").val();
+		Meteor.users.update({_id: clickedID}, {$set:{"profile.hr.sickDays": sickDays, "profile.hr.vacationDays": vacationDays,}});
+		masterEmps.update({_id: clickedID}, {$set:{"profile.hr.sickDays": sickDays, "profile.hr.vacationDays": vacationDays,}});
+		workingEmps.update({_id: clickedID}, {$set:{"profile.hr.sickDays": sickDays, "profile.hr.vacationDays": vacationDays,}});
 	},
 		/**
 	 * Creates a projects and inserts it in the project collection

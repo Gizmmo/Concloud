@@ -132,12 +132,17 @@ Template.projectPage.events({
 	if(folderTitle != 'undefined'){
 	    var projectData = Projects.findOne({_id: Session.get("currentProject")});
 	    var folderData = getFolderData(projectData);
-	    folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
-	    Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
-		if(error)
-		    console.log(error);
-	    });
-	    Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+	    if(!(folderTitle in folderData.folders)){
+		console.log("Inside create folder");
+		folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
+		Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
+		    if(error)
+			console.log(error);
+		});
+		Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+	    }else{
+		alert("This folder already existed, and make a nicer error!");
+	    }
 	}
     },
 

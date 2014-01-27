@@ -173,10 +173,11 @@ Template.projectsAdminList.helpers({
 		var projects = Projects.find({});
 	
 		projects.forEach(function (project){
+			project.rank = 0;
 			masterProjects.insert(project);
 		});
 
-		return workingProjects.find({}, {sort : {"title" : 1}});
+		return workingProjects.find({}, {sort : {"rank" : -1, "title" : 1}});
 	}
 });
 
@@ -211,19 +212,31 @@ Template.projectsAdminList.created = function () {
 	projects = Projects.find({});
 	
 	projects.forEach(function (project){
+		project.rank = 0;
 		workingProjects.insert(project);
 		masterProjects.insert(project);
 	});
 };
 
 function updateProjRemove(searchString){
+	searchString = searchString.toLowerCase();
 	masterProjects.find({}).forEach(function (project) {
+		workingProjects.update({"_id": project._id}, {$set: {"rank" : 0}});
 		if(searchString.length > 0){
 			searchStrings = searchString.split(" ");
+			var numInc = project.rank;
 			var found = false;
 			for (var i = 0; i < searchStrings.length; i++) {
-				if(project.title.indexOf(searchStrings[i] ) != -1 || project.description.indexOf(searchStrings[i] ) != -1)
-				found = true;
+				if(project.title.toLowerCase().indexOf(searchStrings[i] ) != -1){
+					found = true;
+					numInc+=5;
+					workingProjects.update({"_id": project._id}, {$set: {"rank" : numInc}});
+				}
+				if(project.description.toLowerCase().indexOf(searchStrings[i] ) != -1){
+					found = true;
+					numInc++;
+					workingProjects.update({"_id": project._id}, {$set: {"rank" : numInc}});
+				}
 			}
 
 			if(!found){
@@ -235,12 +248,14 @@ function updateProjRemove(searchString){
 }
 
 function updateProjAdd(searchString){
+	searchString = searchString.toLowerCase();
 	masterProjects.find({}).forEach(function (project){
 		if(!(workingProjects.findOne({"_id" : project._id}))){
 			if(project.title.indexOf(searchString) != -1 || project.description.indexOf(searchString) != -1){
 				workingProjects.insert(project);
 			}
 		}
+		updateProjRemove(searchString);
 	});
 }
 

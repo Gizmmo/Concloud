@@ -26,5 +26,10 @@ Template.userItem.events({
 	    $(".b-user-item").attr("data-target", "");
 	    workingEmps.remove({_id: this._id});
 	    Meteor.users.remove({_id: this._id});
-  },
+  }
 });
+
+Template.userItem.rendered = function () {
+	$("#hrbtn").click(function(){
+	});
+}

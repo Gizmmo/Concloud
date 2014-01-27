@@ -142,7 +142,7 @@ Template.projectPage.events({
 		Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
 		Meteor.call('createProjectNotification', projectData, function (error, result) {});
 	    }else{
-		alert("This folder already existed, and make a nicer error!");
+		 throwError("This folder already existed, please create a new folder name.");
 	    }
 	}
     },

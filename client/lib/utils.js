@@ -1,7 +1,11 @@
 formatDate = function(data) {
-	var date = new Date(data);
-	var month = date.getMonth() + 1;
-	return date.getDate() + "/" + month + "/" + date.getFullYear();
+        var now = moment();
+        var passedDate = moment(data);
+        if(now.diff(passedDate, 'days')<8){
+	    return moment(data).fromNow();
+	}
+	return moment(data).format("MMMM Do, YYYY");
+
 };
 
 capitalizeFirstLetter = function(string){

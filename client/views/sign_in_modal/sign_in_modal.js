@@ -122,8 +122,10 @@ Template.signInModal.events({
 						$("#incorrect-log-label").text("Incorrect Username or Password");
 					} else{
 						//Fill In LogIn Code
-						Router.go('dashboard');
-						$('#myModal').modal('hide');
+					    $('#myModal').modal('hide');
+					    $('body').css("height", "auto");
+					    Router.go('dashboard');
+						
 					}
 				});
 			}else{

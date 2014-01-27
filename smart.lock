@@ -10,7 +10,8 @@
       "iron-router": {},
       "smartfile": {},
       "jquery-ui": {},
-      "jquery-ui-bootstrap": {}
+      "jquery-ui-bootstrap": {},
+      "moment": {}
     },
     "packages": {
       "bootstrap-3": {
@@ -57,6 +58,11 @@
         "git": "https://github.com/TimHeckel/meteor-jquery-ui-bootstrap.git",
         "tag": "v0.1.2",
         "commit": "fa742a85639307003e105898e15b631394b63509"
+      },
+      "moment": {
+        "git": "https://github.com/acreeger/meteor-moment.git",
+        "tag": "v2.5.1",
+        "commit": "8c9bc5d3fc96705057737cb9743d555417f6e551"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

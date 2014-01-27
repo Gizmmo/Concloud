@@ -25,10 +25,8 @@ Template.projectsList.events({
 	'keyup' : function () {
 		var searchProjString = $("#search-proj-admin-field").val();
 		
-		if(searchProjString.length > searchProjFieldLength){
+		if(searchProjString.length != searchProjFieldLength){
 			updateProjRemove(searchProjString);
-		} else if (searchProjString.length < searchProjFieldLength){
-			updateProjAdd(searchProjString);
 		}
 		searchProjFieldLength = searchProjString.length;
 		
@@ -53,12 +51,17 @@ Template.projectsList.created = function () {
 function updateProjRemove(searchString){
 	searchString = searchString.toLowerCase();
 	masterProjects.find({}).forEach(function (project) {
-		workingProjects.update({"_id": project._id}, {$set: {"rank" : 0}});
+		masterProjects.update({"_id": project._id}, {$set: {"rank" : 0}});
 		if(searchString.length > 0){
-			searchStrings = searchString.split(" ");
+			searchStrings = searchString.trim().split(" ");
 			var numInc = project.rank;
 			var found = false;
 			for (var i = 0; i < searchStrings.length; i++) {
+				if(!(workingProjects.findOne({"_id" : project._id}))){
+					if(project.title.toLowerCase().indexOf(searchStrings[i]) != -1 || project.description.toLowerCase().indexOf(searchStrings[i]) != -1){
+						workingProjects.insert(project);
+					}
+				}
 				if(project.title.toLowerCase().indexOf(searchStrings[i] ) != -1){
 					found = true;
 					numInc+=5;
@@ -75,18 +78,12 @@ function updateProjRemove(searchString){
 				workingProjects.remove(project._id)
 			}else {
 			}
+		} else {
+			masterProjects.find({}).forEach(function (project) {
+				if(!(workingProjects.findOne({"_id" : project._id}))){
+					workingProjects.insert(project);
+				}
+			});
 		}
-	});
-}
-
-function updateProjAdd(searchString){
-	searchString = searchString.toLowerCase();
-	masterProjects.find({}).forEach(function (project){
-		if(!(workingProjects.findOne({"_id" : project._id}))){
-			if(project.title.indexOf(searchString) != -1 || project.description.indexOf(searchString) != -1){
-				workingProjects.insert(project);
-			}
-		}
-		updateProjRemove(searchString);
 	});
 }

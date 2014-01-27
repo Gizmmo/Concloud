@@ -37,10 +37,15 @@ function updateEmpRemove(searchString){
 	masterEmps.find({}).forEach(function (employee) {
 		workingEmps.update({"_id": employee._id}, {$set: {"rank" : 0}});
 		if(searchString.length > 0){
-			searchStrings = searchString.split(" ");
+			searchStrings = searchString.trim().split(" ");
 			var numInc = employee.rank;
 			var found = false;
 			for (var i = 0; i < searchStrings.length; i++) {
+				if(!(workingEmps.findOne({"_id" : employee._id}))){
+					if(employee.profile.firstName.toLowerCase().indexOf(searchStrings[i]) != -1 || employee.profile.lastName.toLowerCase().indexOf(searchStrings[i]) != -1){
+						workingEmps.insert(employee);
+					}
+				}
 				if(employee.profile.firstName.toLowerCase().indexOf(searchStrings[i] ) != -1){
 					found = true;
 					numInc++;
@@ -48,28 +53,23 @@ function updateEmpRemove(searchString){
 				}
 				if(employee.profile.lastName.toLowerCase().indexOf(searchStrings[i] ) != -1){
 					found = true;
-					numInc++;
+					numInc+=3;
 					workingEmps.update({"_id": employee._id}, {$set: {"rank" : numInc}});
 				}
 			}
 
 			if(!found){
-				workingEmps.remove(employee._id)
+				workingEmps.remove(employee._id);
 			}else {
+				
 			}
+		} else {
+			masterEmps.find({}).forEach(function (employee) {
+				if(!(workingEmps.findOne({"_id" : employee._id}))){
+					workingEmps.insert(employee);
+				}
+			});
 		}
-	});
-}
-
-function updateEmpAdd(searchString){
-	searchString = searchString.toLowerCase();
-	masterEmps.find({}).forEach(function (employee){
-		if(!(workingEmps.findOne({"_id" : employee._id}))){
-			if(employee.profile.firstName.toLowerCase().indexOf(searchString) != -1 || employee.profile.lastName.toLowerCase().indexOf(searchString) != -1){
-				workingEmps.insert(employee);
-			}
-		}
-		updateEmpRemove(searchString);
 	});
 }
 
@@ -77,10 +77,8 @@ Template.userList.events({
 	'keyup' : function () {
 		searchEmpString = $("#search-emp-field").val();
 		
-		if(searchEmpString.length > searchEmpFieldLength){
+		if(searchEmpString.length != searchEmpFieldLength){
 			updateEmpRemove(searchEmpString);
-		} else if (searchEmpString.length < searchEmpFieldLength){
-			updateEmpAdd(searchEmpString);
 		}
 		searchEmpFieldLength = searchEmpString.length;
 		

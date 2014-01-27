@@ -14,9 +14,11 @@ Template.userList.helpers({
 	 	var employees = Meteor.users.find({});
 
 	 	employees.forEach(function (employee){
+	 		employee.rank = 0;
 	 		masterEmps.insert(employee);
 	 	});
-	 	return workingEmps.find({}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
+
+	 	return workingEmps.find({}, {sort : {"rank" : -1, "profile.lastName" : 1, "profile.firstName" : 1}});
 	 },
 
 	 convertedTime: function () {
@@ -33,12 +35,22 @@ Template.userList.helpers({
 function updateEmpRemove(searchString){
 	searchString = searchString.toLowerCase();
 	masterEmps.find({}).forEach(function (employee) {
+		workingEmps.update({"_id": employee._id}, {$set: {"rank" : 0}});
 		if(searchString.length > 0){
 			searchStrings = searchString.split(" ");
+			var numInc = employee.rank;
 			var found = false;
 			for (var i = 0; i < searchStrings.length; i++) {
-				if(employee.profile.firstName.toLowerCase().indexOf(searchStrings[i] ) != -1 || employee.profile.lastName.toLowerCase().indexOf(searchStrings[i] ) != -1)
+				if(employee.profile.firstName.toLowerCase().indexOf(searchStrings[i] ) != -1){
 					found = true;
+					numInc++;
+					workingEmps.update({"_id": employee._id}, {$set: {"rank" : numInc}});
+				}
+				if(employee.profile.lastName.toLowerCase().indexOf(searchStrings[i] ) != -1){
+					found = true;
+					numInc++;
+					workingEmps.update({"_id": employee._id}, {$set: {"rank" : numInc}});
+				}
 			}
 
 			if(!found){
@@ -57,6 +69,7 @@ function updateEmpAdd(searchString){
 				workingEmps.insert(employee);
 			}
 		}
+		updateEmpRemove(searchString);
 	});
 }
 
@@ -232,6 +245,7 @@ Template.userList.created = function () {
 	employees = Meteor.users.find({});
 	
 	employees.forEach(function (employee){
+		employee.rank = 0;
 		workingEmps.insert(employee);
 		masterEmps.insert(employee);
 	});

@@ -11,7 +11,7 @@ Template.splash.events({
 Template.splash.rendered = function () {
 	theme();
 	skrolling();
-	skrollr.init();
+	skrollr.init({forceHeight:false});
 
 	$('#effect').hide();
 

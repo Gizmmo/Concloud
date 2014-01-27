@@ -7,6 +7,12 @@ Template.project_folder.events({
     }
 });
 
+Template.project_folder.helpers({
+   date : function(event){
+       return formatDate(this.proData.folderUpdate.updateDate);
+   }
+});
+
 
 
 

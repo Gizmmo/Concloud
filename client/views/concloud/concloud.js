@@ -1,5 +1,5 @@
 Template.concloud.rendered = function () {
-    $('body').removeAttr('style');
+   
 	jqueryui();
   metroNotifications();
 
@@ -15,4 +15,6 @@ Template.concloud.rendered = function () {
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(wf, s);
   })(); 
+     $('body').removeAttr('style');
+    
 };

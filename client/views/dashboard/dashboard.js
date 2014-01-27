@@ -40,6 +40,10 @@ Template.dashboard.helpers({
 		});
 	},
 
+        removeHeight : function() {
+	    $('body').css('height', "auto");
+	},
+
 	userName : function() {
 		return Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName ;
 	},
@@ -90,5 +94,10 @@ Template.dashboard.helpers({
 
 });
 
-
+Template.dashboard.created = function() {
+  $('body').removeClass("modal-open");  
+  $('body').height('auto');
+  console.log("check here");
+  console.log($('body'));
+};
 

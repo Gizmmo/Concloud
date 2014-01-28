@@ -430,6 +430,7 @@ li.browse-file, li.browse-new-folder {
  
  .ace-nav .fa{
  	font-size: 16px;
+	color: #FFF;
 	display: inline-block;
 	width: 20px;
 	text-align: center;

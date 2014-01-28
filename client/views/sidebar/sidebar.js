@@ -1,5 +1,6 @@
 Template.menu.rendered = function () {
 	
+metroNotifications();
 /**
  * Create Sidebar Menu
  */
@@ -36,6 +37,9 @@ Template.menu.events({
 	},
 	'click': function () {
 		closeTips();
+	},
+	'click #subbtn': function () {
+		Router.go('contractsList')
 	}
 });
 

@@ -18,7 +18,7 @@ Template.dashboard.helpers({
 	entry: function () {
 		var user = Meteor.user();
 		var ids = [];
-		if(Meteor.user().profile.userGroup == "Admin"){
+		if(Meteor.user().profile.userGroup == "Admin" || Meteor.user().profile.userGroup == "Office Manager"){
 			var projs = Projects.find();
 			projs.forEach(function (post) {
 				ids.push(post._id);

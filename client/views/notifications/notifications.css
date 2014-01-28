@@ -1,0 +1,22 @@
+.dropdown-header {
+	color: white;
+	background-color: black !important;
+}
+
+#notification-drop .no-hover:hover {
+	background-color: black !important;
+}
+
+#notification-drop {
+	width: 300px;
+}
+
+#readAll{
+	margin-top: 4%;
+	color: white;
+}
+
+#readAll:hover{
+	color: #1010ff;
+	cursor: pointer;
+}

@@ -1,0 +1,68 @@
+.plan_main 
+{
+	text-align: center;
+}
+
+
+.contract_header
+{
+	height: 40%;
+	top: 10%;
+}
+
+.contract_header > h1
+{
+	position: relative;
+	width: 70%;
+	left: 15%;
+	font-size: 40px;
+	background-color: #ffffff;
+    border: 2px solid transparent;
+}
+.contract_table
+{
+	text-align: center;
+	top: 10%;
+	left: 10%;
+	width: 80%;
+	position: relative;
+}
+
+.contract_row > td 
+{
+	width: 15%;
+	position: relative;
+	font-size: 16px;
+	
+	background-color: #ffffff;
+    border: 1px solid transparent;
+}
+.contract_cell_title
+{
+	 
+	color: #428bca;
+}
+.contract_cell_author
+{
+	 
+	color: #393939;
+}
+.contract_cell_date
+{
+ 
+	color: #AAAAAA;
+}
+.contract_cell_status
+{
+	 
+	color: green;
+}
+
+
+.contract_cell_header 
+{
+ 
+	color: black;
+	background-color: #f5f5f5;
+    
+}

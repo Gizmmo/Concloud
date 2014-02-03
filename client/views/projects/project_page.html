@@ -4,6 +4,7 @@
   <div class = "projectData col-xs-12">
     <div class="row no-margins">
       <h3 class="alignLeft" id="projectBreadcrumbs"><span class="headerLink" id="header-base">{{title}}</span></h3>
+      {{> errors}}
       <div id="browse-sort" class="clearfix">
 	<a id="name-sorter" data-sort="FILES_BY_NAME" class="sortable-column-header bolded col-xs-6" data-ascending="true" style="cursor: pointer;">
 	  <span style="cursor: pointer;">
@@ -40,8 +41,15 @@
 	      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 	      <h4 class="modal-title" id="myModalLabel">Upload</h4>
 	    </div>
+
+
 	    <div class="modal-body fileUpload">
-	      <input type="file" class="center" id="upload" name="upload"/>
+	    	<div class="form-group">
+		        <label id="sign-confirm-password-label" class="modalLabel">Confirm Password: </label>
+		          <div class="col-xs-12">
+	     			<input type="file" class="center col-xs-12 fileInput" id="upload" name="upload"/>
+	     		</div>
+	      	</div>
 	      
 	    </div>
 	    <div class="modal-footer">
@@ -63,10 +71,10 @@
 	    
 	    <div class="modal-body addFolder">
 	      <div class="form-group">
-		<label for="addFolderName" class="folderLabel">Folder Name</label>
-		<div class="col-xs-12">
-		<input type="text" class="folderName" id="addFolderName" name="addFolderName" placeholder="Enter the Folder Name"/>
-		</div>
+		    <label for="addFolderName" class="modalLabel">Folder Name</label>
+		    <div class="col-xs-12">
+		        <input type="text" class="folderName" id="addFolderName" name="addFolderName" placeholder="Enter the Folder Name"/>
+		    </div>
 	      </div>
 	    </div>
 	    <div class="modal-footer">

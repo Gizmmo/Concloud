@@ -1,8 +1,12 @@
 /* CSS declarations go here */
-@import '/fonts/fonts.css'
+@import '/fonts/fonts.css';
 
 .sidebar-collapse:before{
 	border-top: 0!important;
+}
+
+.modalLabel {
+    font-weight:bold!important;
 }
 
 .nav-search-icon {

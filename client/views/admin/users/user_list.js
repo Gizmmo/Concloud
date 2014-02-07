@@ -1,6 +1,4 @@
 var clickedID = null;
-masterEmps = new Meteor.Collection(null);
-workingEmps = new Meteor.Collection(null);
 onUserDelete = false;
 onUserHR = false;
 
@@ -10,15 +8,7 @@ Template.userList.helpers({
 	 * @return collection All projects in collection
 	 */
 	 users: function() {
-	 	masterEmps = new Meteor.Collection(null);
-	 	var employees = Meteor.users.find({});
-
-	 	employees.forEach(function (employee){
-	 		employee.rank = 0;
-	 		masterEmps.insert(employee);
-	 	});
-
-	 	return workingEmps.find({}, {sort : {"rank" : -1, "profile.lastName" : 1, "profile.firstName" : 1}});
+	 	return Meteor.users.find({}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
 	 },
 
 	 convertedTime: function () {
@@ -32,55 +22,38 @@ Template.userList.helpers({
 
 	});
 
-function updateEmpRemove(searchString){
-	searchString = searchString.toLowerCase();
-	masterEmps.find({}).forEach(function (employee) {
-		workingEmps.update({"_id": employee._id}, {$set: {"rank" : 0}});
-		if(searchString.length > 0){
-			searchStrings = searchString.trim().split(" ");
-			var numInc = employee.rank;
-			var found = false;
+function updateView(searchValue) {
+	if(searchValue == undefined || searchValue == null || searchValue == ""){
+		users = Meteor.users.find({});
+		users.forEach(function (user) {
+			$('#' + user._id).show();
+		});
+	}else {
+		users = Meteor.users.find({});
+		users.forEach(function (user) {
+			searchStrings = searchValue.trim().split(" ");
+			var found = true;
 			for (var i = 0; i < searchStrings.length; i++) {
-				if(!(workingEmps.findOne({"_id" : employee._id}))){
-					if(employee.profile.firstName.toLowerCase().indexOf(searchStrings[i]) != -1 || employee.profile.lastName.toLowerCase().indexOf(searchStrings[i]) != -1){
-						workingEmps.insert(employee);
-					}
-				}
-				if(employee.profile.firstName.toLowerCase().indexOf(searchStrings[i] ) != -1){
-					found = true;
-					numInc++;
-					workingEmps.update({"_id": employee._id}, {$set: {"rank" : numInc}});
-				}
-				if(employee.profile.lastName.toLowerCase().indexOf(searchStrings[i] ) != -1){
-					found = true;
-					numInc+=3;
-					workingEmps.update({"_id": employee._id}, {$set: {"rank" : numInc}});
+				if(user.profile.firstName.toLowerCase().indexOf(searchStrings[i].toLowerCase() ) === -1 && user.profile.lastName.toLowerCase().indexOf(searchStrings[i].toLowerCase() ) === -1){
+					found = false;
 				}
 			}
 
-			if(!found){
-				workingEmps.remove(employee._id);
-			}else {
-				
+			if(found){
+				$('#' + user._id).show();
 			}
-		} else {
-			masterEmps.find({}).forEach(function (employee) {
-				if(!(workingEmps.findOne({"_id" : employee._id}))){
-					workingEmps.insert(employee);
-				}
-			});
-		}
-	});
+
+			if(!found){
+				$('#' + user._id).hide();
+			}
+
+		});
+	}
 }
 
 Template.userList.events({
 	'keyup' : function () {
-		searchEmpString = $("#search-emp-field").val();
-		
-		if(searchEmpString.length != searchEmpFieldLength){
-			updateEmpRemove(searchEmpString);
-		}
-		searchEmpFieldLength = searchEmpString.length;
+		updateView($("#search-field").val());
 		
 	},
 	/**

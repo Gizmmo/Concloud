@@ -8,9 +8,12 @@
 			</div>
 			<div class ="above-content">
 				<a class="btn btn-primary emp-btn userBtn" href="{{pathFor 'projectsAdminList'}}">
-					<i class="fa fa-folder-open-o"></i> Manage Projects</a>
-
-				<a class="btn btn-success emp-btn userBtn" data-toggle="modal" data-target="#createData">
+					<i class="fa fa-folder-open-o"></i> Manage Projects
+				</a>
+				<a class="btn btn-success emp-btn conBtn" href="{{pathFor 'contractsAdminList'}}">
+					<i class="fa fa-tags"></i>  Manage Contracts
+				</a>
+				<a class="btn btn-default emp-btn userBtn" data-toggle="modal" data-target="#createData">
 					<i class="fa fa-pencil-square-o"></i> Create New User
 				</a>
 				<a class="btn btn-warning emp-btn userBtn" id="hrbtn">
@@ -51,27 +54,30 @@
 	    		</div>
 	    		<div class="modal-body">
 	    			<div class = "row">
-		      			<div class="control-group">
-			            	<div class="label-area col-xs-4">
-			                	<label id="first-name-label">First Name: </label> 
-		                		<textarea id="first-name" class="modal-text"></textarea> 
-		            		</div>
-		            		<div class="label-area col-xs-4">
-		            			<label id="last-name-label">Last Name: </label>
-		                		<textarea id="last-name" class="modal-text"></textarea>
-		            		</div>
-		        		</div>
+	    				<div class="form-group">
+			      			<div class="control-group">
+				            	<div class="label-area col-xs-4">
+				                	<label id="first-name-label" class="modalLabel"for="first-name">First Name: </label> 
+			                		<textarea id="first-name" class="modal-text" name="first-name"></textarea> 
+			            		</div>
+			            		<div class="label-area col-xs-4">
+			            			<label class="modalLabel" id="last-name-label" for="last-name">Last Name: </label>
+			                		<textarea id="last-name" class="modal-text" name="last-name"></textarea>
+			            		</div>
+			        		</div>
+		        	
 
-		        		<div class="control-group col-xs-4">
-			            	<label class="control-label" for="user-group">User Group</label>
-			            	<div class = "controls">
-		    	            	<select name="user-group" id ="user-group">
-		        	            	<option value="Employee">Employee</option>
-		            	        	<option value="Client">Client</option>
-		                	    	<option value="Admin">Office Manager</option>
-		                    		<option value="Sub-Trade">Sub-Trade</option>
-		                		</select>
-		            		</div>
+			        		<div class="control-group col-xs-4">
+				            	<label class="modalLabel control-label" for="user-group">User Group:</label>
+				            	<div class = "controls">
+			    	            	<select class="groupSelect pushSelectLeft" name="user-group" id ="user-group">
+			        	            	<option value="Employee">Employee</option>
+			            	        	<option value="Client">Client</option>
+			                	    	<option value="Admin">Office Manager</option>
+			                    		<option value="Sub-Trade">Sub-Trade</option>
+			                		</select>
+			            		</div>
+		        			</div>
 	        			</div>
         			</div>
 
@@ -151,29 +157,32 @@
 	    		<div class="modal-body">
 	      			<div class="control-group">
 	      				<div class = "row">
-		      				<div class="label-area col-xs-6">
-			                	<label id="email-label">Email: </label> 
-		                		<textarea id="email" class="modal-text"></textarea> 
+		      				<div class="label-area col-xs-12">
+			                	<label id="email-label" class=
+			                	"modalLabel">Email: </label> 
+		                			<textarea id="email" class=" col-xs-12 modal-text"></textarea> 
 		            		</div>
 	            		</div>
 	            		<br>
 	            		<div class = "row">
 			            	<div class="label-area col-xs-4">
-			                	<label id="first-create-name-label">First Name: </label> 
-		                		<textarea id="first-create-name" class="modal-text"></textarea> 
+			                	<label class="modalLabel" id="first-create-name-label">First Name: </label> 
+			                	
+		                			<textarea id="first-create-name" class="modal-text"></textarea> 
+		                		
 		            		</div>
 		            		<div class="label-area col-xs-4">
-		            			<label id="last-create-name-label">Last Name: </label>
+		            			<label class="modalLabel" id="last-create-name-label">Last Name: </label>
 		                		<textarea id="last-create-name" class="modal-text"></textarea>
 		            		</div>
 
 			        		<div class="control-group col-xs-4">
-				            	<label class="control-label" for="user-create-group">User Group</label>
+				            	<label class="modalLabel control-label" for="user-create-group">User Group</label>
 				            	<div class = "controls">
-			    	            	<select name="user-group" id ="user-create-group">
+			    	            	<select name="user-group" id ="user-create-group" class="groupSelect">
 			        	            	<option value="Employee">Employee</option>
 			            	        	<option value="Client">Client</option>
-			                	    	<option value="Admin">Admin</option>
+			                	    	<option value="Admin">Office Manager</option>
 			                    		<option value="Sub-Trade">Sub-Trade</option>
 			                		</select>
 			            		</div>

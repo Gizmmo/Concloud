@@ -4,6 +4,7 @@ Template.notifications.helpers({
 	 * @return Collection All undread notifications for the current user
 	 */
   notifications: function() {
+    $("[rel='tooltip']").tooltip();
     return Notifications.find({userID: Meteor.userId(), read: false});
   },
   /**

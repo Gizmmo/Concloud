@@ -1,5 +1,6 @@
 Template.menu.rendered = function () {
 	
+metroNotifications();
 /**
  * Create Sidebar Menu
  */
@@ -21,6 +22,12 @@ Template.menu.helpers({
 		});
 
 		return returnProjs.find({}, {sort: {"recentUpdate.updateDate" : -1}, limit: 5});
+	},
+
+	isProjects : function () {
+		console.log(Subscriptions.find({userID:Meteor.user()._id}).count()>0?true:false);
+		return Subscriptions.find({userID:Meteor.user()._id}).count()>0?true:false;
+
 	}
 });
 
@@ -36,6 +43,9 @@ Template.menu.events({
 	},
 	'click': function () {
 		closeTips();
+	},
+	'click #subbtn': function () {
+		Router.go('contractsList')
 	}
 });
 

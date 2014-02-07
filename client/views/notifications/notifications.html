@@ -5,11 +5,11 @@
 	</a>
 
 
-	<ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
-		<li class="dropdown-header">
+	<ul class="pull-right dropdown-navbar navbar-black no-hover dropdown-menu dropdown-caret dropdown-close" id="notification-drop">
+		<li class="dropdown-header no-hover">
 			<i class="fa fa-warning"></i>
 			{{notificationCount}} Notifications
-			<i class="pull-right fa fa-check" id="readAll"></i>
+			<i class="pull-right fa fa-check" id="readAll" title-"Mark all as read" rel="tooltip"></i>
 		</li>
 		{{#if notificationCount}}
       		{{#each notifications}}
@@ -21,7 +21,7 @@
 		<li>
 			<a href="#">
 				See all notifications
-				<i class="icon-arrow-right"></i>
+				<i class="fa fa-arrow-right"></i>
 			</a>
 		</li>
 	</ul>

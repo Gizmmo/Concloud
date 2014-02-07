@@ -18,7 +18,7 @@
 					<i class="fa fa-pencil"></i>
 				</a>
 
-				<button class="btn btn-warning" title="Sub-Trades" rel="tooltip">
+				<button class="btn btn-warning" title="Sub-Trades" rel="tooltip" id="subbtn">
 					<i class="fa fa-group"></i>
 				</button>
 
@@ -45,14 +45,7 @@
 					<span class="menu-text"> Dashboard </span>
 				</a>
 			</li>
-<!--
-			<li>
-				<a href="typography.html">
-					<i class="fa fa-user"></i>
-					<span class="menu-text"> Profile </span>
-				</a>
-			</li>
--->
+
 			<li>
 				<a href="#" class="dropdown-toggle">
 					<i class="fa fa-folder"></i>
@@ -60,14 +53,23 @@
 
 					<b class="arrow fa fa-angle-down"></b>
 				</a>
-<!--CREATE TEMPLATE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+				
 				<ul class="submenu">
-
-					{{#each projects}}
-						{{> sidebarProject}}
-					{{/each}}
-
+					{{#if isProjects}}
+						{{#each projects}}
+							{{> sidebarProject}}
+						{{/each}}
+					{{else}}
+						<li class="noProjects">
+							
+							<span class="label label-danger">
+								<i class="fa fa-exclamation-circle"></i> 
+								No Projects
+							</span>
+						</li>
+					{{/if}}
 				</ul>
+
 			</li>
 			
 

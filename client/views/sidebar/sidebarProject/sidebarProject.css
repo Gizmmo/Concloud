@@ -1,0 +1,9 @@
+.noProjects {
+	border-top: 1px solid #fafafa;
+	display: block;
+	position: relative;
+	color: #616161;
+	padding: 7px 0 9px 37px;
+	margin: 0;
+	background: transparent;
+}

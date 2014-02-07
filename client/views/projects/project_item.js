@@ -6,6 +6,13 @@ Template.projectItem.events({
 });
 
 Template.projectItem.helpers({
+
+    getTitle: function () {
+    if(this.title.length > 43){
+      return this.title.substring(0, 40)+"...";
+    }
+    return this.title;
+  },
 	/**
 	 * This function returns the id of the project
 	 * @return String A string containing the id of the project

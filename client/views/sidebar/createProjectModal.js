@@ -40,7 +40,6 @@ Template.createProjectModal.events({
 		//to the database
 		var project = {
 			title: $('#create-side-title').val(),
-			description: $('#create-side-description').val(),
 		        folders: {
 			    "Change Orders" : changeOrders,
 			    Consultant : consultant,

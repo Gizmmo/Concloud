@@ -2,11 +2,6 @@ var sf = new SmartFile({});
 var folderStack = [];
 
 Template.projectPage.events({
-    /**
-     * This will mimic an actual update to the current project
-     * @param  Meteor.call('updateProject', this._id, function (error, result) {		});	}} [description]
-     * @return {[type]}   [description]
-     */
      'click #update-btn': function () {
      	Meteor.call('updateProject', this._id, function (error, result) {
      	});

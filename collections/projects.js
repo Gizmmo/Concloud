@@ -22,7 +22,7 @@ Meteor.methods({
 		}
 
 		//filling in other keys
-		var proj = _.extend(_.pick(projectAttributes, 'title', 'description', 'folders', 'files'), {
+		var proj = _.extend(_.pick(projectAttributes, 'title','folders', 'files'), {
 			authorID: user._id,
 			authorName: userName,
 			submitted: new Date().getTime(),

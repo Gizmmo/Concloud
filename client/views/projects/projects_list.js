@@ -8,7 +8,7 @@ Template.projectsList.helpers({
 	 * Finad all projects and give them an integer rank for animation
 	 * @return Collection Returns all projects sorted by update time with an integer ranking
 	 */
-	projectsWithRank: function() {
+	projects: function() {
 		masterProjects = new Meteor.Collection(null);
 		var projects = Projects.find({});
 	
@@ -18,6 +18,16 @@ Template.projectsList.helpers({
 		});
 
 		return workingProjects.find({}, {sort : {"rank" : -1, "title" : 1}});
+	},
+
+	projectsWithRank: function () {
+		var result;
+		if( $("#search-proj-admin-field").val()){
+			result = $("#search-proj-admin-field").val();
+		} else {
+			result = "";
+		}
+		return Projects.find({$or: [{"title" : new RegExp(result)}, {"description" : new RegExp(result)}]});
 	}
 });
 

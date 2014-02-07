@@ -14,7 +14,7 @@
 					<i class="fa fa-folder-open"></i>
 				</a>
 
-				<a class="btn btn-info" href = "#" title="Create Project" rel="tooltip">
+				<a class="btn btn-info" href = "#" title="Create Project" id="createSideBtn" rel="tooltip">
 					<i class="fa fa-pencil"></i>
 				</a>
 
@@ -64,6 +64,7 @@
 			</li>
 			
 
+			{{#if admin}}
 			<li>
 				<a href="{{pathFor 'userList'}}">
 					<i class="fa fa-gavel"></i>
@@ -76,12 +77,16 @@
 					<span class="menu-text"> Reports </span>
 				</a>
 			</li>
+			{{/if}}
 			
 
 		
 	</div>
 
 	{{> manageModal}}
+		{{#if admin}}
+			{{> createProjectModal}}
+		{{/if}}
 	{{/if}}
 
 </template>

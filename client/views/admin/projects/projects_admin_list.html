@@ -18,7 +18,7 @@
 				<a class="btn btn-success emp-btn conBtn" href="{{pathFor 'contractsAdminList'}}">
 					<i class="fa fa-tags"></i>  Manage Contracts
 				</a>
-				<a class="btn btn-default emp-btn userBtn" data-toggle="modal" data-target="#createData">
+				<a class="btn btn-default emp-btn userBtn" id="newProjBtn" data-toggle="modal" data-target="#createData">
 					<i class="fa fa-pencil-square-o"></i> Create New Project
 				</a>
 				<a class="btn btn-warning emp-btn userBtn" id = "userRoleBtn">
@@ -131,36 +131,6 @@
 
 
 
-	<div class="modal fade" id="createData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-	  		<div class="modal-content">
-	    		<div class="modal-header">
-	      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		      	    <h4 class="modal-title" id="myModalLabel">Create Project</h4>
-	    		</div>
-	    		<div class="modal-body">
-	      			<div class="control-group">
-	      				<div class = "row">
-		      				<div class="label-area col-xs-6">
-			                	<label id="create-title-label">Project Title: </label> 
-		                		<textarea id="create-title" class="modal-text"></textarea> 
-		            		</div>
-	            		</div>
-	            		<br>
-	            		<div class = "row">
-			            	<div class="label-area col-xs-12">
-			                	<label id="create-description-label">Description: </label> 
-		                		<textarea id="create-description" class="modal-text"></textarea> 
-		            		</div>
-		            	</div>
-        			</div>
+	{{> createProjectModal}}
 
-	    		</div>
-	    		<div class="modal-footer">
-		      		<button id="create-project" class="btn btn-success" data-dismiss="modal">Create Project</button>
-	      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	    		</div>
-	  		</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
 	</template>

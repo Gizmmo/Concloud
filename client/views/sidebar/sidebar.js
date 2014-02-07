@@ -12,6 +12,14 @@ $("[rel='tooltip']").tooltip();
 };
 
 Template.menu.helpers({
+	admin: function () {
+		user = Meteor.user();
+		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
+			return true;
+		}
+		return false;
+	},
+
 	projects: function () {
 		var returnProjs = new Meteor.Collection(null);
 		subs = Subscriptions.find({userID:Meteor.user()._id});
@@ -26,6 +34,15 @@ Template.menu.helpers({
 });
 
 Template.menu.events({
+	"click #createSideBtn" : function () {
+		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
+			$("#createSideProj").modal("toggle");
+			$('#create-side-title').val("");
+			$('#create-side-description').val("");
+			$("#incorrect-fill-label").text("");
+		}
+		closeTips();
+	},
 	"click #accountBtn" : function () {
 		$("#updatePass").modal("toggle");
 		$('#old-password').val("");

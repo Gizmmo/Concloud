@@ -1,0 +1,39 @@
+<template name = "createProjectModal">
+	<div class="modal fade" id="createSideProj" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Create Project</h4>
+				</div>
+				<div class="modal-body">
+					<div class="control-group">
+						<div class = "row">
+							<div class="label-area col-xs-6">
+								<label id="create-title-label">Project Title: </label> 
+								<textarea id="create-side-title" class="modal-text"></textarea> 
+							</div>
+						</div>
+						<br>
+						<div class = "row">
+							<div class="label-area col-xs-12">
+								<label id="create-description-label">Description: </label> 
+								<textarea id="create-side-description" class="modal-text"></textarea> 
+							</div>
+						</div>
+						<div class = "row">
+							<div class="label-area col-xs-12">
+								<label id="incorrect-fill-label"></label> 
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button id="create-side-project" class="btn btn-success" data-dismiss="modal">Create Project</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</template>

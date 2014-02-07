@@ -7,8 +7,8 @@ Notifications.allow({
 **/
 
 
-Meteor.methods({
-  createProjectNotification : function(project) {
+
+  createProjectNotification = function(project) {
     var user = Meteor.user();
     var projectSubs = Subscriptions.find({projectID: project._id});
     projectSubs.forEach(function (sub) {
@@ -20,7 +20,5 @@ Meteor.methods({
         submitted: new Date().getTime(),
         read: false
       });
-      createBigBoxNotification(project.title);
     });
-  }
-});
+  };

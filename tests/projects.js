@@ -1,7 +1,7 @@
 var assert = require('assert');
 
 suite('Projects', function() {
-    test("in the server", function(done, server){
+    test("in the server", function(done, server, client){
         server.eval(function(){
             Projects.insert({title:'New Project'});
             var docs = Projects.find().fetch();
@@ -12,6 +12,7 @@ suite('Projects', function() {
             assert.equal(docs.length, 3);
             done();
         });
+
     
     });
 });

@@ -53,14 +53,23 @@
 
 					<b class="arrow fa fa-angle-down"></b>
 				</a>
-<!--CREATE TEMPLATE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+				
 				<ul class="submenu">
-
-					{{#each projects}}
-						{{> sidebarProject}}
-					{{/each}}
-
+					{{#if isProjects}}
+						{{#each projects}}
+							{{> sidebarProject}}
+						{{/each}}
+					{{else}}
+						<li class="noProjects">
+							
+							<span class="label label-danger">
+								<i class="fa fa-exclamation-circle"></i> 
+								No Projects
+							</span>
+						</li>
+					{{/if}}
 				</ul>
+
 			</li>
 			
 

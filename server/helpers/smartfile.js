@@ -34,10 +34,10 @@ Meteor.methods({
 				auth:sf._getApiAuthString(),
 				data: {
 					path: pathName
-				},
-				headers: {
-					"Content-Disposition": "attachment"
 				}
+				// headers: {
+				// 	"Content-Disposition": "attachment"
+				// }
 			});
 			var url = httpResponse.data.url;
 			console.log(url);

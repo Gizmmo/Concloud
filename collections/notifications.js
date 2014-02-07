@@ -20,7 +20,6 @@ Meteor.methods({
         submitted: new Date().getTime(),
         read: false
       });
-      createBigBoxNotification(project.title);
     });
   }
 });

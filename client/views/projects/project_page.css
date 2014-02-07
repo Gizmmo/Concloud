@@ -7,7 +7,7 @@
 }
 
 .fileUpload{
-	text-align:center;
+	text-align:left;
 }
 
 .center{
@@ -31,6 +31,7 @@
     width:100%;
 }
 
-.folderLabel {
-    font-weight:bold!important;
+.fileInput {
+	padding-left:0px;
 }
+

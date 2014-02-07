@@ -65,7 +65,7 @@ Meteor.methods({
 		sf.mkdir(projectName + "/Shop Drawings");
 		sf.mkdir(projectName + "/Subtrades");
 	},
-
+	
 	createDirectory : function (name) {
 		sf.mkdir(name);
 	},

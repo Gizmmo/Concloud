@@ -34,8 +34,9 @@ constructProject = function(){
 
  for(i = 0; i < arrayFiles.length; i++) {
    var currentFile = arrayFiles[i].proData;
+   var cssClass = checkImageType(currentFile.fileType);
    projectFiles.append(
-      "<li class=\"browse-file\" data-identity=\"121387510_46753\" id=\"f_121387510_46753\" dropzone=\"copy move\"><div class=\"filename-col col-xs-6\"><input type=\"checkbox\" class=\"projectCheckbox\" id=\"file-" + currentFile.fileName + "\"><img class=\"sprite sprite_web s_web_page_white_text_32 icon\" alt=\"YAML Call.txt\" draggable=\"true\" src=\"/img/icon_spacer.gif\"><a class=\"filename-link download-file-link\" draggable=\"true\" hidefocus=\"hideFocus\" target=\"_self\">" + currentFile.fileName + "</a></div><div class=\"kind col-xs-2\"><span class=\"category\">document</span><span class=\"extension secondary\">" + currentFile.fileType + "</span></div><div class=\"modified col-xs-4\"><span class=\"modified-time\">" + formatDate(currentFile.fileUpdate.updateDate) + "</span></div><br class=\"clear\"></li>"
+      "<li class=\"browse-file\" data-identity=\"121387510_46753\" id=\"f_121387510_46753\" dropzone=\"copy move\"><div class=\"filename-col col-xs-6\"><input type=\"checkbox\" class=\"projectCheckbox\" id=\"file-" + currentFile.fileName + "\"><img class=\"sprite sprite_web " + cssClass + " icon\" alt=\"YAML Call.txt\" draggable=\"true\" src=\"/img/icon_spacer.gif\"><a class=\"filename-link download-file-link\" draggable=\"true\" hidefocus=\"hideFocus\" target=\"_self\">" + currentFile.fileName + "</a></div><div class=\"kind col-xs-2\"><span class=\"category\">document</span><span class=\"extension secondary\">" + currentFile.fileType + "</span></div><div class=\"modified col-xs-4\"><span class=\"modified-time\">" + formatDate(currentFile.fileUpdate.updateDate) + "</span></div><br class=\"clear\"></li>"
       );
 }
 

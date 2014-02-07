@@ -326,6 +326,11 @@ li.browse-file, li.browse-new-folder {
 	height: 32px;
 }
 
+.s_web_page_white_picture_32 {
+	background-position: left -2004px;
+	width: 32px;
+	height: 32px;
+}
 
 /**
  * Media Queries

@@ -1,191 +1,148 @@
 var sf = new SmartFile({});
-	var masterEmployees = new Meteor.Collection(null);
-	var workingEmployees = new Meteor.Collection(null);
-	var projectEmployees = new Meteor.Collection(null);
-
-	var masterClients = new Meteor.Collection(null);
-	var workingClients = new Meteor.Collection(null);
-	var projectClients = new Meteor.Collection(null);
 
 
 Template.projectAdminPage.events({
 	'keyup' : function () {
-		searchString = $("#search-field").val();
-		searchClientString = $("#search-client-field").val();
-		
-		if(searchString.length > searchFieldLength){
-			updateRemove(searchString);
-		} else if (searchString.length < searchFieldLength){
-			updateAdd(searchString);
-		}
-
-		if(searchClientString.length > searchClientFieldLength){
-			updateRemove(searchClientString);
-		} else if (searchClientString.length < searchClientFieldLength){
-			updateAdd(searchClientString);
-		}
-
-		searchFieldLength = searchString.length;
-		searchClientFieldLength = searchClientString.length;
+		updateClientView($("#search-client-field").val());
+		updateEmployeeView($("#search-field").val());
 		
 	}
 });
 
-function updateRemove(searchString){
-	masterEmployees.find({}).forEach(function (employee) {
-		if(searchString.length > 0){
-			searchStrings = searchString.split(" ");
-			var found = false;
+function updateEmployeeView(searchValue){
+		if(searchValue == undefined || searchValue == null || searchValue == ""){
+		users = Meteor.users.find({});
+		users.forEach(function (user) {
+			$('#emp-avail-' + user._id).show();
+		});
+	}else {
+		users = Meteor.users.find({});
+		users.forEach(function (user) {
+			searchStrings = searchValue.trim().split(" ");
+			var found = true;
 			for (var i = 0; i < searchStrings.length; i++) {
-				if(employee.profile.firstName.indexOf(searchStrings[i] ) != -1 || employee.profile.lastName.indexOf(searchStrings[i] ) != -1)
-				found = true;
+				if(user.profile.firstName.toLowerCase().indexOf(searchStrings[i].toLowerCase() ) === -1 && user.profile.lastName.toLowerCase().indexOf(searchStrings[i].toLowerCase() ) === -1){
+					found = false;
+				}
+			}
+
+			if(found){
+				$('#emp-avail-' + user._id).show();
 			}
 
 			if(!found){
-				workingEmployees.remove(employee._id)
-			}else {
+				$('#emp-avail-' + user._id).hide();
 			}
-		}
-	});
+
+		});
+	}
 }
 
-function updateAdd(searchString){
-	masterEmployees.find({}).forEach(function (employee){
-		if(!(workingEmployees.findOne({"_id" : employee._id}))){
-			if(employee.profile.firstName.indexOf(searchString) != -1 || employee.profile.lastName.indexOf(searchString) != -1){
-				workingEmployees.insert(employee);
-			}
-		}
-	});
-}
-
-function updateClientRemove(searchString){
-	masterClients.find({}).forEach(function (client) {
-		if(searchString.length > 0){
-			searchStrings = searchString.split();
-			var found = false;
+function updateClientView(searchValue){
+		if(searchValue == undefined || searchValue == null || searchValue == ""){
+		users = Meteor.users.find({});
+		users.forEach(function (user) {
+			$('#client-avail-' + user._id).show();
+		});
+	}else {
+		users = Meteor.users.find({});
+		users.forEach(function (user) {
+			searchStrings = searchValue.trim().split(" ");
+			var found = true;
 			for (var i = 0; i < searchStrings.length; i++) {
-				if(client.profile.firstName.indexOf(searchString[i] ) != -1 || client.profile.lastName.indexOf(searchString[i] ) != -1)
-				found = true;
+				if(user.profile.firstName.toLowerCase().indexOf(searchStrings[i].toLowerCase() ) === -1 && user.profile.lastName.toLowerCase().indexOf(searchStrings[i].toLowerCase() ) === -1){
+					found = false;
+				}
+			}
+
+			if(found){
+				$('#client-avail-' + user._id).show();
 			}
 
 			if(!found){
-				workingClients.remove(client._id)
-			}else {
+				$('#client-avail-' + user._id).hide();
 			}
-		}
-	});
+
+		});
+	}
 }
 
-function updateClientAdd(searchString){
-	masterClients.find({}).forEach(function (client){
-		if(!(workingClients.findOne({"_id" : client._id}))){
-			if(client.profile.firstName.indexOf(searchString) != -1 || client.profile.lastName.indexOf(searchString) != -1){
-				workingClients.insert(client);
-			}
-		}
-	});
+function getSubIDs(role){
+		subs = Subscriptions.find( {projectID: projectID, projectRole: role});
+		var userIDs = new Array();
+
+		subs.forEach(function (sub, index) {
+			userIDs[index] = sub.userID;
+		});
+
+
+		return userIDs;
+}
+
+function getUserID(iDString){
+	allStrings = iDString.trim().split("-");
+	return allStrings[allStrings.length -1];
 }
 
 Template.projectAdminPage.helpers({
 	employees : function () {
 		projectID = this._id;
 		projectTitle = this.title;
-		return workingEmployees.find({}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
+		var userIDs = getSubIDs("Project Employee");
+		return Meteor.users.find({'_id' : { $nin: userIDs}, $or: [{"profile.userGroup": "Employee"}, {"profile.userGroup": "Office Manager"} ] },{sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
+	
 	},
 
 	projectEmployees : function () {
-		return projectEmployees.find({}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
+		var userIDs = getSubIDs("Project Employee");
+		return Meteor.users.find({'_id' : { $in: userIDs}}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
 	},
 	clients : function () {
-		return workingClients.find({}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
+		var userIDs = getSubIDs("Project Client");
+		return Meteor.users.find({'_id' : { $nin: userIDs}, "profile.userGroup": "Client"},{sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
 	},
 	projectClients : function () {
-		return projectClients.find({}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
+		var userIDs = getSubIDs("Project Client");
+		return Meteor.users.find({'_id' : { $in: userIDs}},{sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
 	}
 });
 
 Template.projectAdminPage.created = function () {
-
-	masterEmployees = new Meteor.Collection(null);
-	workingEmployees = new Meteor.Collection(null);
-	projectEmployees = new Meteor.Collection(null);
-	projectClients = new Meteor.Collection(null);
-	masterClients = new Meteor.Collection(null);
-	workingClients = new Meteor.Collection(null);
-
-	searchFieldLength = 0;
-	searchClientFieldLength = 0;
-	employees = Meteor.users.find({$or: [{"profile.userGroup" : "Employee"}, {"profile.userGroup" : "Admin"}, {"profile.userGroup" : "Office Manager"}]});
-	clients = Meteor.users.find({"profile.userGroup" : "Client"});
 	projectID = this.data._id;
-	
-
-	employees.forEach(function (employee){
-		sub = Subscriptions.findOne( { $and: [ { userID: employee._id}, {projectID: projectID } ] } )
-		if(sub){
-			role = sub.projectRole;
-			if(role === "Project Employee"){
-				projectEmployees.insert(employee);
-			}
-		} else{
-			masterEmployees.insert(employee);
-			workingEmployees.insert(employee);
-		}
-	});
-
-
-	clients.forEach(function (client){
-		sub = Subscriptions.findOne( { $and: [ { userID: client._id}, {projectID: projectID } ] } )
-		if(sub){
-			role = sub.projectRole;
-			if(role === "Project Client"){
-				projectClients.insert(client);
-			}
-		} else{
-			masterClients.insert(client);
-			workingClients.insert(client);
-		}
-	});
 };
 
 Template.projectAdminPage.rendered = function() {
-    $( "#sortable1, #sortable2" ).sortable({
+    $( "#chosen-emps, #available-emps" ).sortable({
       connectWith: ".connectedSortable"
     }).disableSelection();
-	$( "#sortable1, #sortable2" ).sortable({
+	$( "#chosen-emps, #available-emps" ).sortable({
       placeholder: "ui-state-highlight"
     }).disableSelection();
 
-    $( "#sortable3, #sortable4" ).sortable({
+    $( "#chosen-clients, #available-clients" ).sortable({
       connectWith: ".connectedClientSortable"
     }).disableSelection();
-	$( "#sortable3, #sortable4" ).sortable({
+	$( "#chosen-clients, #available-clients" ).sortable({
       placeholder: "ui-state-highlight"
     }).disableSelection();
 
 
 
- $( "#sortable2" ).sortable({
+ $( "#chosen-emps" ).sortable({
  	  	remove: function( event, ui ) {
-  			current = $(ui.item);
-  			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
-  			projectEmployees.remove(removedEmployee._id);
   		},
 
 		receive: function( event, ui ) {
   			current = $(ui.item);
-  			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
+  			var id = current.attr('id');
+  			id = getUserID(id);
+  			removedEmployee = Meteor.users.findOne( {"_id": id} );
   			sub = {
   				userID: removedEmployee._id,
   				projectID: projectID,
   				projectTitle: projectTitle,
   				projectRole: "Project Employee"
   			}
-  			projectEmployees.insert(removedEmployee);
-  			current.remove();
   			Meteor.call('subscription', sub, function (error, id) {
 				if (error) {
             	} 
@@ -196,19 +153,15 @@ Template.projectAdminPage.rendered = function() {
 	});
 
 
- $( "#sortable1" ).sortable({
+ $( "#available-emps" ).sortable({
   		remove: function( event, ui ) {
-  			current = $(ui.item);
-  			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
-  			masterEmployees.remove(removedEmployee._id);
-  			workingEmployees.remove(removedEmployee._id);
   		},
 
 		receive: function( event, ui ) {
   			current = $(ui.item);
-  			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
+  			var id = current.attr('id');
+  			id = getUserID(id);
+  			removedEmployee = Meteor.users.findOne( {"_id": id} );
   			sub = {
   				userID: removedEmployee._id,
   				projectID: projectID
@@ -219,35 +172,25 @@ Template.projectAdminPage.rendered = function() {
             	else {
             	}
         	});
-
-  			current.remove();
-  			masterEmployees.insert(removedEmployee);
-  			workingEmployees.insert(removedEmployee);
-  			searchString = $("#search-field").val();
-  			updateRemove(searchString);
+        	updateEmployeeView($("#search-field").val());
   		},
 	});
 
-$( "#sortable4" ).sortable({
+$( "#chosen-clients" ).sortable({
  	  	remove: function( event, ui ) {
-  			current = $(ui.item);
-  			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.userGroup" : "Client"}, {"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
-  			projectClients.remove(removedEmployee._id);
   		},
 
 		receive: function( event, ui ) {
   			current = $(ui.item);
-  			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.userGroup" : "Client"}, {"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
+  			var id = current.attr('id');
+  			id = getUserID(id);
+  			removedEmployee = Meteor.users.findOne( {"_id": id} );
   			sub = {
   				userID: removedEmployee._id,
   				projectID: projectID,
   				projectTitle: projectTitle,
   				projectRole: "Project Client"
   			}
-  			projectClients.insert(removedEmployee);
-  			current.remove();
   			Meteor.call('subscription', sub, function (error, id) {
 				if (error) {
             	} 
@@ -258,19 +201,15 @@ $( "#sortable4" ).sortable({
 	});
 
 
- $( "#sortable3" ).sortable({
+ $( "#available-clients" ).sortable({
   		remove: function( event, ui ) {
-  			current = $(ui.item);
-  			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.userGroup" : "Client"}, {"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
-  			masterClients.remove(removedEmployee._id);
-  			workingClients.remove(removedEmployee._id);
   		},
 
 		receive: function( event, ui ) {
   			current = $(ui.item);
-  			var names = current.text().split(", ");
-  			removedEmployee = Meteor.users.findOne( { $and: [{"profile.userGroup" : "Client"}, {"profile.firstName" : names[1]}, {"profile.lastName" : names[0]} ] } );
+  			var id = current.attr('id');
+  			id = getUserID(id);
+  			removedEmployee = Meteor.users.findOne( {"_id": id} );
   			sub = {
   				userID: removedEmployee._id,
   				projectID: projectID
@@ -281,12 +220,7 @@ $( "#sortable4" ).sortable({
             	else {
             	}
         	});
-
-  			current.remove();
-  			masterClients.insert(removedEmployee);
-  			workingClients.insert(removedEmployee);
-  			searchString = $("#search-field").val();
-  			updateRemove(searchString);
+  			updateClientView($("#search-client-field").val());
   		},
 	});
 }

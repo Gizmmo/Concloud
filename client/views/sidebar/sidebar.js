@@ -33,7 +33,6 @@ Template.menu.helpers({
 	},
 
 	isProjects : function () {
-		console.log(Subscriptions.find({userID:Meteor.user()._id}).count()>0?true:false);
 		return Subscriptions.find({userID:Meteor.user()._id}).count()>0?true:false;
 
 	}

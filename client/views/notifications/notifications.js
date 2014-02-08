@@ -5,22 +5,28 @@ Template.notifications.helpers({
 	 */
   notifications: function() {
     $("[rel='tooltip']").tooltip();
-    return Notifications.find({userID: Meteor.userId(), read: false});
+    notifications = Notifications.find({userID: Meteor.userId()}, {sort : {"submitted" : -1}});
+    notifications.forEach(function (post, index) {
+      if(index > 4){
+        Notifications.remove({_id: post._id});
+      }
+    });
+    return notifications;
   },
   /**
    * Returns the amount of notifications there are for the current user
    * @return int Amount of notifications for the current user
    */
   notificationCount: function(){
-    return Notifications.find({userID: Meteor.userId(), read: false}).count();
+    return Notifications.find({userID: Meteor.userId()}).count();
   }
 });
 
 Template.notifications.events({
   'click #readAll': function () {
-    var notifications = Notifications.find({userID: Meteor.userId(), read: false});
+    var notifications = Notifications.find({userID: Meteor.userId()});
     notifications.forEach(function (post) {
-      Notifications.update(post._id, {$set: {read: true}});
+      Notifications.remove({_id: post._id});
     });
   }
 });

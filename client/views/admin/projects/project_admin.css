@@ -1,4 +1,4 @@
-  #sortable1, #sortable2, #sortable3, #sortable4 { 
+  #chosen-emps, #chosen-clients, #available-emps, #available-clients { 
   	list-style-type: none; 
   	padding: 5px;
   	margin: auto; 
@@ -7,7 +7,11 @@
   	text-align: center;
   }
 
-  #sortable1 li, #sortable2 li, #sortable3 li, #sortable4 li {
+    #chosen-emps:hover, #chosen-clients:hover, #available-emps:hover, #available-clients:hover { 
+      cursor: pointer;
+  }
+
+  #chosen-emps li, #chosen-clients li, #available-emps li, #available-clients li {
    margin: auto;
    margin-top: 10px; 
    margin-bottom: 10px;

@@ -18,7 +18,6 @@ Notifications.allow({
         updateAuthorName: project.recentUpdate.updateAuthorName,
         title: project.title,
         submitted: new Date().getTime(),
-        read: false
       });
     });
   };

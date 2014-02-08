@@ -97,7 +97,5 @@ Template.dashboard.helpers({
 Template.dashboard.created = function() {
   $('body').removeClass("modal-open");  
   $('body').height('auto');
-  console.log("check here");
-  console.log($('body'));
 };
 

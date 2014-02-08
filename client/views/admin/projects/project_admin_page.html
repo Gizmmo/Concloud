@@ -19,9 +19,9 @@
 			<div id = "table1" class = "col-xs-4 title-center">
 			<span class="list-title">Concord Staff</span>
 			<br>
-			<ul id="sortable1" class="connectedSortable">
+			<ul id="available-emps" class="connectedSortable">
 				{{#each employees}}
-				  	<li class="ui-state-default" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
+				  	<li class="ui-state-default" id = "emp-avail-{{_id}}" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
 			 	 {{/each}}
 			</ul>
 			</div>
@@ -29,9 +29,9 @@
 			<div id = "table2" class = "col-xs-4 title-center">
 				<span class="list-title">Project Staff</span>
 				<br>
-				<ul id="sortable2" class="connectedSortable">
+				<ul id="chosen-emps" class="connectedSortable">
 					{{#each projectEmployees}}
-				  	<li class="ui-state-default" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
+				  	<li class="ui-state-default" id = "emp-listed-{{_id}}" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
 			 	 {{/each}}
 				</ul>
 			</div>
@@ -50,18 +50,18 @@
 			<div id = "table3" class = "col-xs-4 title-center">
 				<span class="list-title">Client List</span>
 				<br>
-				<ul id="sortable3" class="connectedClientSortable">
+				<ul id="available-clients" class="connectedClientSortable">
 					{{#each clients}}
-				  	<li class="ui-state-default" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
+				  	<li class="ui-state-default" id = "client-avail-{{_id}}" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
 			 	 {{/each}}
 				</ul>
 			</div>
 			<div id = "table4" class = "col-xs-4 title-center">
 				<span class="list-title">Project Clients</span>
 				<br>
-				<ul id="sortable4" class="connectedClientSortable">
+				<ul id="chosen-clients" class="connectedClientSortable">
 					{{#each projectClients}}
-				  	<li class="ui-state-default" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
+				  	<li class="ui-state-default" id = "client-listed-{{_id}}" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
 			 	 {{/each}}
 				</ul>
 			</div>

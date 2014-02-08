@@ -1,4 +1,12 @@
 Template.userItem.helpers({
+  	getName: function () {
+  		name = this.profile.lastName + ", " + this.profile.firstName;
+	    if(name.length > 43){
+	      return name.substring(0, 40)+"...";
+	    }
+	    return name;
+	},
+
 	convertedTime: function () {
 		if(this.profile.recent){
 			if(this.profile.recent.lastLogin){

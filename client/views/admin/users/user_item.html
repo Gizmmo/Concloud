@@ -1,5 +1,5 @@
 <template name = "userItem">
-	<div class="{{badgerData}} col-xs-12 col-sm-6 col-md-3 b-user-item" data-toggle="modal" id="{{this._id}}"data-target="{{dataToggle}}" data-badger="{{profile.lastName}}, {{profile.firstName}}">
+	<div class="{{badgerData}} col-xs-12 col-sm-6 col-md-3 b-user-item" data-toggle="modal" id="{{this._id}}"data-target="{{dataToggle}}" data-badger="{{getName}}">
 		{{#if isUserInfo}}
 			<div id="userInfo">
 				<span class = "my-title">Email: </span>{{profile.email}}<br>

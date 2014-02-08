@@ -7,3 +7,7 @@ Template.notification.events({
     Notifications.update(this._id, {$set: {read: true}});
   }
 });
+
+Template.notification.rendered = function () {
+	$("[rel='tooltip']").tooltip();
+};

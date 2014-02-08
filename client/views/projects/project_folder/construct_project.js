@@ -110,7 +110,7 @@ return {
 createFolderCreation = function(){
     var folderCreation = {
     	createdByAuthorID : Meteor.user()._id,
-    	createdByAuthorName : Meteor.user().profile.name,
+    	createdByAuthorName : Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName,
     	createdDate : new Date()
     };
     return folderCreation;
@@ -120,7 +120,7 @@ createFolderUpdate = function(){
     var folderUpdate = {
     	updateDate : new Date(),
     	updateAuthorID : Meteor.user()._id,
-    	updateAuthorName : Meteor.user().profile.name
+    	updateAuthorName : Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName
     };
     return folderUpdate;
 };

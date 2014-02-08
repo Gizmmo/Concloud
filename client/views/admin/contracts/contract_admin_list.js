@@ -1,42 +1,11 @@
 onContractDelete = false;
 onContractRoles = false;
-searchConFieldLength = 0;
-masterContracts = new Meteor.Collection(null);
-workingContracts = new Meteor.Collection(null);
+clickedID = null;
 
 Template.contractsAdminList.events({
-	'keyup' : function () {
-		var searchConString = $("#search-proj-admin-field").val();
+	'keyup #search-field' : function () {
+		updateView($("#search-field").val());
 		
-		if(searchConString.length != searchConFieldLength){
-			updateConRemove(searchConString);
-		} 
-		searchConFieldLength = searchConString.length;
-		
-	},
-
-
-	'click #create-contract' : function () {
-		var curUser = Meteor.user();
-		var name = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName
-		var contract = {
-			title: $('#create-title').val(),
-			description: $('#create-description').val()
-		};
-
-			//Calls the newly created Project's path after creating
-		Meteor.call('contract', contract, function (error, id) {
-			if (error) {
-                // display the error to the user
-                throwError(error.reason);
-                // if the error is that the post already exists, take us there
-                if (error.error === 302){
-                }
-            } else {
-            	masterContracts.insert(contract);
-            	workingContracts.insert(contract);
-            }
-        });
 	},
 
 	'click #delbtn' : function () {
@@ -66,11 +35,8 @@ Template.contractsAdminList.events({
 	},
 
 	'click .b-contract-item': function () {
-		$("#delete-title").text(this.title)
 		$("#update-title").text(this.title);
-		$("#delete-description").text(this.description);
 		$("#update-description").text(this.description);
-		$("#delete-submitted").text(this.authorName);
 		$("#update-submitted").text(this.authorName);
 
 		clickedID = this._id;
@@ -100,15 +66,7 @@ Template.contractsAdminList.events({
 
 			}
 		}
-	},
-
-	'click #update-contract': function () {
-		var title =$("#update-title").val();
-		var description = $("#update-description").val();
-		Contracts.update({_id: clickedID}, {$set:{"title": title, "description": description}});
-		masterContracts.update({_id: clickedID}, {$set:{"title": title, "description": description}});
-		workingContracts.update({_id: clickedID}, {$set:{"title": title, "description": description}});
-	},
+	}
 });
 
 Template.contractsAdminList.helpers({
@@ -117,15 +75,7 @@ Template.contractsAdminList.helpers({
 	 * @return Collection Returns all contracts sorted by update time with an integer ranking
 	 */
 	contracts: function() {
-		masterContracts = new Meteor.Collection(null);
-		var contracts = Contracts.find({});
-	
-		contracts.forEach(function (contract){
-			contract.rank = 0;
-			masterContracts.insert(contract);
-		});
-
-		return workingContracts.find({}, {sort : {"rank" : -1, "title" : 1}});
+		return Contracts.find({}, {sort : {"title" : 1}});
 	}
 });
 
@@ -151,63 +101,38 @@ Template.contractsAdminList.rendered = function () {
 Template.contractsAdminList.created = function () {
 	onContractDelete = false;
 	onContractRoles = false;
-
-
-	masterContracts = new Meteor.Collection(null);
-	workingContracts = new Meteor.Collection(null);
-
-	searchConFieldLength = 0;
-	contracts = Contracts.find({});
-	
-	contracts.forEach(function (contract){
-		contract.rank = 0;
-		workingContracts.insert(contract);
-		masterContracts.insert(contract);
-	});
 };
 
-function updateConRemove(searchString){
-searchString = searchString.toLowerCase();
-	masterContracts.find({}).forEach(function (contract) {
-		masterContracts.update({"_id": contract._id}, {$set: {"rank" : 0}});
-		if(searchString.length > 0){
-			searchStrings = searchString.trim().split(" ");
-			var numInc = contract.rank;
-			var found = false;
+function updateView(searchValue) {
+	if(searchValue == undefined || searchValue == null || searchValue == ""){
+		contracts = Contracts.find({});
+		contracts.forEach(function (contract) {
+			$('#' + contract._id).show();
+		});
+	}else {
+		contracts = Contracts.find({});
+		contracts.forEach(function (contract) {
+			searchStrings = searchValue.trim().split(" ");
+			var found = true;
 			for (var i = 0; i < searchStrings.length; i++) {
-				if(!(workingContracts.findOne({"_id" : contract._id}))){
-					if(contract.title.toLowerCase().indexOf(searchStrings[i]) != -1 || contract.description.toLowerCase().indexOf(searchStrings[i]) != -1){
-						workingContracts.insert(contract);
-					}
+				if(contract.title.toLowerCase().indexOf(searchStrings[i].toLowerCase() ) === -1){
+					found = false;
 				}
-				if(contract.title.toLowerCase().indexOf(searchStrings[i] ) != -1){
-					found = true;
-					numInc+=5;
-					workingContracts.update({"_id": contract._id}, {$set: {"rank" : numInc}});
-				}
-				if(contract.description.toLowerCase().indexOf(searchStrings[i] ) != -1){
-					found = true;
-					numInc++;
-					workingContracts.update({"_id": contract._id}, {$set: {"rank" : numInc}});
-				}
+			}
+
+			if(found){
+				$('#' + contract._id).show();
 			}
 
 			if(!found){
-				workingContracts.remove(contract._id)
-			}else {
+				$('#' + contract._id).hide();
 			}
-		} else {
-			masterContracts.find({}).forEach(function (contract) {
-				if(!(workingContracts.findOne({"_id" : contract._id}))){
-					workingContracts.insert(contract);
-				}
-			});
-		}
-	});
+
+		});
+	}
 }
 
 function deleteContract(passedID){
-	workingContracts.remove({_id: passedID});
     Contracts.remove({_id: passedID});
 }
 

@@ -32,7 +32,7 @@
 			<div id="emp-search">
 				<form class="form-search">
 					<span class="input-icon">
-						<input type="text" placeholder="Search ..." class="nav-search-input" id="search-proj-admin-field" autocomplete="off">
+						<input type="text" placeholder="Search ..." class="nav-search-input" id="search-field" autocomplete="off">
 						<i class="fa fa-search icon-search nav-search-icon"></i>
 
 					</span>
@@ -51,115 +51,9 @@
 		</div>
 	</div>
 </div>
-
-<div class="modal fade" id="updateContract" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-	  		<div class="modal-content">
-	    		<div class="modal-header">
-	      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		      	    <h4 class="modal-title" id="myModalLabel">Update Contract</h4>
-	    		</div>
-	    		<div class="modal-body">
-	      			<div class="control-group">
-	      				<div class = "row">
-		      				<div class="label-area col-xs-6">
-			                	<label id="update-title-label">Contract Title: </label> 
-		                		<textarea id="update-title" class="modal-text"></textarea> 
-		            		</div>
-	            		</div>
-	            		<br>
-	            		<div class = "row">
-			            	<div class="label-area col-xs-12">
-			                	<label id="update-description-label">Description: </label> 
-		                		<textarea id="update-description" class="modal-text"></textarea> 
-		            		</div>
-		            	</div>
-		            	</br>
-        			</div>
-
-	    		</div>
-	    		<div class="modal-footer">
-		      		<button id="update-contract" class="btn btn-success" data-dismiss="modal">Update Contract</button>
-	      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	    		</div>
-	  		</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
-
-
-
-	<div class="modal fade" id="deleteContract" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-	  		<div class="modal-content">
-	    		<div class="modal-header">
-	      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		      	    <h4 class="modal-title" id="myModalLabel">Delete Contract</h4>
-	    		</div>
-	    		<div class="modal-body">
-	      			<div class="control-group">
-	      				<div class = "row">
-		      				<div class="label-area col-xs-6">
-			                	<label id="delete-title-label">Contract Title: </label> 
-		                		<label id="delete-title" class="modal-text"></label> 
-		            		</div>
-	            		</div>
-	            		<br>
-	            		<div class = "row">
-			            	<div class="label-area col-xs-12">
-			                	<label id="delete-description-label">Description: </label> 
-		                		<label id="delete-description" class="modal-text"></label> 
-		            		</div>
-		            	</div>
-		            	</br>
-		            	<div class = "row">
-		            			<label id="delete-submitted-label" class="label-area col-xs-4">Last Submission By: </label>
-		                		<label id="delete-submitted" class= "label-area col-xs-4 modal-text"></label>
-		            	</div>
-        			</div>
-
-	    		</div>
-	    		<div class="modal-footer">
-		      		<button id="delete-contract" class="btn btn-danger" data-dismiss="modal">Delete Contract</button>
-	      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	    		</div>
-	  		</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
-
-
-
-	<div class="modal fade" id="createContract" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-	  		<div class="modal-content">
-	    		<div class="modal-header">
-	      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		      	    <h4 class="modal-title" id="myModalLabel">Create Contract</h4>
-	    		</div>
-	    		<div class="modal-body">
-	      			<div class="control-group">
-	      				<div class = "row">
-		      				<div class="label-area col-xs-6">
-			                	<label id="create-title-label">Contract Title: </label> 
-		                		<textarea id="create-title" class="modal-text"></textarea> 
-		            		</div>
-	            		</div>
-	            		<br>
-	            		<div class = "row">
-			            	<div class="label-area col-xs-12">
-			                	<label id="create-description-label">Description: </label> 
-		                		<textarea id="create-description" class="modal-text"></textarea> 
-		            		</div>
-		            	</div>
-        			</div>
-
-	    		</div>
-	    		<div class="modal-footer">
-		      		<button id="create-contract" class="btn btn-success" data-dismiss="modal">Create Contract</button>
-	      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	    		</div>
-	  		</div><!-- /.modal-content -->
-		</div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
+	
+	{{> updateContractModal}}
+	{{> createContractModal}}
 
 
 </template>

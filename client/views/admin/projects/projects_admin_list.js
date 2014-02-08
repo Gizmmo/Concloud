@@ -1,5 +1,6 @@
 onProjectDelete = false;
 onProjectRoles = false;
+clickedID = null;
 
 Template.projectsAdminList.events({
 		"click #newProjBtn" : function () {
@@ -8,7 +9,6 @@ Template.projectsAdminList.events({
 		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
 			$("#createSideProj").modal("toggle");
 			$('#create-side-title').val("");
-			$('#create-side-description').val("");
 			$("#incorrect-fill-label").text("");
 		}
 	},
@@ -45,12 +45,8 @@ Template.projectsAdminList.events({
 	},
 
 	'click .b-project-item': function () {
-		$("#delete-title").text(this.title)
 		$("#update-title").text(this.title);
-		$("#delete-description").text(this.description);
-		$("#update-description").text(this.description);
-		$("#delete-submitted").text(this.authorName);
-		$("#update-submitted").text(this.authorName);
+		$("#update-submitted").text(this.recentUpdate.updateAuthorName);
 
 		clickedID = this._id;
 	},
@@ -79,15 +75,7 @@ Template.projectsAdminList.events({
 
 			}
 		}
-	},
-
-	'click #update-project': function () {
-		var title =$("#update-title").val();
-		var description = $("#update-description").val();
-		Projects.update({_id: clickedID}, {$set:{"title": title, "description": description}});
-		masterProjects.update({_id: clickedID}, {$set:{"title": title, "description": description}});
-		workingProjects.update({_id: clickedID}, {$set:{"title": title, "description": description}});
-	},
+	}
 });
 
 Template.projectsAdminList.helpers({
@@ -135,7 +123,6 @@ function updateView(searchValue) {
 		projects = Projects.find({});
 		projects.forEach(function (project) {
 			searchStrings = searchValue.trim().split(" ");
-			var numInc = project.rank;
 			var found = true;
 			for (var i = 0; i < searchStrings.length; i++) {
 				if(project.title.toLowerCase().indexOf(searchStrings[i].toLowerCase() ) === -1){

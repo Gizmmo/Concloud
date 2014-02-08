@@ -1,10 +1,11 @@
   #chosen-emps, #chosen-clients, #available-emps, #available-clients { 
   	list-style-type: none; 
   	padding: 5px;
+    padding-top:10px;
+    padding-bottom:10px;
   	margin: auto; 
-  	background: #eee;
+  	background: #fff;
   	width: 70%;
-  	text-align: center;
   }
 
     #chosen-emps:hover, #chosen-clients:hover, #available-emps:hover, #available-clients:hover { 
@@ -13,11 +14,7 @@
 
   #chosen-emps li, #chosen-clients li, #available-emps li, #available-clients li {
    margin: auto;
-   margin-top: 10px; 
-   margin-bottom: 10px;
-   padding: 5px; 
-   font-size: 100%; 
-   width: 90%; 
+   font-size: 100%;
    min-height: 30px;
 }
 
@@ -27,4 +24,9 @@
 
 .list-title {
 	font-size: 14px;
+}
+
+.sortable-table {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

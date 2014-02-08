@@ -22,7 +22,9 @@
 	  </span>
 	</a>
       </div>
-
+       {{#if uploadingData}}
+		{{>spinner}}
+	{{/if}}
       <!--File and Folder Buttons -->
 	
       <div class="projectHeader">
@@ -45,7 +47,7 @@
 
 	    <div class="modal-body fileUpload">
 	    	<div class="form-group">
-		        <label id="sign-confirm-password-label" class="modalLabel">Confirm Password: </label>
+		        <label id="sign-confirm-password-label" class="modalLabel">Select File to Upload: </label>
 		          <div class="col-xs-12">
 	     			<input type="file" class="center col-xs-12 fileInput" id="upload" name="upload"/>
 	     		</div>
@@ -97,14 +99,18 @@
 	{{/each}}
 	</div>
 	
+
 	<!-- Project Files -->
 	<div id="projectFiles">
-	{{#each arrayify projectFiles}}
-	    {{> project_files}}
-	{{/each}}
+		{{#each arrayify projectFiles}}
+		    {{> project_files}}
+		{{/each}}
 	</div>
 
+
       </ol>
+
+
       
 
     </div>

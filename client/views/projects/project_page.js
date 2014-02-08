@@ -29,59 +29,14 @@ Template.projectPage.events({
 
      },
 
-    /**
-     * Upload file to Smart file and to our database
-     * @param  {[type]} e        event returned
-     * @param  {[type]} template Parameter of the used template
-     */
-     'click #smartfile': function (e, template) {
-     	e.preventDefault();
-     	var file = template.find('#upload').files[0];
-     	var projectData = Projects.findOne({_id: Session.get("currentProject")});
-     	console.log("Directory " + getDirectoryFromStack(projectData, true));	 
-     	if(folderStack.length > 0){
-     		console.log(file);
-     		console.log(getDirectoryFromStack(projectData, true));
-     		console.log("Before Upload");
-     		sf.upload(file, {
-     			file: file.name,
-     			path : getDirectoryFromStack(projectData, true)
-     		},
-
-     		function (err, res){
-     			if (err) {
-     				console.log("upload failed", err);
-     				return;
-     			}
-
-
-     			var folderData = getFolderData(projectData);
-
-			  //Find the document type by splitting on the .
-			  var nameSplit = file.name.split(".");
-			  var type = "";
-			  var fileName = file.name;
-			  if(nameSplit.length > 0){
-			      //get type after .
-			      type = nameSplit[1];
-			      //Collect file name without .
-			      fileName = nameSplit[0];
-			  }
-			  //Create File
-			  folderData.files[fileName] = createFile(fileName, type);
-			  console.log("Current Project Data");
-			  console.log(projectData);
-			  //Update Project
-			  Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
-
-
-
-			});
-			console.log("Completed Uploding");
-     	}else{
-     		alert("You can only upload a file within a folder.");
-     	}
+     'click #uploadItem' : function(){
+     	$("#uploadData").modal("toggle");
      },
+ 
+ 	'click #add-folder' : function(){
+     	$("#addfolder").modal("toggle");
+     },
+
 
      'click #downloadMe' : function(e, template){
      	e.preventDefault();
@@ -121,28 +76,7 @@ Template.projectPage.events({
 	    	}
 
 	    }
-	}
-
-	
-},
-
-'click #submitNewFolder' : function(){
-	var folderTitle = $('#addFolderName').val();
-	if(folderTitle != 'undefined'){
-		var projectData = Projects.findOne({_id: Session.get("currentProject")});
-		var folderData = getFolderData(projectData);
-		if(!(folderTitle in folderData.folders)){
-			console.log("Inside create folder");
-			folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
-			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
-				if(error)
-					console.log(error);
-			});
-			Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
-		}else{
-			throwError("This folder already existed, please create a new folder name.");
-		}
-	}
+	}	
 },
 
 'click .download-file-link' : function(event) {

@@ -1,4 +1,4 @@
-var clickedID = null;
+clickedID = null;
 onUserDelete = false;
 onUserHR = false;
 
@@ -139,87 +139,10 @@ Template.userList.events({
 				removeHR($(boxes[i]));
 			}
 		}
-	},
-
-	'click #update-user': function () {
-		var firstName = $("#first-name").val();
-		var lastName = $("#last-name").val();
-		var userGroup = $("#user-group").val();
-		Meteor.users.update({_id: clickedID}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
-		masterEmps.update({_id: clickedID}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
-		workingEmps.update({_id: clickedID}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
-	},
-
-	'click #hr-update-btn': function () {
-		var sickDays = $("#sick-days").val();
-		var vacationDays = $("#vacation-days").val();
-		Meteor.users.update({_id: clickedID}, {$set:{"profile.hr.sickDays": sickDays, "profile.hr.vacationDays": vacationDays,}});
-		masterEmps.update({_id: clickedID}, {$set:{"profile.hr.sickDays": sickDays, "profile.hr.vacationDays": vacationDays,}});
-		workingEmps.update({_id: clickedID}, {$set:{"profile.hr.sickDays": sickDays, "profile.hr.vacationDays": vacationDays,}});
-	},
-		/**
-	 * Creates a projects and inserts it in the project collection
-	 * @param  Event event The event of clicking the button
-	 * @return void
-	 */
-	 'click #create-user': function (event) {
-	 	console.log("Hello");
-	 	var createdID;
-
-	 	var time = new Date().getTime();
-	 	var options = {
-	 		email : $('#email').val(),
-	 		password : 'password',
-                //Profile is the object within the user that can
-                //be freely edited by the user
-                profile : {
-                	firstName : capitalizeFirstLetter($('#first-create-name').val()),
-                	lastName: capitalizeFirstLetter($('#last-create-name').val()),
-                	email: $("#email").val().toLowerCase(),
-                	userGroup : capitalizeFirstLetter($('#user-create-group').val()),
-                	joinDate: time,
-                	recent: {
-                		lastLogin: time,
-                		lastProjectName: "None",
-                		lastProjectID: "None"
-                	},
-                	hr : {
-                		sickDays: 0,
-                		vacationDays: 0,
-                    //Updates in an arryay conataining update objects
-                    //that contain a value, and how it has changed
-                    updates : [{
-                    	hrValue: "User",
-                    	valueChanged: "Was Created"
-                    }]
-                }
-            }
-        };
-        Meteor.call('createNewUser', options, function (error, id) {
-        	createdID = id;
-        	empl = Meteor.users.findOne({"_id" : createdID});
-        	workingEmps.insert(empl);
-        });
-        $("#search-emp-field").val("");
-        updateEmpAdd("");
-
-
-    }
+	}
 });
 
 Template.userList.created = function () {
-
-	masterEmps = new Meteor.Collection(null);
-	workingEmps = new Meteor.Collection(null);
-
-	searchEmpFieldLength = 0;
-	employees = Meteor.users.find({});
-	
-	employees.forEach(function (employee){
-		employee.rank = 0;
-		workingEmps.insert(employee);
-		masterEmps.insert(employee);
-	});
 	onUserDelete = false;
 };
 

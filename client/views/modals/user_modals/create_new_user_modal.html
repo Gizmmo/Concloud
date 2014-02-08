@@ -1,0 +1,53 @@
+<template name = "createNewUserModal">
+	<div class="modal fade" id="createData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+	  		<div class="modal-content">
+	    		<div class="modal-header">
+	      			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		      	    <h4 class="modal-title" id="myModalLabel">Create New User</h4>
+	    		</div>
+	    		<div class="modal-body">
+	      			<div class="control-group">
+	      				<div class = "row">
+		      				<div class="label-area col-xs-12">
+			                	<label id="email-label" class=
+			                	"modalLabel">Email: </label> 
+		                			<textarea id="email" class=" col-xs-12 modal-text"></textarea> 
+		            		</div>
+	            		</div>
+	            		<br>
+	            		<div class = "row">
+			            	<div class="label-area col-xs-4">
+			                	<label class="modalLabel" id="first-create-name-label">First Name: </label> 
+			                	
+		                			<textarea id="first-create-name" class="modal-text"></textarea> 
+		                		
+		            		</div>
+		            		<div class="label-area col-xs-4">
+		            			<label class="modalLabel" id="last-create-name-label">Last Name: </label>
+		                		<textarea id="last-create-name" class="modal-text"></textarea>
+		            		</div>
+
+			        		<div class="control-group col-xs-4">
+				            	<label class="modalLabel control-label" for="user-create-group">User Group</label>
+				            	<div class = "controls">
+			    	            	<select name="user-group" id ="user-create-group" class="groupSelect">
+			        	            	<option value="Employee">Employee</option>
+			            	        	<option value="Client">Client</option>
+			                	    	<option value="Admin">Office Manager</option>
+			                    		<option value="Sub-Trade">Sub-Trade</option>
+			                		</select>
+			            		</div>
+		        			</div>
+		        		</div>
+        			</div>
+
+	    		</div>
+	    		<div class="modal-footer">
+		      		<button id="create-user" class="btn btn-success" data-dismiss="modal">Create User</button>
+	      			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	    		</div>
+	  		</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</template>

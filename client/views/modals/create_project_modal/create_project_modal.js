@@ -1,9 +1,3 @@
-Template.createProjectModal.helpers({
-	foo: function () {
-		// ...
-	}
-});
-
 Template.createProjectModal.events({
 	'click #create-side-project' : function () {
 				//This will stop the default submitting of the form

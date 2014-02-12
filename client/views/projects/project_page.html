@@ -47,10 +47,23 @@
 
 	    <div class="modal-body fileUpload">
 	    	<div class="form-group">
+	    		<div class="col-xs-12">
+	    			<ul class="nav nav-tabs fileFolderTabs">
+					  <li id="file-li" class="active"><a href="#" id="file-upload">File</a></li>
+					  <li id="folder-li"><a href="#" id="folder-upload">Folder</a></li>
+					</ul>
+	    		</div>
+	    		{{#if onFile}}
 		        <label id="sign-confirm-password-label" class="modalLabel">Select File to Upload: </label>
 		          <div class="col-xs-12">
 	     			<input type="file" class="center col-xs-12 fileInput" id="upload" name="upload"/>
 	     		</div>
+	     		{{else}}
+	     		<label id="sign-confirm-password-label" class="modalLabel">Select Folder to Upload: </label>
+		          <div class="col-xs-12">
+	     			<input type="file" webkitdirectory class="center col-xs-12 fileInput" id="upload" name="upload"/>
+	     		</div>
+	     		{{/if}}
 	      	</div>
 	      
 	    </div>

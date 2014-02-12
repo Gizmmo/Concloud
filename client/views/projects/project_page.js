@@ -10,6 +10,23 @@ Template.projectPage.events({
 		$('.projectCheckbox').prop('checked', true);
 	},
 
+	'click #file-upload' :function () {
+		if(Session.get("uploadType") != "file"){
+			Session.set("uploadType", "file");
+			$('#file-li').addClass('active');
+			$('#folder-li').removeClass('active');
+		}
+	},
+
+	'click #folder-upload' : function () {
+		if(Session.get('uploadType') != 'folder'){
+			Session.set('uploadType', 'folder');
+			console.log('folder');
+			$('#folder-li').addClass('active');
+			$('#file-li').removeClass('active')
+		}
+	},
+
 	'click #deleteItem' : function () {
 		$('input:checkbox.projectCheckbox').each(function() {
 			var thisVal = (this.checked ? $(this).attr('id') : "");
@@ -36,8 +53,16 @@ Template.projectPage.events({
      */
      'click #smartfile': function (e, template) {
      	e.preventDefault();
-     	var file = template.find('#upload').files[0];
+     	
+     	var files = template.find('#upload').files;
      	var projectData = Projects.findOne({_id: Session.get("currentProject")});
+
+     	if(files.length > 1){
+     		console.log(files);
+     	}else{
+
+     	var file = files[0];
+     	console.log(file);
      	if(folderStack.length > 0){
      		Session.set("uploadingData", true);
      		sf.upload(file, {
@@ -62,7 +87,7 @@ Template.projectPage.events({
 			        type = nameSplit[1];
 			        //Collect file name without .
 			        fileName = nameSplit[0];
-			  }
+			    }
 
 			  //Create File
 			  folderData.files[fileName] = createFile(fileName, type);
@@ -77,6 +102,7 @@ Template.projectPage.events({
      	}else{
      		alert("You can only upload a file within a folder.");
      	}
+     }
      },
 
      'click #downloadMe' : function(e, template){
@@ -175,6 +201,10 @@ Template.projectPage.helpers({
 		});
 	},
 
+	onFile : function() {
+		return (Session.get("uploadType")==="file");
+	},
+
 	uploadingData : function() {
 		return Session.get("uploadingData");
 	},
@@ -190,6 +220,7 @@ Template.projectPage.helpers({
 
 Template.projectPage.created = function() {
 	folderStack = [];
+	Session.set("uploadType", "file");
 
 };
 
@@ -284,9 +315,26 @@ function downloadFile(itemName){
 		if(error){
 			console.log(error);
 		}else{
-			window.location.href = result;
+			window.location.href = result+"?download=true";
 		}
 	});
+}
+function traverseFileTree(item, path) {
+	path = path || "";
+	if (item.isFile) {
+    // Get file
+    item.file(function(file) {
+    	console.log("File:", path + file.name);
+    });
+} else if (item.isDirectory) {
+    // Get folder contents
+    var dirReader = item.createReader();
+    dirReader.readEntries(function(entries) {
+    	for (var i=0; i<entries.length; i++) {
+    		traverseFileTree(entries[i], path + item.name + "/");
+    	}
+    });
+}
 }
 
 

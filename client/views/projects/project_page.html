@@ -22,7 +22,9 @@
 	  </span>
 	</a>
       </div>
-
+       {{#if uploadingData}}
+		{{>spinner}}
+	{{/if}}
       <!--File and Folder Buttons -->
 	
       <div class="projectHeader">
@@ -32,11 +34,8 @@
 	<div class="btn btn-warning" id="selectAllItems"><i class="fa fa-check-circle-o"></i> Select All</div>
 	<div class="btn btn-danger" id="deleteItem"><i class="fa fa-times"></i> Delete</div>
       </div>
-
       {{> addFolderModal}}
       {{> uploadModal}}
-
-
 
       <!-- Folders and Files -->
       
@@ -48,14 +47,18 @@
 	{{/each}}
 	</div>
 	
+
 	<!-- Project Files -->
 	<div id="projectFiles">
-	{{#each arrayify projectFiles}}
-	    {{> project_files}}
-	{{/each}}
+		{{#each arrayify projectFiles}}
+		    {{> project_files}}
+		{{/each}}
 	</div>
 
+
       </ol>
+
+
       
 
     </div>

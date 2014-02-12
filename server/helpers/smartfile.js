@@ -30,11 +30,12 @@ Meteor.methods({
 		console.log("made it to exchangeSmartFiles");
 		
 		try{
-			var httpResponse = HTTP.post(exchange,{
+			var httpResponse = HTTP.post(exchange+"?download=true",{
 				auth:sf._getApiAuthString(),
 				data: {
 					path: pathName
-				}
+				},
+				download:true
 				// headers: {
 				// 	"Content-Disposition": "attachment"
 				// }

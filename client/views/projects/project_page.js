@@ -233,8 +233,8 @@ function deleteFolder(folderName){
 	delete folderData.folders[folderName];
 	console.log("folder data before update : " + projectData.folders);
 	Meteor.call("remove",getDirectoryFromStack(projectData, false) + folderName, function(err,result){
-		if(error)
-			console.log(error);
+		if(err)
+			console.log(err);
 	});
 	Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
 
@@ -249,8 +249,8 @@ function deleteFile(fileName){
 	console.log(projectData);
 	console.log("remove file " + getDirectoryFromStack(projectData, false));
 	Meteor.call("remove", getDirectoryFromStack(projectData, false) + fileNameType, function(err, result){
-		if(error)
-			console.log(error);
+		if(err)
+			console.log(err);
 	});
 	Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
 }

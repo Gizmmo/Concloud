@@ -13,7 +13,6 @@ capitalizeFirstLetter = function(string){
 };
 
 checkImageType = function(fileType){
-	console.log("filetype:"  + fileType.toString());
 	if(fileType === "jpg" || fileType === "png" ||fileType === "gif" || fileType === "tiff" ||fileType === "bmp" || fileType === "svg"){
 			console.log("inside if");
 			return "s_web_page_white_picture_32";

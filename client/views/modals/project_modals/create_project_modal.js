@@ -1,6 +1,21 @@
 Template.createProjectModal.events({
+	'click #createSideProj' : function (event) {
+		clearBackground(event, "createSideProj");
+	},
+	'keypress' : function() {
+    if(event.which === 13){
+      clearBackground();
+      createSideProject();
+    }
+  },
+
 	'click #create-side-project' : function () {
-				//This will stop the default submitting of the form
+		createSideProject();
+	}
+});
+
+function createSideProject(){
+	//This will stop the default submitting of the form
 		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
 	    
 	    	Meteor.call('createNewProjectDirectories', $('#create-side-title').val(), function (error, result) {
@@ -66,6 +81,4 @@ Template.createProjectModal.events({
             } else {
             }
         });
-
-	},
-});
+}

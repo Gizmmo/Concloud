@@ -9,6 +9,9 @@ Template.signInModal.rendered = function () {
 };
 
 Template.signInModal.events({
+	'click #myModal' : function (event) {
+		clearBackground(event, "myModal");
+	},
 /**
  * If a user presses enter while on a subfield when signing up
  * they will submit the form.  This is done as there is already
@@ -19,6 +22,7 @@ Template.signInModal.events({
  'keypress .onSub': function (event) {
 		//This will stop the default submitting of the form
 		if(event.which === 13){
+			clearBackground(event, "myModal");
 			logIn();
 		}
 	},

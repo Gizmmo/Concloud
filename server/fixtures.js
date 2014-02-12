@@ -1,5 +1,5 @@
 // Fixture data 
-if (Projects.find().count() === 0) {
+if (Meteor.users.find().count() === 0) {
     var now = new Date().getTime();
     var time = new Date().getTime();
 

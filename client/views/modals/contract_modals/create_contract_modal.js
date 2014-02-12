@@ -1,6 +1,21 @@
 Template.createContractModal.events({
+	'click #createContract' : function (event) {
+		clearBackground(event, "createContract");
+	},
+	'keypress' : function() {
+		if(event.which === 13){
+			clearBackground();
+			createContract();
+		}
+	},
+	
 	'click #create-contract' : function () {
-		var curUser = Meteor.user();
+		createContract();
+	}
+});
+
+function createContract(){
+			var curUser = Meteor.user();
 		var name = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName
 		var contract = {
 			title: $('#create-title').val(),
@@ -18,5 +33,4 @@ Template.createContractModal.events({
             } else {;
             }
         });
-	},
-});
+}

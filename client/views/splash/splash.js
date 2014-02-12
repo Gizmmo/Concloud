@@ -3,6 +3,13 @@ Template.splash.events({
 
 	'click #learnMore' : function() {
 		Router.go('prices');
+	},
+
+	'click' : function() {
+			if(Meteor.user()){
+		Router.go("dashboard");
+		console.log("Hello");
+	}
 	}
 
 });

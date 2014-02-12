@@ -1,12 +1,25 @@
 Template.uploadModal.events({
+  'click #uploadData' : function (event) {
+    clearBackground(event, "uploadData");
+  },
+  'keypress' : function() {
+    if(event.which === 13){
+      clearBackground();
+      upload();
+    }
+  },
     /**
      * Upload file to Smart file and to our database
      * @param  {[type]} e        event returned
      * @param  {[type]} template Parameter of the used template
      */
      'click #smartfile': function (e, template) {
-          e.preventDefault();
+      upload();
+     }
           
+ });
+
+function upload() {       
           var files = template.find('#upload').files;
           var projectData = Projects.findOne({_id: Session.get("currentProject")});
 
@@ -57,4 +70,3 @@ Template.uploadModal.events({
           }
      }
      }
- });

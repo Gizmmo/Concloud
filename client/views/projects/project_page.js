@@ -51,7 +51,7 @@ Template.projectPage.events({
      },
  
  	'click #add-folder' : function(){
-     	$("#addfolder").modal("toggle");
+     	$("#addFolder").modal("toggle");
      },
 
 

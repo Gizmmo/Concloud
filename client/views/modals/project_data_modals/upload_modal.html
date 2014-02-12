@@ -11,10 +11,19 @@
 
 	    <div class="modal-body fileUpload">
 	    	<div class="form-group">
-		        <label id="sign-confirm-password-label" class="modalLabel">Confirm Password: </label>
+		        <label id="sign-confirm-password-label" class="modalLabel">Select File to Upload: </label>
 		          <div class="col-xs-12">
-	     			<input type="file" class="center col-xs-12 fileInput" id="upload" name="upload"/>
+	     			<input type="file" class="center col-xs-12 fileInput" id="upload-file" name="upload-file"/>
 	     		</div>
+	     	</div>
+	     	<div class="form-group">
+
+	     		<label id="sign-confirm-password-label" class="modalLabel">Select Folder to Upload: </label>
+		          <div class="col-xs-12">
+	     			<input type="file" webkitdirectory class="center col-xs-12 fileInput" value="folder" id="upload-folder" name="upload-folder"/>
+	     		</div>
+
+	     		<p>Please use one option. If you use both, the file option will be used.</p>
 	      	</div>
 	      
 	    </div>

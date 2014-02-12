@@ -22,28 +22,7 @@ Template.uploadModal.events({
      * @param  {[type]} template Parameter of the used template
      */
      'click #smartfile': function (e, template) {
-      upload();
-     },
-      'click #file-upload' :function () {
-            if(Session.get("uploadType") != "file"){
-              Session.set("uploadType", "file");
-              $('#file-li').addClass('active');
-              $('#folder-li').removeClass('active');
-            }
-          },
-
-     'click #folder-upload' : function () {
-            if(Session.get('uploadType') != 'folder'){
-              Session.set('uploadType', 'folder');
-              $('#folder-li').addClass('active');
-              $('#file-li').removeClass('active');
-            }
-          }
-});
-
-function upload() {       
-
-      var files = template.find('#upload-folder').files;
+       var files = template.find('#upload-folder').files;
       var projectData = Projects.findOne({_id: Session.get("currentProject")});
       counter = 0;
       if(files.length !== 0){
@@ -71,8 +50,23 @@ function upload() {
                  alert("You can only upload a file within a folder.");
                }
              }
-      }
+     },
+      'click #file-upload' :function () {
+            if(Session.get("uploadType") != "file"){
+              Session.set("uploadType", "file");
+              $('#file-li').addClass('active');
+              $('#folder-li').removeClass('active');
+            }
+          },
 
+     'click #folder-upload' : function () {
+            if(Session.get('uploadType') != 'folder'){
+              Session.set('uploadType', 'folder');
+              $('#folder-li').addClass('active');
+              $('#file-li').removeClass('active');
+            }
+          }
+});
 
 function uploadFile(file,projectData){
   sf.upload(file, {

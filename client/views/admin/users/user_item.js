@@ -1,4 +1,4 @@
-Template.userItem.helpers({
+	Template.userItem.helpers({
   	getName: function () {
   		name = this.profile.lastName + ", " + this.profile.firstName;
 	    if(name.length > 43){
@@ -50,7 +50,6 @@ Template.userItem.helpers({
 Template.userItem.events({
  	'click .close-x' : function () {
 	    $(".b-user-item").attr("data-target", "");
-	    workingEmps.remove({_id: this._id});
 	    Meteor.users.remove({_id: this._id});
   },
 });

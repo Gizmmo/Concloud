@@ -7,7 +7,6 @@ Template.contractAdminItem.events({
 
   'click .close-x' : function () {
     $(".b-contract-item").attr("data-target", "");
-    workingContracts.remove({_id: this._id});
     Contracts.remove({_id: this._id});
   },
 

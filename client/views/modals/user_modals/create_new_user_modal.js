@@ -17,6 +17,9 @@ Template.createNewUserModal.events({
 	 */
 	 'click #create-user': function (event) {
         createNewUser();
+        $('#email').val("");
+        $('#first-create-name').val("");
+        $('#last-create-name').val("");
     }
 });
 

@@ -21,7 +21,7 @@ clearBackground = function(event, divName){
 }
 
 Deps.autorun(function(){
-	if(Meteor.user()){
+	if(Meteor.user() && !Session.get("LoggedIn")){
 		Router.go("dashboard");
 	}
 });

@@ -15,7 +15,7 @@ Template.updateHRModal.events({
 
 function updateHR(){
 	var sickDays = $("#sick-days").val();
-		var vacationDays = $("#vacation-days").val();
-		Meteor.users.update({_id: clickedID}, {$set:{"profile.hr.sickDays": sickDays, "profile.hr.vacationDays": vacationDays,}});
+	var vacationDays = $("#vacation-days").val();
+	Meteor.users.update({_id: clickedID}, {$set:{"profile.hr.sickDays": sickDays, "profile.hr.vacationDays": vacationDays,}});
 	
 }

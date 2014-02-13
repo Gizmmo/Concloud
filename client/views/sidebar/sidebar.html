@@ -10,17 +10,18 @@
 
 		<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 			<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+
+				{{#if projectListOk}}
 				<a class="btn btn-success" href="{{pathFor 'projectsList'}}" id="projbtn" title="Projects" rel="tooltip">
 					<i class="fa fa-folder-open"></i>
 				</a>
+				{{/if}}
 
-				<a class="btn btn-info" href = "#" title="Create Project" id="createSideBtn" rel="tooltip">
-					<i class="fa fa-pencil"></i>
-				</a>
-
+				{{#if subTradeOk}}
 				<button class="btn btn-warning" title="Sub-Trades" rel="tooltip" id="subbtn">
 					<i class="fa fa-group"></i>
 				</button>
+				{{/if}}
 
 				<a class="btn btn-danger" id="accountBtn" title="Change Password" rel="tooltip">
 					<i class="fa fa-cogs"></i>

@@ -6,5 +6,9 @@ Template.project_files.helpers({
 
 	getImage : function(event){
 		return checkImageType(this.proData.fileType);
+	},
+
+	collectFileName : function(event){
+		return this.proData.fileName;
 	}
 });

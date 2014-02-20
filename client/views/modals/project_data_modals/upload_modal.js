@@ -23,55 +23,90 @@ Template.uploadModal.events({
      */
      'click #smartfile': function (e, template) {
        var files = template.find('#upload-folder').files;
-      var projectData = Projects.findOne({_id: Session.get("currentProject")});
-      counter = 0;
+       var projectData = Projects.findOne({_id: Session.get("currentProject")});
+       var folderData = getFolderData(projectData);
+       counter = 0;
+      //Download Folder(s)
       if(files.length !== 0){
-        console.log(files);
        for (i = 0; i< files.length; i++) {
         Session.set("uploadingData", true);
-        uploadFile(files[i],projectData);
-        addToDatabase(files[i],projectData);
-        runUpdate();
-       }
 
-    Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+        //Collect Folder Path
+        var path = files[i].webkitRelativePath;
+        var pathStack = path.split("/");
+        pathStack.pop();
+        pathStack.shift();
 
+        var createPath = getDirectoryFromStack(projectData, false);
+        var filePath = getDirectoryFromStack(projectData, true);
 
-     }else{
-
-      var file = template.find('#upload-file').files[0];
-      if(getFolderStack().length > 0){
-       Session.set("uploadingData", true);
-       uploadFile(file,projectData);
-       addToDatabase(file,projectData);
-       runUpdate();
-       Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
-               }else{
-                 alert("You can only upload a file within a folder.");
-               }
-             }
-     },
-      'click #file-upload' :function () {
-            if(Session.get("uploadType") != "file"){
-              Session.set("uploadType", "file");
-              $('#file-li').addClass('active');
-              $('#folder-li').removeClass('active');
+        if(pathStack.length > 0){
+          for (var j = 0; j < pathStack.length; j++) {
+            if(j > 0){
+              createPath += "/";
+              filePath += "/";
             }
-          },
-
-     'click #folder-upload' : function () {
-            if(Session.get('uploadType') != 'folder'){
-              Session.set('uploadType', 'folder');
-              $('#folder-li').addClass('active');
-              $('#file-li').removeClass('active');
-            }
+            filePath += pathStack[j].replace(/\s/g, "%20");
+            createPath += pathStack[j];
           }
+          filePath += "/";
+          createFoldersOnSmartfile(createPath);
+          var currentFolder = createFoldersOnServer(pathStack, projectData, folderData);
+          uploadFile(files[i], projectData, filePath);
+
+        }else{
+
+          upload(files[i],projectData, folderData);
+        }
+      }
+
+      Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+
+    //Download Single File
+  }else{
+
+    var file = template.find('#upload-file').files[0];
+    if(getFolderStack().length > 0){
+     Session.set("uploadingData", true);
+     upload(file,projectData, folderData);
+     Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+   }else{
+     alert("You can only upload a file within a folder.");
+   }
+ }
+},
+'click #file-upload' :function () {
+  if(Session.get("uploadType") != "file"){
+    Session.set("uploadType", "file");
+    $('#file-li').addClass('active');
+    $('#folder-li').removeClass('active');
+  }
+},
+
+'click #folder-upload' : function () {
+  if(Session.get('uploadType') != 'folder'){
+    Session.set('uploadType', 'folder');
+    $('#folder-li').addClass('active');
+    $('#file-li').removeClass('active');
+  }
+}
 });
 
-function uploadFile(file,projectData){
+function upload(file, projectData, folderData){
+
+  uploadFile(file,projectData);
+  addToDatabase(file,folderData);
+  runUpdate();
+}
+
+function uploadFile(file,projectData,path){
+
+  if(typeof path === 'undefined'){
+    path = getDirectoryFromStack(projectData, true);
+  }
   sf.upload(file, {
     file: file.name,
-    path : getDirectoryFromStack(projectData, true)
+    path : path
   },
 
   function (err, res){
@@ -79,13 +114,11 @@ function uploadFile(file,projectData){
      console.log("upload failed", err);
      return;
    }
-   
-  });
+ });
 }
 
 
-  function addToDatabase(file, projectData){
-     var folderData = getFolderData(projectData);
+function addToDatabase(file, folderData){
 
     //Find the document type by splitting on the .
     var nameSplit = file.name.split(".");
@@ -101,10 +134,34 @@ function uploadFile(file,projectData){
     }
 
     //Create File
-    folderData.files[fileName] = createFile(fileName, type);
+    folderData.files[nameSplit[0]] = createFile(nameSplit[0], type);
   }
 
   function runUpdate(){
     Session.set("uploadingData", false);
   }
+
+  function createFoldersOnSmartfile(createPath){
+    Meteor.call('createDirectory', createPath, function (error, result) {
+      if(error)
+        console.log(error);
+    });
+  }
+
+  function createFoldersOnServer(folderStack, projectData, folderData){
+
+    if(folderStack.length === 0){
+      return;
+    }
+    var currentFolders = folderData;
+    for (var i = 0; i < folderStack.length; i++) {
+      if(!(folderStack[i] in currentFolders.folders)){
+       currentFolders.folders[folderStack[i]] = createFolder(folderStack[i], folderStack[i]);
+     }
+
+     currentFolders = currentFolders[folderStack[i]];
+   }
+
+   return currentFolders;
+ }
 

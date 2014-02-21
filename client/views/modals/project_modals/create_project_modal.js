@@ -17,7 +17,6 @@ Template.createProjectModal.events({
 function createSideProject(){
 	//This will stop the default submitting of the form
 		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
-	    
 	    	Meteor.call('createNewProjectDirectories', $('#create-side-title').val(), function (error, result) {
 	    		if(error)
 	    			console.log(error);
@@ -41,9 +40,6 @@ function createSideProject(){
 	        var safety = createFolder("Safety", folderCreation, folderUpdate);
 	        var shopDrawings = createFolder("Shop Drawings", folderCreation, folderUpdate);
 	        var subtrades = createFolder("Subtrades", folderCreation, folderUpdate);
-
-
-	       
 
 		//Creates a project var that will pass the arg
 		//to the database

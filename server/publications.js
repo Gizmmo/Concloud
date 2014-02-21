@@ -6,6 +6,10 @@ Meteor.publish('subscriptions', function() {
   return Subscriptions.find();
 });
 
+Meteor.publish('folders', function() {
+	return Folders.find();
+});
+
 Meteor.publish('projects', function(userGroup) {
 	if(userGroup === "Admin" || userGroup === "Office Manager"){
 		return Projects.find();

@@ -6,8 +6,7 @@ var password = "1z3CPFe6gn8BuEs0cJjLCLtoMBnZn8";
 sf.configure({
 	key: key,
 	password: password,
-	basePath: "",
-	publicRootUrl: "https://file.ac/CSB6GqDSJvM/"
+	basePath: ""
 });
 
 sf.onUpload = function (result, options) {

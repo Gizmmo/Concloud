@@ -62,7 +62,9 @@ Template.uploadModal.events({
           upload(files[i],projectData, folderData);
         }
       }
-
+      Meteor.setTimeout(function(){
+        Session.set("uploadingData", false);
+      },5000);
       Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
 
     //Download Single File

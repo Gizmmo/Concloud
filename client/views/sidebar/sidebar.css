@@ -1,3 +1,7 @@
 .sidebar {
 	z-index:1;
 }
+
+.concord-logo {
+	min-width:100%;
+}

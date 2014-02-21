@@ -40,7 +40,6 @@ Meteor.methods({
 				// }
 			});
 			var url = httpResponse.data.url;
-			console.log(url);
 			return url;
 
 		}catch(e){

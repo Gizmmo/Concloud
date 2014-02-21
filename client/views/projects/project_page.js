@@ -21,7 +21,6 @@ Template.projectPage.events({
 	'click #folder-upload' : function () {
 		if(Session.get('uploadType') != 'folder'){
 			Session.set('uploadType', 'folder');
-			console.log('folder');
 			$('#folder-li').addClass('active');
 			$('#file-li').removeClass('active')
 		}
@@ -35,10 +34,8 @@ Template.projectPage.events({
 				var itemType = thisVal.split("-")[0];
 				var itemName = thisVal.split("-")[1];
 				if(itemType == 'folder'){
-					console.log("in folder delete : " + itemName);
 					deleteFolder(itemName);
 				}else if (itemType == "file"){
-					console.log("in here");
 					deleteFile(itemName);
 				}
 			}
@@ -57,7 +54,6 @@ Template.projectPage.events({
 
      'click #downloadMe' : function(e, template){
      	e.preventDefault();
-     	console.log('here');
      	Meteor.call('downloadFile', "bench.jpg", window,
      		function(err, result){
      			if(err)
@@ -80,11 +76,9 @@ Template.projectPage.events({
 	    	var foundFolder = true;
 	    	while(foundFolder){
 	    		if(folderClicked === folderStack[(folderStack.length - 1)]){
-	    			console.log("foundProject");
 	    			constructProject();
 	    			foundFolder = false;
 	    		}else if(folderStack.length == 0){
-	    			console.log("in base resolution");
 	    			constructProject();
 	    			foundFolder = false;
 	    		}else{
@@ -129,7 +123,6 @@ Template.projectPage.events({
 			var itemType = thisVal.split("-")[0];
 			var itemName = thisVal.split("-")[1];
 			if(itemType == 'folder'){
-				console.log("in folder Download : " + itemName);
 
 			}else if (itemType == "file"){
 				downloadFile(itemName);
@@ -144,12 +137,6 @@ Template.projectPage.events({
 });
 
 Template.projectPage.helpers({
-
-	listSmartFiles : function() {
-		Meteor.call('getSmartFiles', function(err, response){
-			console.log(response);
-		});
-	},
 
 	onFile : function() {
 		return (Session.get("uploadType")==="file");
@@ -188,7 +175,6 @@ Template.projectPage.destroyed = function() {
 
 addToFolderStack = function(name){
 	folderStack.push(name);
-	console.log(folderStack);
 };
 
 getDirectoryFromStack = function(projectData, fillSpaces){

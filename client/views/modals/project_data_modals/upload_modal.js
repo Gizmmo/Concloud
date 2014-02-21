@@ -159,17 +159,13 @@ function addToDatabase(file, folderData){
       return;
     }
 
-    console.log("Create Folders on Server");
     var currentFolders = folderData;
     for (var i = 0; i < folderStack.length; i++) {
       if(!(folderStack[i] in currentFolders.folders)){
-        console.log("create current folder");
        currentFolders.folders[folderStack[i]] = createFolder(folderStack[i], folderStack[i]);
-       console.log(currentFolders);
      }
 
      currentFolders = currentFolders.folders[folderStack[i]];
-     console.log(currentFolders);
    }
 
    return currentFolders;

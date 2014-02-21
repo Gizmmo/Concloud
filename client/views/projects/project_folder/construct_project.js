@@ -9,12 +9,10 @@ constructProject = function(){
     var baseData = $('#header-base').clone();
     title.empty();
     title.html(baseData);
-    console.log("Project Stack for breadcrumbs" + projectStack);
     //Iterate trough the stack until we are in at the depth we currently are
     for(var i = 0; i < projectStack.length; i++) {
        folderData = folderData.folders[projectStack[i]];
        constructBreadcrumbs(title,folderData);
-       console.log(folderData);
    }
     //Make an array out of all folders of the selected folder
     var arrayFolders = arrayify(folderData.folders);
@@ -74,7 +72,6 @@ getFolderData = function(folderData){
 
 
 createFolder = function(name, folderCreation, folderUpdate){
-    console.log(folderCreation);
     if(typeof folderCreation === 'undefined'){
        folderCreation = createFolderCreation();
    }

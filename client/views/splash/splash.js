@@ -8,7 +8,6 @@ Template.splash.events({
 	'click' : function() {
 			if(Meteor.user()){
 		Router.go("dashboard");
-		console.log("Hello");
 	}
 	}
 

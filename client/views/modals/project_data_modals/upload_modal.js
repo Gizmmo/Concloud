@@ -53,9 +53,8 @@ Template.uploadModal.events({
           createFoldersOnSmartfile(createPath);
           var currentFolder = createFoldersOnServer(pathStack, projectData, folderData);
           uploadFile(files[i], projectData, filePath);
-          console.log("Checking current folder");
-          console.log(currentFolder);
           addToDatabase(files[i], currentFolder);
+          removeEmptyString(currentFolder);
 
         }else{
 
@@ -98,9 +97,11 @@ Template.uploadModal.events({
 });
 
 function upload(file, projectData, folderData){
-
+  console.log("Upload file");
+  console.log(file);
   uploadFile(file,projectData);
   addToDatabase(file,folderData);
+  removeEmptyString(folderData);
   runUpdate();
 }
 
@@ -122,6 +123,9 @@ function uploadFile(file,projectData,path){
  });
 }
 
+function removeEmptyString(folderData){
+  delete folderData.files[""];
+}
 
 function addToDatabase(file, folderData){
 

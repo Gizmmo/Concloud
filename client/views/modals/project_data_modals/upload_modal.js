@@ -97,8 +97,6 @@ Template.uploadModal.events({
 });
 
 function upload(file, projectData, folderData){
-  console.log("Upload file");
-  console.log(file);
   uploadFile(file,projectData);
   addToDatabase(file,folderData);
   removeEmptyString(folderData);

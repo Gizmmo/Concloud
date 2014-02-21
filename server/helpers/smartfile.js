@@ -26,8 +26,6 @@ Meteor.methods({
 	},
 
 	exchangeSmartFiles : function(pathName) {
-		console.log("made it to exchangeSmartFiles");
-		
 		try{
 			var httpResponse = HTTP.post(exchange+"?download=true",{
 				auth:sf._getApiAuthString(),

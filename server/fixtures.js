@@ -1,4 +1,4 @@
-// Fixture data 
+// Fixture data
 if (Meteor.users.find().count() === 0) {
     var now = new Date().getTime();
     var time = new Date().getTime();

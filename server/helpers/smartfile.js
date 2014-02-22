@@ -6,8 +6,7 @@ var password = "1z3CPFe6gn8BuEs0cJjLCLtoMBnZn8";
 sf.configure({
 	key: key,
 	password: password,
-	basePath: "",
-	publicRootUrl: "https://file.ac/CSB6GqDSJvM/"
+	basePath: ""
 });
 
 sf.onUpload = function (result, options) {
@@ -27,8 +26,6 @@ Meteor.methods({
 	},
 
 	exchangeSmartFiles : function(pathName) {
-		console.log("made it to exchangeSmartFiles");
-		
 		try{
 			var httpResponse = HTTP.post(exchange+"?download=true",{
 				auth:sf._getApiAuthString(),
@@ -41,7 +38,6 @@ Meteor.methods({
 				// }
 			});
 			var url = httpResponse.data.url;
-			console.log(url);
 			return url;
 
 		}catch(e){

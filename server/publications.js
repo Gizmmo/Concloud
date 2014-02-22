@@ -16,6 +16,10 @@ Meteor.publish('hrData', function(userGroup) {
 	if(userGroup === "Admin" || userGroup === "Office Manager"){
   		return HRData.find();
   	}
+ });
+
+Meteor.publish('folders', function() {
+	return Folders.find();
 });
 
 Meteor.publish('projects', function(userGroup) {

@@ -4,7 +4,7 @@ Meteor.subscribe('subscriptions');
 Meteor.subscribe('users', Meteor.user().profile.userGroup);
 Meteor.subscribe('hrData', Meteor.user().profile.userGroup);
 Meteor.subscribe('hr', Meteor.user().profile.userGroup);
-
+Meteor.subscribe('folders');
 
 Template.concloud.rendered = function () {
    

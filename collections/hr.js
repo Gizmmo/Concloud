@@ -14,7 +14,6 @@ Meteor.methods({
 					
 				}
 		});
-		console.log(hrInsertArray);
 
 		var insertObject = {};
 		for(var i = 0; i < hrInsertArray.length; i++){
@@ -24,15 +23,18 @@ Meteor.methods({
 			
 		}
 		insertObject.userId = hrAttributes.userId;
-		console.log(insertObject);
 		HR.insert(insertObject);
 	},
 
 	HRUpdate : function (hrAttributes){
-
+		HR.update({"userId" : hrAttributes.userId}, hrAttributes);
 	},
 
-	HRDelete : function (hrAttributes){
+	HRDelete : function (userId){
+		HR.remove({"userId": userId});
+	},
 
+	HRAdd : function(hrAttributes, newAttribute){
+		HR.update({userId : hrAttributes.userId}, {$set: newAttribute});
 	}
 });

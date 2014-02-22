@@ -14,7 +14,6 @@ $("[rel='tooltip']").tooltip();
 Template.menu.helpers({
 	projectListOk: function () {
 		user = Meteor.user();
-		console.log(user);
 		if(user.profile.userGroup === "Admin" || user.profile.userGroup === "Office Manager" || user.profile.userGroup === "Employee" || user.profile.userGroup === "Client"){
 			return true;
 		}

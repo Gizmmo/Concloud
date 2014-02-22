@@ -2,6 +2,7 @@ Meteor.subscribe('projects', Meteor.user().profile.userGroup);
 Meteor.subscribe('notifications');
 Meteor.subscribe('subscriptions');
 Meteor.subscribe('users', Meteor.user().profile.userGroup);
+Meteor.subscribe('folders');
 
 Template.concloud.rendered = function () {
    

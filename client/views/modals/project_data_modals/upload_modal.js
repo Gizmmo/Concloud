@@ -53,16 +53,17 @@ Template.uploadModal.events({
           createFoldersOnSmartfile(createPath);
           var currentFolder = createFoldersOnServer(pathStack, projectData, folderData);
           uploadFile(files[i], projectData, filePath);
-          console.log("Checking current folder");
-          console.log(currentFolder);
           addToDatabase(files[i], currentFolder);
+          removeEmptyString(currentFolder);
 
         }else{
 
           upload(files[i],projectData, folderData);
         }
       }
-
+      Meteor.setTimeout(function(){
+        Session.set("uploadingData", false);
+      },5000);
       Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
 
     //Download Single File
@@ -96,9 +97,9 @@ Template.uploadModal.events({
 });
 
 function upload(file, projectData, folderData){
-
   uploadFile(file,projectData);
   addToDatabase(file,folderData);
+  removeEmptyString(folderData);
   runUpdate();
 }
 
@@ -120,6 +121,9 @@ function uploadFile(file,projectData,path){
  });
 }
 
+function removeEmptyString(folderData){
+  delete folderData.files[""];
+}
 
 function addToDatabase(file, folderData){
 
@@ -157,17 +161,13 @@ function addToDatabase(file, folderData){
       return;
     }
 
-    console.log("Create Folders on Server");
     var currentFolders = folderData;
     for (var i = 0; i < folderStack.length; i++) {
       if(!(folderStack[i] in currentFolders.folders)){
-        console.log("create current folder");
        currentFolders.folders[folderStack[i]] = createFolder(folderStack[i], folderStack[i]);
-       console.log(currentFolders);
      }
 
      currentFolders = currentFolders.folders[folderStack[i]];
-     console.log(currentFolders);
    }
 
    return currentFolders;

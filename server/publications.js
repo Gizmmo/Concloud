@@ -6,6 +6,18 @@ Meteor.publish('subscriptions', function() {
   return Subscriptions.find();
 });
 
+Meteor.publish('hr', function(userGroup) {
+	if(userGroup === "Admin" || userGroup === "Office Manager"){
+  		return HR.find();
+  	}
+});
+
+Meteor.publish('hrData', function(userGroup) {
+	if(userGroup === "Admin" || userGroup === "Office Manager"){
+  		return HRData.find();
+  	}
+});
+
 Meteor.publish('projects', function(userGroup) {
 	if(userGroup === "Admin" || userGroup === "Office Manager"){
 		return Projects.find();

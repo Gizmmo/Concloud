@@ -10,8 +10,8 @@
 				<a class="btn btn-primary emp-btn userBtn" href="{{pathFor 'projectsAdminList'}}">
 					<i class="fa fa-folder-open-o"></i> Manage Projects
 				</a>
-				<a class="btn btn-success emp-btn conBtn" href="{{pathFor 'contractsAdminList'}}">
-					<i class="fa fa-tags"></i>  Manage Contracts
+				<a class="btn btn-success emp-btn conBtn" data-toggle="modal" data-target="#HRField">
+					<i class="fa fa-tags"></i>  Manage HR Fields
 				</a>
 				<a class="btn btn-default emp-btn userBtn" data-toggle="modal" data-target="#createData">
 					<i class="fa fa-pencil-square-o"></i> Create New User
@@ -50,6 +50,8 @@
 	{{> updateHRModal}}
 
 	{{> createNewUserModal}}
+
+	{{> createHRFieldModal}}
 
 
 </template>

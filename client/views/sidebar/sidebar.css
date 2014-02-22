@@ -8,4 +8,5 @@
 
 .sidebar-shortcuts {
 	text-align: left!important;
+	max-height:none!important;
 }

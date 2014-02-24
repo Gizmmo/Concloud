@@ -49,7 +49,8 @@
 
 Template.userItem.events({
  	'click .close-x' : function () {
-	    $(".b-user-item").attr("data-target", "");
-	    Meteor.users.remove({_id: this._id});
+ 		$(".b-user-item").attr("data-target", "");
+    	Session.set("userId", this._id);
+    	$("#deleteUser").modal("show");
   },
 });

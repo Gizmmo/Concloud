@@ -1,5 +1,5 @@
 Template.deleteModal.events({
-	'click #createSideProj' : function (event) {
+	'click #deleteProj' : function (event) {
 		if($(event.target).attr('id')!=="delete-project"){
 			clearBackground(event, "deleteProj");
 		}

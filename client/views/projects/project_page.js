@@ -162,8 +162,32 @@ Template.projectPage.helpers({
 			return true;
 		}
 		return false;
+	},
+	allowedView: function () {
+		if(isAccepted(this.proData.folderName)){
+			return true;
+		}
+		return false;
 	}
 });
+
+function isAccepted(folderName){
+	var user = Meteor.user();
+	var folderData = Folders.findOne({name: folderName});
+	if(isIn(folderData.permissions, user.profile.userGroup)){
+		return true;
+	}
+	return false;
+}
+
+function isIn(checkArray, userGroup){
+	for(var perm in checkArray){
+		if (checkArray[perm] === userGroup){
+			return true;
+		}
+	}
+	return false;
+}
 
 Template.projectPage.created = function() {
 	folderStack = [];

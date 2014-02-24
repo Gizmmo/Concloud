@@ -23,8 +23,8 @@
 	</a>
       </div>
        {{#if uploadingData}}
-		{{>spinner}}
-	{{/if}}
+			{{>spinner}}
+		{{/if}}
       <!--File and Folder Buttons -->
 	
       <div class="projectHeader">
@@ -50,7 +50,9 @@
 	<!-- Individual Folders -->
 	<div id="projectFolders">
 	{{#each arrayify projectData}}
+		{{#if allowedView}}
             {{> project_folder}}
+        {{/if}}
 	{{/each}}
 	</div>
 	

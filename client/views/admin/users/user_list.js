@@ -81,7 +81,6 @@ Template.userList.events({
 	 },
 	 'click #delbtn' : function () {
 	 	onUserDelete = !onUserDelete;
-	 	onUserHR = false;
 	 	if(onUserDelete){
 	 		$( ".b-user-item" ).removeClass( "badger-info badger-warning badger-left" ).addClass( "badger-danger badger-left" );
 	 		var boxes = $( ".b-user-item" );
@@ -91,7 +90,9 @@ Template.userList.events({
 	 			$(boxes[i]).attr("data-target", "");
 	 			$(boxes[i]).append('<i class="fa fa-times fa-2x close-x" id="close-x" title="Delete Project" rel="tooltip"></i>');
 	 			$("[rel=tooltip").tooltip();
-	 			removeHR();
+	 			if(onUserHR){
+	 				removeHR($(boxes[i]));
+	 			}
 	 		}
 	 	} else{
 	 		$( ".b-user-item" ).removeClass( "badger-danger badger-warning badger-left" ).addClass( "badger-info badger-left" );
@@ -101,9 +102,9 @@ Template.userList.events({
 	 			tempUser = Meteor.users.findOne({"_id":userID});
 	 			$(boxes[i]).attr("data-target", "#updateData");
 	 			$('i').remove('#close-x');
-	 			removeHR();
 	 		}
 	 	}
+	 	onUserHR = false;
 	 },
 
 	 'click #hrbtn': function () {

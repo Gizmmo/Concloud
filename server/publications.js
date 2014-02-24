@@ -2,6 +2,11 @@ Meteor.publish('notifications', function() {
   return Notifications.find({userID: this.userId});
 });
 
+Meteor.publish("my_channel", function() {
+  var userId = this.userId;
+  myFunction(userId);
+});
+
 Meteor.publish('subscriptions', function() {
   return Subscriptions.find();
 });

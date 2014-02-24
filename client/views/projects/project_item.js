@@ -1,7 +1,14 @@
 
 Template.projectItem.events({
   'click' : function () {
-    Router.go('projectPage', {"_id": this._id});
+    if(user.profile.userGroup == "Sub-Trade"){
+      $("#project-password").val("");
+      $("#incorrect-pass-label").text("");
+      Session.set("projectId", this._id);
+      $("#passwordModal").modal("show");
+    }else{
+      Router.go('projectPage', {"_id": this._id});
+    }
   }
 });
 

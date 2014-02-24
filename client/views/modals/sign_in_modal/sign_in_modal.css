@@ -10,7 +10,7 @@ body.modal-open .modal-open {
     margin-right :0px;
 }
 
-#incorrect-log-label, #incorrect-email-label {
+.incorrect-text{
 	color: red;
 	text-align: center;
 }

@@ -7,9 +7,11 @@ Template.projectsAdminList.events({
 			$("#search-field").val("");
 			updateView($("#search-field").val());
 		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
-			$("#createSideProj").appendTo('body').modal("show");
 			$('#create-side-title').val("");
 			$("#incorrect-fill-label").text("");
+			$('#incorrect-pass-label').text("");
+			$('#project-password-two').val("");
+			$('#project-password').val("");
 		}
 	},
 

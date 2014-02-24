@@ -4,13 +4,17 @@ Template.createProjectModal.events({
 	},
 	'keypress' : function() {
     if(event.which === 13){
-      clearBackground();
-      createSideProject();
+    	if(acceptPasswords()){
+	      clearBackground();
+	      createSideProject();
+  		}
     }
   },
 
 	'click #create-side-project' : function () {
-		createSideProject();
+		if(acceptPasswords()){
+			createSideProject();
+		}
 	}
 });
 
@@ -25,6 +29,7 @@ function createSideProject(){
 	        var folderUpdate = createFolderUpdate();
 	        var folderCreation = createFolderCreation();
 	        var project = {title:$('#create-side-title').val(),
+	        	password: $("#project-password").val(),
 	    		folders:{}};
 
 	        var foldersData = Folders.find();
@@ -36,12 +41,23 @@ function createSideProject(){
 			//Calls the newly created Project's path after creating
 		Meteor.call('project', project, function (error, id) {
 			if (error) {
+				console.log(error);
                 // display the error to the user
                 throwError(error.reason);
                 // if the error is that the post already exists, take us there
                 if (error.error === 302){
                 }
             } else {
+            	$("#createSideProj").modal("hide");
+            	//ENTER SPINNER STOP CODE HERE!!!!
             }
         });
+}
+
+function acceptPasswords(){
+	if($("#project-password").val() === $("#project-password-two").val()){
+		return true;
+	}
+	$("#incorrect-pass-label").text("Please enter matching passwords");
+	return false;
 }

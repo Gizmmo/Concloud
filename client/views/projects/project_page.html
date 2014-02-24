@@ -28,11 +28,18 @@
       <!--File and Folder Buttons -->
 	
       <div class="projectHeader">
-	<div class="btn btn-success" id="uploadItem"><i class="fa fa-upload"></i> Upload</div> 
+    {{#if officeManager}}
+		<div class="btn btn-success" id="uploadItem"><i class="fa fa-upload"></i> Upload</div> 
+	{{/if}}
 	<div class="btn btn-primary" id='downloadItems'><i class="fa fa-download"></i> Download</div>
-	<div class="btn" id="add-folder"><i class="fa fa-folder"></i> Add Folder</div>
+	{{#if officeManager}}
+		<div class="btn" id="add-folder"><i class="fa fa-folder"></i> Add Folder</div>
+	{{/if}}
 	<div class="btn btn-warning" id="selectAllItems"><i class="fa fa-check-circle-o"></i> Select All</div>
-	<div class="btn btn-danger" id="deleteItem"><i class="fa fa-times"></i> Delete</div>
+	{{#if officeManager}}
+		<div class="btn btn-danger" id="deleteItem"><i class="fa fa-times"></i> Delete</div>
+	{{/if}}
+
       </div>
       {{> addFolderModal}}
       {{> uploadModal}}

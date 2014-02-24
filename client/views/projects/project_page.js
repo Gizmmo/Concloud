@@ -44,7 +44,9 @@ Template.projectPage.events({
 	},
 
      'click #uploadItem' : function(){
-     	$("#uploadData").modal("toggle");
+     	if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
+     		$("#uploadData").modal("toggle");
+     	}
      },
  
  	'click #add-folder' : function(){
@@ -152,6 +154,12 @@ Template.projectPage.helpers({
 
 	projectFiles : function() {
 		return Projects.findOne({_id : Session.get("currentProject")}).files;
+	},
+	officeManager: function () {
+		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
+			return true;
+		}
+		return false;
 	}
 });
 

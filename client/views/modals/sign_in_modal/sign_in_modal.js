@@ -10,7 +10,9 @@ Template.signInModal.rendered = function () {
 
 Template.signInModal.events({
 	'click #myModal' : function (event) {
-		clearBackground(event, "myModal");
+		if($(event.target).attr('id')!=="logButton"){
+			clearBackground(event, "myModal");
+		}
 	},
 /**
  * If a user presses enter while on a subfield when signing up
@@ -22,8 +24,7 @@ Template.signInModal.events({
  'keypress .onSub': function (event) {
 		//This will stop the default submitting of the form
 		if(event.which === 13){
-			clearBackground(event, "myModal");
-			logIn();
+			logIn(event);
 		}
 	},
 
@@ -69,8 +70,8 @@ Template.signInModal.events({
 	},
 	//This event will run when the user clicks the
 	//log in button
-	'click #logButton': function () {
-		logIn();
+	'click #logButton': function (event) {
+		logIn(event);
 	},
 	//This is the event to handle if the user clicks
 	//that they have forgotten their password
@@ -116,7 +117,7 @@ Template.signInModal.events({
 	 * Used to log in
 	 * @return null
 	 */
-	function logIn() {
+	function logIn(event) {
 		var user =  $('#email').val();
 		var password = $('#passwd').val();
 		if(user.length != 0){
@@ -128,6 +129,7 @@ Template.signInModal.events({
 						//Fill In LogIn Code
 					    $('#myModal').modal('hide');
 					    $('body').css("height", "auto");
+					    clearBackground(event, "myModal");
 					    Router.go('dashboard');
 						
 					}

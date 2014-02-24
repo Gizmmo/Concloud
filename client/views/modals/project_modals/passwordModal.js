@@ -10,8 +10,8 @@ Template.passwordModal.events({
     }
   },
 
-	'click #enter-password' : function () {
-		acceptPasswords();
+	'click #enter-password' : function (event) {
+		acceptPasswords(event);
 	}
 });
 

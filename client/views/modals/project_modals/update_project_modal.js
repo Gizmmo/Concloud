@@ -1,19 +1,21 @@
 Template.updateProjectModal.events({
 	'click #updateData' : function (event) {
-		clearBackground(event, "updateData");
+		if($(event.target).attr('id')!=="update-project"){
+			clearBackground(event, "updateData");
+		}
 	},
-	'keypress' : function() {
+	'keypress' : function(event) {
     if(event.which === 13){
-      clearBackground();
-      updateProject();
+      updateProject(event);
     }
   },
-	'click #update-project': function () {
-		updateProject();
+	'click #update-project': function (event) {
+		updateProject(event);
 	}
 });
 
-function updateProject(){
+function updateProject(event){
 	var title =$("#update-title").val();
 	Projects.update({_id: clickedID}, {$set:{"title": title}});
+	clearBackground(event, "updateData");
 }

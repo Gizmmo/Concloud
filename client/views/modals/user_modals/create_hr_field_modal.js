@@ -1,19 +1,20 @@
 Template.createHRFieldModal.events({
     'click #HRField' : function (event) {
-        clearBackground(event, "HRField");
-    },
-    'keypress' : function() {
-        if(event.which === 13){
-          clearBackground();
-          createHR();
+        if($(event.target).attr('id')!=="create-field"){
+            clearBackground(event, "HRField");
         }
     },
-    'click #create-field': function () {
-        createHR();
+    'keypress' : function(event) {
+        if(event.which === 13){);
+          createHR(event);
+        }
+    },
+    'click #create-field': function (event) {
+        createHR(event);
     }
 });
 
-function createHR(){
+function createHR(event){
     var fieldName = $("#field-name").val();
     var defaultValue = $("#default-value").val();
 
@@ -23,5 +24,5 @@ function createHR(){
     };
 
     Meteor.call("HRField", field, function(){});
-    
+    clearBackground(event, "HRField");
 }

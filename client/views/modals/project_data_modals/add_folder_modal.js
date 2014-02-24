@@ -1,21 +1,22 @@
 Template.addFolderModal.events({
 	'click #addFolder' : function (event) {
-		clearBackground(event, "addFolder");
-	},
-
-	'keypress' : function() {
-		if(event.which === 13){
-			clearBackground();
-			submitFolder();
+		if($(event.target).attr('id')!=="submitNewFolder"){
+			clearBackground(event, "addFolder");
 		}
 	},
 
-'click #submitNewFolder' : function(){
-	submitFolder();
+	'keypress' : function(event) {
+		if(event.which === 13){
+			submitFolder(event);
+		}
+	},
+
+'click #submitNewFolder' : function(event){
+	submitFolder(event);
 	}
 });
 
-function submitFolder() {
+function submitFolder(event) {
 		var folderTitle = $('#addFolderName').val();
 	if(folderTitle != 'undefined'){
 		var projectData = Projects.findOne({_id: Session.get("currentProject")});
@@ -23,8 +24,11 @@ function submitFolder() {
 		if(!(folderTitle in folderData.folders)){
 			folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
 			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
-				if(error)
+				if(error){
 					console.log(error);
+				} else {
+					clearBackground(event, "addFolder");
+				}
 			});
 			Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
 		}else{

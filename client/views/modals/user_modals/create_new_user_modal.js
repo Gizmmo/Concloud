@@ -1,13 +1,14 @@
 Template.createNewUserModal.events({
 
     'click #createData' : function (event) {
-        clearBackground(event, "createData");
+        if($(event.target).attr('id')!=="create-user"){
+            clearBackground(event, "createData");
+        }
     },
 
-    'keypress' : function() {
+    'keypress' : function(event) {
         if(event.which === 13){
-          clearBackground();
-          createNewUser();
+          createNewUser(event);
         }
     },
 		/**
@@ -16,14 +17,14 @@ Template.createNewUserModal.events({
 	 * @return void
 	 */
 	 'click #create-user': function (event) {
-        createNewUser();
+        createNewUser(event);
         $('#email').val("");
         $('#first-create-name').val("");
         $('#last-create-name').val("");
     }
 });
 
-function createNewUser(){
+function createNewUser(event){
         var time = new Date().getTime();
         var options = {
             email : $('#email').val(),
@@ -56,6 +57,5 @@ function createNewUser(){
         Meteor.call('createNewUser', options, function (error, id) {
         });
         $("#search-field").val("");
-
-
-    }
+        clearBackground(event, "createData);
+}

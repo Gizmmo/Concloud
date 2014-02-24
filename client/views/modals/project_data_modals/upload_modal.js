@@ -8,12 +8,8 @@ Template.uploadModal.helpers({
 
 Template.uploadModal.events({
   'click #uploadData' : function (event) {
-    clearBackground(event, "uploadData");
-  },
-  'keypress' : function() {
-    if(event.which === 13){
-      clearBackground();
-      upload();
+    if($(event.target).attr('id')!=="smartfile"){
+      clearBackground(event, "uploadData");
     }
   },
     /**

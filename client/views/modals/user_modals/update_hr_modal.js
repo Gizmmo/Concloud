@@ -1,21 +1,22 @@
 Template.updateHRModal.events({
 	'click #hrData' : function (event) {
-		clearBackground(event, "hrData");
+		if($(event.target).attr('id')!=="hr-update-btn"){
+			clearBackground(event, "hrData");
+		}
 	},
-	'keypress' : function() {
+	'keypress' : function(event) {
         if(event.which === 13){
-          clearBackground();
-          updateHR();
+          updateHR(event);
         }
     },
-	'click #hr-update-btn': function () {
-		updateHR();
+	'click #hr-update-btn': function (event) {
+		updateHR(event);
 	}
 });
 
-function updateHR(){
+function updateHR(event){
 	var sickDays = $("#sick-days").val();
 	var vacationDays = $("#vacation-days").val();
 	Meteor.users.update({_id: clickedID}, {$set:{"profile.hr.sickDays": sickDays, "profile.hr.vacationDays": vacationDays,}});
-	
+	clearBackground(event, "hrData");
 }

@@ -1,19 +1,21 @@
 Template.manageModal.events({
 	'click #updatePass' : function (event) {
-		clearBackground(event, "updatePass");
+		if($(event.target).attr('id')!=="update-password"){
+			clearBackground(event, "updatePass");
+		}
 	},
-	'keypress' : function() {
+	'keypress' : function(event) {
 		if(event.which === 13){
-			changePass();
+			changePass(event);
 		}
 	},
 
-	'click #update-password': function () {
-		changePass();
+	'click #update-password': function (event) {
+		changePass(event);
 	}
 });
 
-function changePass(){
+function changePass(event){
 		var oldPass = $('#old-password').val();
 		var newPass = $('#sign-password').val();
 		var confimPass = $('#sign-confirm-password').val();
@@ -22,6 +24,7 @@ function changePass(){
 				if(error){
 					$("#incorrect-label").text("You either entered an incorrect old password, or there was an internal error");
 				} else {
+					clearBackground(event, "updatePass");
 					$("#updatePass").modal("hide");
 					$('.modal-backdrop').remove();
 

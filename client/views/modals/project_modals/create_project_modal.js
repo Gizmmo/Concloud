@@ -1,24 +1,25 @@
 Template.createProjectModal.events({
 	'click #createSideProj' : function (event) {
-		clearBackground(event, "createSideProj");
+		if($(event.target).attr('id')!=="create-side-project"){
+			clearBackground(event, "createSideProj");
+		}
 	},
-	'keypress' : function() {
+	'keypress' : function(event) {
     if(event.which === 13){
     	if(acceptPasswords()){
-	      clearBackground();
-	      createSideProject();
+	      createSideProject(event);
   		}
     }
   },
 
-	'click #create-side-project' : function () {
+	'click #create-side-project' : function (event) {
 		if(acceptPasswords()){
-			createSideProject();
+			createSideProject(event);
 		}
 	}
 });
 
-function createSideProject(){
+function createSideProject(event){
 	//This will stop the default submitting of the form
 		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
 	    	Meteor.call('createNewProjectDirectories', $('#create-side-title').val(), function (error, result) {
@@ -48,6 +49,7 @@ function createSideProject(){
                 if (error.error === 302){
                 }
             } else {
+            	clearBackground(event, "createSideProj");
             	$("#createSideProj").modal("hide");
             	//ENTER SPINNER STOP CODE HERE!!!!
             }

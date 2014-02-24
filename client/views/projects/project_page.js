@@ -1,5 +1,6 @@
 var sf = new SmartFile({});
 var folderStack = [];
+var isSelectAll = false;
 
 Template.projectPage.events({
 	'click #update-btn': function () {
@@ -7,7 +8,8 @@ Template.projectPage.events({
 		});
 	},
 	'click #selectAllItems' : function () {
-		$('.projectCheckbox').prop('checked', true);
+		isSelectAll = !isSelectAll;
+		$('.projectCheckbox').prop('checked', isSelectAll);
 	},
 
 	'click #file-upload' :function () {

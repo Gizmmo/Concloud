@@ -22,7 +22,7 @@ Meteor.methods({
 		}
 
 		//filling in other keys
-		var proj = _.extend(_.pick(projectAttributes, 'title','folders', 'files'), {
+		var proj = _.extend(_.pick(projectAttributes, 'title', 'password', 'folders', 'files'), {
 			authorID: user._id,
 			authorName: userName,
 			submitted: new Date().getTime(),
@@ -74,5 +74,13 @@ Meteor.methods({
 		Projects.update(id, {$addToSet: {updates: update}});
 		Projects.update(id, {$set : {recentUpdate: update}});
 		createProjectNotification(project);
+	},
+
+	checkPassword: function (data) {
+		var project = Projects.findOne({_id: data._id});
+		if(project.password === data.password){
+			return true;
+		}
+		return false;
 	}
 });

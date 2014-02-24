@@ -82,5 +82,9 @@ Meteor.methods({
 			return true;
 		}
 		return false;
+	},
+
+	removeProject: function(id){
+		Projects.remove(id);
 	}
 });

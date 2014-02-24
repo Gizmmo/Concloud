@@ -7,7 +7,8 @@ Template.projectAdminItem.events({
 
   'click .close-x' : function () {
     $(".b-project-item").attr("data-target", "");
-    Projects.remove({_id: this._id});
+    Session.set("projectId", this._id);
+    $("#deleteProj").modal("show");
   },
 
   'click' : function () {

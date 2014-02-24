@@ -130,7 +130,9 @@ Template.signInModal.events({
 					    $('#myModal').modal('hide');
 					    $('body').css("height", "auto");
 					    clearBackground(event, "myModal");
+					    window.location.reload();
 					    Router.go('dashboard');
+					    
 						
 					}
 				});

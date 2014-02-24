@@ -56,6 +56,6 @@ Meteor.publish('users', function(userGroup) {
 	if(userGroup === "Admin" || userGroup === "Office Manager"){
   		return Meteor.users.find();
   	} else {
-  		return Meteor.user();
+  		return Meteor.users.find(this.userId);
   	}
 });

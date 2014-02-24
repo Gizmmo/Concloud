@@ -5,6 +5,7 @@ Meteor.subscribe('users', Meteor.user().profile.userGroup);
 Meteor.subscribe('hrData', Meteor.user().profile.userGroup);
 Meteor.subscribe('hr', Meteor.user().profile.userGroup);
 Meteor.subscribe('folders');
+Meteor.subscribe("my_channel");
 
 Template.concloud.rendered = function () {
    

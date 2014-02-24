@@ -35,10 +35,17 @@
 							</a>
 
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-
+								{{#if notSub}}
+								<li>
+									<a id="password-btn"href="">
+										<i class="fa fa-cogs"></i>
+										Change Password
+									</a>
+								</li>
+								{{/if}}
 								<li>
 									<a id="logout-btn"href="">
-										<i class="fa fa-off"></i>
+										<i class="fa fa-power-off"></i>
 										Logout
 									</a>
 								</li>
@@ -48,5 +55,8 @@
 				</div><!-- /.navbar-header -->
 			</div><!-- /.container -->
 		</div>
+		{{#if notSub}}
+			{{> manageModal}}
+		{{/if}}
 	{{/if}}
 </template>

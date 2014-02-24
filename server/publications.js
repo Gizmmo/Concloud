@@ -4,7 +4,6 @@ Meteor.publish('notifications', function() {
 
 Meteor.publish("my_channel", function() {
   var userId = this.userId;
-  myFunction(userId);
 });
 
 Meteor.publish('subscriptions', function() {

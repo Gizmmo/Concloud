@@ -57,5 +57,5 @@ function createNewUser(event){
         Meteor.call('createNewUser', options, function (error, id) {
         });
         $("#search-field").val("");
-        clearBackground(event, "createData);
+        clearBackground(event, "createData");
 }

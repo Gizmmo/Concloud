@@ -21,7 +21,6 @@ function acceptPasswords(event){
 		_id: Session.get('projectId'),
 		password: $("#project-password").val()
 	}
-	var returnValue;
 	Meteor.call('checkPassword', data, function(error, result){
 		if(result){
 			if(event){

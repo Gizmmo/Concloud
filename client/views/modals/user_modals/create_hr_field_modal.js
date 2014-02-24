@@ -5,7 +5,7 @@ Template.createHRFieldModal.events({
         }
     },
     'keypress' : function(event) {
-        if(event.which === 13){);
+        if(event.which === 13){
           createHR(event);
         }
     },

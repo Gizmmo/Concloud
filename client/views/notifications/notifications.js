@@ -26,7 +26,7 @@ Template.notifications.events({
   'click #readAll': function () {
     var notifications = Notifications.find({userID: Meteor.userId()});
     notifications.forEach(function (post) {
-      Notifications.remove({_id: post._id});
+      Meteor.call('deleteNotification', post, function (error, result) {});
     });
   }
 });

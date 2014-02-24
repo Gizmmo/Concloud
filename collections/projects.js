@@ -73,7 +73,7 @@ Meteor.methods({
 
 		Projects.update(id, {$addToSet: {updates: update}});
 		Projects.update(id, {$set : {recentUpdate: update}});
-		createProjectNotification(project);
+		Meteor.call("createProjectNotification", project);
 	},
 
 	checkPassword: function (data) {

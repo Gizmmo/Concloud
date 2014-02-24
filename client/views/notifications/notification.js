@@ -4,7 +4,8 @@ Template.notification.events({
 	 * @return void
 	 */
   'click a': function() {
-    Notifications.update(this._id, {$set: {read: true}});
+  	var proj = this;
+    Meteor.call('deleteNotification', proj, function (error, result) {});
   }
 });
 

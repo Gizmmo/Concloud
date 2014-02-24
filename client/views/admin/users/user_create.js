@@ -40,14 +40,12 @@ Template.userCreate.events({
         Meteor.call('createNewUser', options, function (error, id) {
         	if (error) {
              	// display the error to the user
-                console.log(error.reason);
                 // if the error is that the post already exists, take us there
                 if (error.error === 302){
         			Router.go('userPage', error.details);
                 }
             } else {
                 //no errors send to the new page
-                console.log(id);
                 options._id = id;
         		Router.go('userPage', options);
             }

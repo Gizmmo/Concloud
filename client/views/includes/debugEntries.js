@@ -7,7 +7,6 @@ Template.debugEntries.events({
 
 		$.each(foundSubscriptions, function(index, subscription){
 			Meteor.call(subscription.functionName, subscription.itemID, function (error, value) {
-				console.log(value);
 				//Change this to the code needed
 			});
 		});

@@ -15,59 +15,56 @@
 				</span>
 			</form>
 		</div><!-- #nav-search -->
+		<div class="surround-table col-xs-8">
+			<table class="table table-striped">
+				<thead>
+					<td>Concloud Staff Name</td>
+					<td>Project Employee</td>
+				</thead>
+				<tbody>
+					{{#each employees}}
+						<tr id="emp-row-{{_id}}">
+							<td>{{profile.lastName}}, {{profile.firstName}}</td>
+							{{#if projectEmployee}}
+								<td><input type="checkbox" checked="true" class="emp-click" id="{{_id}}"></td>
+							{{else}}
+								<td><input type="checkbox" class="emp-click" id="{{_id}}"></td>
+							{{/if}}
+						</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</div>
+		<div class = "row">
+			<div id="client-search">
+				<form class="form-search">
+					<span class="input-icon">
+						<input type="text" placeholder="Search ..." class="nav-search-input" id="search-client-field" autocomplete="off">
+						<i class="fa fa-search icon-search nav-search-icon"></i>
+					</span>
+				</form>
+			</div><!-- #nav-search -->
+		</div>
 
-		<div class = "sortable-rows">
-			<div class = "row">
-				<div id = "table1" class = "col-xs-4 title-center sortable-table">
-					<span class="list-title">Concord Staff</span>
-					<br>
-					<ul id="available-emps" class="connectedSortable">
-						{{#each employees}}
-						<li class="ui-state-default" id = "emp-avail-{{_id}}" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
-						{{/each}}
-					</ul>
-				</div>
-
-				<div id = "table2" class = "col-xs-4 title-center sortable-table">
-					<span class="list-title">Project Staff</span>
-					<br>
-					<ul id="chosen-emps" class="connectedSortable">
-						{{#each projectEmployees}}
-						<li class="ui-state-default" id = "emp-listed-{{_id}}" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
-						{{/each}}
-					</ul>
-				</div>
-			</div>
-			<div class = "row">
-				<div id="client-search">
-					<form class="form-search">
-						<span class="input-icon">
-							<input type="text" placeholder="Search ..." class="nav-search-input" id="search-client-field" autocomplete="off">
-							<i class="fa fa-search icon-search nav-search-icon"></i>
-						</span>
-					</form>
-				</div><!-- #nav-search -->
-			</div>
-			<div class = "row">
-				<div id = "table3" class = "col-xs-4 title-center sortable-table">
-					<span class="list-title">Client List</span>
-					<br>
-					<ul id="available-clients" class="connectedClientSortable">
-						{{#each clients}}
-						<li class="ui-state-default" id = "client-avail-{{_id}}" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
-						{{/each}}
-					</ul>
-				</div>
-				<div id = "table4" class = "col-xs-4 title-center sortable-table">
-					<span class="list-title">Project Clients</span>
-					<br>
-					<ul id="chosen-clients" class="connectedClientSortable">
-						{{#each projectClients}}
-						<li class="ui-state-default" id = "client-listed-{{_id}}" title="{{profile.email}}">{{profile.lastName}}, {{profile.firstName}}</li>
-						{{/each}}
-					</ul>
-				</div>
-			</div>
+		<div class="surround-table col-xs-8">
+			<table class="table table-striped">
+				<thead>
+					<td>Concloud Clients</td>
+					<td>Project Client</td>
+				</thead>
+				<tbody>
+					{{#each clients}}
+						<tr id="client-row-{{_id}}">
+							<td>{{profile.lastName}}, {{profile.firstName}}</td>
+							{{#if projectClient}}
+								<td><input type="checkbox" checked="true" class="client-click" id="{{_id}}"></td>
+							{{else}}
+								<td><input type="checkbox" class="client-click" id="{{_id}}"></td>
+							{{/if}}
+						</tr>
+					{{/each}}
+				</tbody>
+			</table>
 		</div>
 
 	</div>

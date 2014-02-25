@@ -6,6 +6,56 @@ Template.projectAdminPage.events({
 		updateClientView($("#search-client-field").val());
 		updateEmployeeView($("#search-field").val());
 		
+	},
+	'click .emp-click': function(event, ui) {
+  		var id = ($(event)[0].target.id);
+  		sub = {
+  			userID: id,
+  			projectID: projectID,
+  			projectTitle: projectTitle,
+  			projectRole: "Project Employee"
+  		}
+  		if($('#'+id).is(":checked")){
+	  		Meteor.call('subscription', sub, function (error, id) {
+				if (error) {
+	           	} 
+	           	else {
+	           	}
+	        });
+  		} else {
+  			Meteor.call('removeSubscription', sub, function (error, id) {
+				if (error) {
+            	} 
+            	else {
+            	}
+        	});
+        	updateEmployeeView($("#search-field").val());
+  		}
+	},
+	'click .client-click': function(event, ui) {
+  		var id = ($(event)[0].target.id);
+  		sub = {
+  			userID: id,
+  			projectID: projectID,
+  			projectTitle: projectTitle,
+  			projectRole: "Project Client"
+  		}
+  		if($('#'+id).is(":checked")){
+	  		Meteor.call('subscription', sub, function (error, id) {
+				if (error) {
+	           	} 
+	           	else {
+	           	}
+	        });
+  		} else {
+  			Meteor.call('removeSubscription', sub, function (error, id) {
+				if (error) {
+            	} 
+            	else {
+            	}
+        	});
+        	updateEmployeeView($("#search-field").val());
+  		}
 	}
 });
 
@@ -13,7 +63,7 @@ function updateEmployeeView(searchValue){
 		if(searchValue == undefined || searchValue == null || searchValue == ""){
 		users = Meteor.users.find({});
 		users.forEach(function (user) {
-			$('#emp-avail-' + user._id).show();
+			$('#emp-row-' + user._id).show();
 		});
 	}else {
 		users = Meteor.users.find({});
@@ -27,11 +77,11 @@ function updateEmployeeView(searchValue){
 			}
 
 			if(found){
-				$('#emp-avail-' + user._id).show();
+				$('#emp-row-' + user._id).show();
 			}
 
 			if(!found){
-				$('#emp-avail-' + user._id).hide();
+				$('#emp-row-' + user._id).hide();
 			}
 
 		});
@@ -42,7 +92,7 @@ function updateClientView(searchValue){
 		if(searchValue == undefined || searchValue == null || searchValue == ""){
 		users = Meteor.users.find({});
 		users.forEach(function (user) {
-			$('#client-avail-' + user._id).show();
+			$('#client-row-' + user._id).show();
 		});
 	}else {
 		users = Meteor.users.find({});
@@ -56,171 +106,45 @@ function updateClientView(searchValue){
 			}
 
 			if(found){
-				$('#client-avail-' + user._id).show();
+				$('#client-row-' + user._id).show();
 			}
 
 			if(!found){
-				$('#client-avail-' + user._id).hide();
+				$('#client-row-' + user._id).hide();
 			}
 
 		});
 	}
 }
 
-function getSubIDs(role){
-		subs = Subscriptions.find( {projectID: projectID, projectRole: role});
-		var userIDs = new Array();
-
-		subs.forEach(function (sub, index) {
-			userIDs[index] = sub.userID;
-		});
-
-
-		return userIDs;
-}
-
-function getUserID(iDString){
-	allStrings = iDString.trim().split("-");
-	return allStrings[allStrings.length -1];
-}
 
 Template.projectAdminPage.helpers({
 	employees : function () {
 		projectID = this._id;
 		projectTitle = this.title;
-		var userIDs = getSubIDs("Project Employee");
-		return Meteor.users.find({'_id' : { $nin: userIDs}, $or: [{"profile.userGroup": "Employee"}, {"profile.userGroup": "Office Manager"} ] },{sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
-	
+		return Meteor.users.find({$or: [{"profile.userGroup": "Employee"}, {"profile.userGroup": "Office Manager"} ] },{sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
 	},
 
-	projectEmployees : function () {
-		var userIDs = getSubIDs("Project Employee");
-		return Meteor.users.find({'_id' : { $in: userIDs}}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
+	projectEmployee : function () {
+		var sub = Subscriptions.findOne({projectID: projectID, userID: this._id});
+		if(sub){
+			return true;
+		}
+		return false;
 	},
+
 	clients : function () {
-		var userIDs = getSubIDs("Project Client");
-		return Meteor.users.find({'_id' : { $nin: userIDs}, "profile.userGroup": "Client"},{sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
+		return Meteor.users.find({"profile.userGroup": "Client"},{sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
 	},
-	projectClients : function () {
-		var userIDs = getSubIDs("Project Client");
-		return Meteor.users.find({'_id' : { $in: userIDs}},{sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
-	}
+	
+	projectClient : function () {
+		var sub = Subscriptions.findOne({projectID: projectID, userID: this._id});
+		if(sub){
+			return true;
+		}
+		return false;	}
 });
 
 Template.projectAdminPage.created = function () {
 	projectID = this.data._id;
 };
-
-Template.projectAdminPage.rendered = function() {
-    $( "#chosen-emps, #available-emps" ).sortable({
-      connectWith: ".connectedSortable"
-    }).disableSelection();
-	$( "#chosen-emps, #available-emps" ).sortable({
-      placeholder: "ui-state-highlight"
-    }).disableSelection();
-
-    $( "#chosen-clients, #available-clients" ).sortable({
-      connectWith: ".connectedClientSortable"
-    }).disableSelection();
-	$( "#chosen-clients, #available-clients" ).sortable({
-      placeholder: "ui-state-highlight"
-    }).disableSelection();
-
-
-
- $( "#chosen-emps" ).sortable({
- 	  	remove: function( event, ui ) {
-  		},
-
-		receive: function( event, ui ) {
-  			current = $(ui.item);
-  			var id = current.attr('id');
-  			id = getUserID(id);
-  			removedEmployee = Meteor.users.findOne( {"_id": id} );
-  			sub = {
-  				userID: removedEmployee._id,
-  				projectID: projectID,
-  				projectTitle: projectTitle,
-  				projectRole: "Project Employee"
-  			}
-  			Meteor.call('subscription', sub, function (error, id) {
-				if (error) {
-            	} 
-            	else {
-            	}
-        	});
-  		},
-	});
-
-
- $( "#available-emps" ).sortable({
-  		remove: function( event, ui ) {
-  		},
-
-		receive: function( event, ui ) {
-  			current = $(ui.item);
-  			var id = current.attr('id');
-  			id = getUserID(id);
-  			removedEmployee = Meteor.users.findOne( {"_id": id} );
-  			sub = {
-  				userID: removedEmployee._id,
-  				projectID: projectID
-  			}
-  			Meteor.call('removeSubscription', sub, function (error, id) {
-				if (error) {
-            	} 
-            	else {
-            	}
-        	});
-        	updateEmployeeView($("#search-field").val());
-  		},
-	});
-
-$( "#chosen-clients" ).sortable({
- 	  	remove: function( event, ui ) {
-  		},
-
-		receive: function( event, ui ) {
-  			current = $(ui.item);
-  			var id = current.attr('id');
-  			id = getUserID(id);
-  			removedEmployee = Meteor.users.findOne( {"_id": id} );
-  			sub = {
-  				userID: removedEmployee._id,
-  				projectID: projectID,
-  				projectTitle: projectTitle,
-  				projectRole: "Project Client"
-  			}
-  			Meteor.call('subscription', sub, function (error, id) {
-				if (error) {
-            	} 
-            	else {
-            	}
-        	});
-  		},
-	});
-
-
- $( "#available-clients" ).sortable({
-  		remove: function( event, ui ) {
-  		},
-
-		receive: function( event, ui ) {
-  			current = $(ui.item);
-  			var id = current.attr('id');
-  			id = getUserID(id);
-  			removedEmployee = Meteor.users.findOne( {"_id": id} );
-  			sub = {
-  				userID: removedEmployee._id,
-  				projectID: projectID
-  			}
-  			Meteor.call('removeSubscription', sub, function (error, id) {
-				if (error) {
-            	} 
-            	else {
-            	}
-        	});
-  			updateClientView($("#search-client-field").val());
-  		},
-	});
-}

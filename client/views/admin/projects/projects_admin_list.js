@@ -12,6 +12,7 @@ Template.projectsAdminList.events({
 			$('#incorrect-pass-label').text("");
 			$('#project-password-two').val("");
 			$('#project-password').val("");
+			$("#createSideProj").modal('show');
 		}
 	},
 

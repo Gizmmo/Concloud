@@ -12,7 +12,7 @@
 					<i class="fa fa-folder-open-o"></i> Manage Projects
 				</a>
 			</div>
-				<a class="mp-btn conBtn concord-button" data-toggle="modal" data-target="#HRField">
+				<a class="mp-btn conBtn concord-button" href="{{pathFor 'manageHR'}}">
 					<i class="fa fa-tags"></i>  Manage HR Fields
 				</a>
 				<a class="emp-btn userBtn concord-button" data-toggle="modal" data-target="#createData">
@@ -52,8 +52,6 @@
 	{{> updateHRModal}}
 
 	{{> createNewUserModal}}
-
-	{{> createHRFieldModal}}
 
 	{{> deleteUserModal}}
 

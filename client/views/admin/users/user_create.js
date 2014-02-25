@@ -44,7 +44,6 @@ Template.userCreate.events({
                 // if the error is that the post already exists, take us there
                 if (error.error === 302){
         			Router.go('userPage', error.details);
-        			console.log("Hit 302 Error");
                 }
             } else {
                 //no errors send to the new page

@@ -7,36 +7,9 @@
 	</a>
 
 	<div class="sidebar" id="sidebar">
-
+		<img src="/img/logo.jpg" class="concord-logo">
 		<div class="sidebar-shortcuts" id="sidebar-shortcuts">
-			<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-				<a class="btn btn-success" href="{{pathFor 'projectsList'}}" id="projbtn" title="Projects" rel="tooltip">
-					<i class="fa fa-folder-open"></i>
-				</a>
 
-				<a class="btn btn-info" href = "#" title="Create Project" id="createSideBtn" rel="tooltip">
-					<i class="fa fa-pencil"></i>
-				</a>
-
-				<button class="btn btn-warning" title="Sub-Trades" rel="tooltip" id="subbtn">
-					<i class="fa fa-group"></i>
-				</button>
-
-				<a class="btn btn-danger" id="accountBtn" title="Change Password" rel="tooltip">
-					<i class="fa fa-cogs"></i>
-				</a>
-			</div>
-
-			<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-				<span class="btn btn-success"></span>
-
-				<span class="btn btn-info"></span>
-
-				<span class="btn btn-warning"></span>
-
-				<span class="btn btn-danger"></span>
-			</div>
-		</div><!-- #sidebar-shortcuts -->
 
 		<ul class="nav nav-list">
 			<li class="active">
@@ -47,31 +20,12 @@
 			</li>
 
 			<li>
-				<a href="#" class="dropdown-toggle">
+				<a href="{{pathFor 'projectsList'}}">
 					<i class="fa fa-folder"></i>
-					<span class="menu-text"> My Projects </span>
-
-					<b class="arrow fa fa-angle-down"></b>
+					<span class="menu-text"> Projects </span>
 				</a>
-				
-				<ul class="submenu">
-					{{#if isProjects}}
-						{{#each projects}}
-							{{> sidebarProject}}
-						{{/each}}
-					{{else}}
-						<li class="noProjects">
-							
-							<span class="label label-danger">
-								<i class="fa fa-exclamation-circle"></i> 
-								No Projects
-							</span>
-						</li>
-					{{/if}}
-				</ul>
 
 			</li>
-			
 
 			{{#if admin}}
 			<li>
@@ -87,9 +41,9 @@
 				</a>
 			</li>
 			{{/if}}
-			
+			</ul>
 
-		
+		</div>
 	</div>
 
 	{{> manageModal}}

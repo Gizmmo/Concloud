@@ -12,19 +12,21 @@
 				<h1>Manage Projects<small><i class="fa fa-angle-double-right"></i>Administration</small></h1>
 			</div>
 			<div class ="above-content">
+				<div class="button-headers">
 				<a class="btn btn-primary emp-btn userBtn" href="{{pathFor 'userList'}}">
 					<i class="fa fa-user"></i>  Manage Users
 				</a>
-				<a class="btn btn-success emp-btn conBtn" href="{{pathFor 'contractsAdminList'}}">
-					<i class="fa fa-tags"></i>  Manage Contracts
+			</div>
+				<a class="concord-button emp-btn conBtn" data-toggle="modal" data-target="#projectFolder">
+					<i class="fa fa-tags"></i>  Manage Project Folders
 				</a>
-				<a class="btn btn-default emp-btn userBtn" id="newProjBtn" data-toggle="modal" data-target="#createData">
+				<a class="concord-button emp-btn userBtn" id="newProjBtn" data-toggle="modal">
 					<i class="fa fa-pencil-square-o"></i> Create New Project
 				</a>
-				<a class="btn btn-warning emp-btn userBtn" id = "userRoleBtn">
+				<a class="concord-button emp-btn userBtn" id = "userRoleBtn">
 					<i class="fa fa-flag-o"></i> Manage Project Roles
 				</a>
-				<a class="btn btn-danger userBtn" id="delbtn">
+				<a class="concord-button userBtn" id="delbtn">
 					<i class="fa fa-times"></i> Delete Project
 				</a>
 			</div>

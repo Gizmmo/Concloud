@@ -1,3 +1,12 @@
 .sidebar {
 	z-index:1;
 }
+
+.concord-logo {
+	min-width:100%;
+}
+
+.sidebar-shortcuts {
+	text-align: left!important;
+	max-height:none!important;
+}

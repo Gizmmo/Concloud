@@ -6,20 +6,22 @@
 			<div class="page-header">
 				<h1>Manage Employees<small><i class="fa fa-angle-double-right"></i>Administration</small></h1>
 			</div>
-			<div class ="above-content">
+			<div class="above-content">
+				<div class="button-headers">
 				<a class="btn btn-primary emp-btn userBtn" href="{{pathFor 'projectsAdminList'}}">
 					<i class="fa fa-folder-open-o"></i> Manage Projects
 				</a>
-				<a class="btn btn-success emp-btn conBtn" href="{{pathFor 'contractsAdminList'}}">
-					<i class="fa fa-tags"></i>  Manage Contracts
+			</div>
+				<a class="mp-btn conBtn concord-button" data-toggle="modal" data-target="#HRField">
+					<i class="fa fa-tags"></i>  Manage HR Fields
 				</a>
-				<a class="btn btn-default emp-btn userBtn" data-toggle="modal" data-target="#createData">
+				<a class="emp-btn userBtn concord-button" data-toggle="modal" data-target="#createData">
 					<i class="fa fa-pencil-square-o"></i> Create New User
 				</a>
-				<a class="btn btn-warning emp-btn userBtn" id="hrbtn">
+				<a class="emp-btn userBtn concord-button" id="hrbtn">
 					<i class="fa fa-flag-o"></i> Manage Human Resource
 				</a>
-				<a class="btn btn-danger userBtn" id="delbtn">
+				<a class="userBtn concord-button" id="delbtn">
 					<i class="fa fa-times"></i> Delete User
 				</a>
 			</div>
@@ -50,6 +52,8 @@
 	{{> updateHRModal}}
 
 	{{> createNewUserModal}}
+
+	{{> createHRFieldModal}}
 
 
 </template>

@@ -21,7 +21,6 @@ function submitFolder() {
 		var projectData = Projects.findOne({_id: Session.get("currentProject")});
 		var folderData = getFolderData(projectData);
 		if(!(folderTitle in folderData.folders)){
-			console.log("Inside create folder");
 			folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
 			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
 				if(error)

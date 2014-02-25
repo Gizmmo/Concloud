@@ -12,6 +12,20 @@ $("[rel='tooltip']").tooltip();
 };
 
 Template.menu.helpers({
+	projectListOk: function () {
+		user = Meteor.user();
+		if(user.profile.userGroup === "Admin" || user.profile.userGroup === "Office Manager" || user.profile.userGroup === "Employee" || user.profile.userGroup === "Client"){
+			return true;
+		}
+		return false;
+	},
+	subTradeOk: function () {
+		user = Meteor.user();
+		if(user.profile.userGroup == "Sub-Trade"){
+			return true;
+		}
+		return false;
+	},
 	admin: function () {
 		user = Meteor.user();
 		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){

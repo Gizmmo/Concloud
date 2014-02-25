@@ -21,7 +21,6 @@ Template.projectPage.events({
 	'click #folder-upload' : function () {
 		if(Session.get('uploadType') != 'folder'){
 			Session.set('uploadType', 'folder');
-			console.log('folder');
 			$('#folder-li').addClass('active');
 			$('#file-li').removeClass('active')
 		}
@@ -35,10 +34,8 @@ Template.projectPage.events({
 				var itemType = thisVal.split("-")[0];
 				var itemName = thisVal.split("-")[1];
 				if(itemType == 'folder'){
-					console.log("in folder delete : " + itemName);
 					deleteFolder(itemName);
 				}else if (itemType == "file"){
-					console.log("in here");
 					deleteFile(itemName);
 				}
 			}
@@ -57,7 +54,6 @@ Template.projectPage.events({
 
      'click #downloadMe' : function(e, template){
      	e.preventDefault();
-     	console.log('here');
      	Meteor.call('downloadFile', "bench.jpg", window,
      		function(err, result){
      			if(err)
@@ -80,11 +76,9 @@ Template.projectPage.events({
 	    	var foundFolder = true;
 	    	while(foundFolder){
 	    		if(folderClicked === folderStack[(folderStack.length - 1)]){
-	    			console.log("foundProject");
 	    			constructProject();
 	    			foundFolder = false;
 	    		}else if(folderStack.length == 0){
-	    			console.log("in base resolution");
 	    			constructProject();
 	    			foundFolder = false;
 	    		}else{
@@ -105,7 +99,6 @@ Template.projectPage.events({
 		var projectData = Projects.findOne({_id: Session.get("currentProject")});
 		var folderData = getFolderData(projectData);
 		if(!(folderTitle in folderData.folders)){
-			console.log("Inside create folder");
 			folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
 			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
 				if(error)
@@ -130,7 +123,6 @@ Template.projectPage.events({
 			var itemType = thisVal.split("-")[0];
 			var itemName = thisVal.split("-")[1];
 			if(itemType == 'folder'){
-				console.log("in folder Download : " + itemName);
 
 			}else if (itemType == "file"){
 				downloadFile(itemName);
@@ -145,12 +137,6 @@ Template.projectPage.events({
 });
 
 Template.projectPage.helpers({
-
-	listSmartFiles : function() {
-		Meteor.call('getSmartFiles', function(err, response){
-			console.log(response);
-		});
-	},
 
 	onFile : function() {
 		return (Session.get("uploadType")==="file");
@@ -189,7 +175,6 @@ Template.projectPage.destroyed = function() {
 
 addToFolderStack = function(name){
 	folderStack.push(name);
-	console.log(folderStack);
 };
 
 getDirectoryFromStack = function(projectData, fillSpaces){
@@ -220,7 +205,6 @@ topOfFolderStack = function(){
 
 removeFromFolderStack = function(){
 	folderStack.pop();
-	console.log(folderStack);
 };
 
 getFolderStack = function() {
@@ -231,7 +215,6 @@ function deleteFolder(folderName){
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
 	var folderData = getFolderData(projectData);
 	delete folderData.folders[folderName];
-	console.log("folder data before update : " + projectData.folders);
 	Meteor.call("remove",getDirectoryFromStack(projectData, false) + folderName, function(err,result){
 		if(err)
 			console.log(err);
@@ -241,13 +224,10 @@ function deleteFolder(folderName){
 }
 
 function deleteFile(fileName){
-	console.log("Delete File " + fileName);
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
 	var folderData = getFolderData(projectData);
 	var fileNameType = folderData.files[fileName].fileName + "." + folderData.files[fileName].fileType;
 	delete folderData.files[fileName];
-	console.log(projectData);
-	console.log("remove file " + getDirectoryFromStack(projectData, false));
 	Meteor.call("remove", getDirectoryFromStack(projectData, false) + fileNameType, function(err, result){
 		if(err)
 			console.log(err);
@@ -269,23 +249,6 @@ function downloadFile(itemName){
 			window.location.href = result+"?download=true";
 		}
 	});
-}
-function traverseFileTree(item, path) {
-	path = path || "";
-	if (item.isFile) {
-    // Get file
-    item.file(function(file) {
-    	console.log("File:", path + file.name);
-    });
-} else if (item.isDirectory) {
-    // Get folder contents
-    var dirReader = item.createReader();
-    dirReader.readEntries(function(entries) {
-    	for (var i=0; i<entries.length; i++) {
-    		traverseFileTree(entries[i], path + item.name + "/");
-    	}
-    });
-}
 }
 
 

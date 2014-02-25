@@ -33,7 +33,7 @@ function createSideProject(event){
 	        	password: $("#project-password").val(),
 	    		folders:{}};
 
-	        var foldersData = Folders.find();
+	        var foldersData = Folders.find({}, {sort: {"name": 1}});
 
 	        foldersData.forEach(function (folder) {
 	        	project.folders[folder.name] = createFolder(folder.name, folderCreation, folderUpdate);

@@ -15,6 +15,10 @@ Template.projectsAdminList.events({
 		}
 	},
 
+	'click #defBtn': function (){
+		$("#addDefFolder").modal('show');
+	},
+
 	'keyup #search-field' : function () {
 		updateView($("#search-field").val());
 		

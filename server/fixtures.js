@@ -53,7 +53,7 @@ if (Meteor.users.find().count() === 0) {
         createFolder("Preliminary", ["Office Manager", "Admin", "Employee", "Client"]);
         createFolder("Safety", ["Office Manager", "Admin", "Employee", "Client"]);
         createFolder("Shop Drawings", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Subtrades", ["Office Manager", "Admin", "Employee", "Client", "Subtrades"]);
+        createFolder("Subtrades", ["Office Manager", "Admin", "Employee", "Client", "Subtrade"]);
 
     }
 

@@ -1,7 +1,7 @@
 Template.projectsAdminList.events({
-		"click #newProjBtn" : function () {
-			$("#search-field").val("");
-			updateView($("#search-field").val());
+	"click #newProjBtn" : function () {
+		$("#search-field").val("");
+		updateView($("#search-field").val());
 		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
 			$('#create-side-title').val("");
 			$("#incorrect-fill-label").text("");
@@ -45,7 +45,7 @@ Template.projectsAdminList.events({
 					}
 				}
 			}
-		};
+		}
 	},
 
 	'click .confirmProject' : function(event, template) {
@@ -91,6 +91,105 @@ Template.projectsAdminList.events({
 		Meteor.call('updateProjectVitals', project, function (error, result) {});
 	},
 
+	'click #addRow' : function(){
+		if(!Session.get("NewRow")){
+			Session.set("NewRow", true);
+			var newRow = $($('#tableData').find("tbody").find("tr")[0]).clone();
+			var dataRows = newRow.find("td");
+
+			for (var i = 0; i < dataRows.length; i++) {
+				if(i>0){
+					var dataRow = $(dataRows[i]);
+					if(dataRow.hasClass('String')){
+						dataRow.html("<input type='text' id='txtName' value=''/>");
+					}else if(dataRow.hasClass("Boolean")){
+						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
+					}
+				}
+			}
+
+			var editProject = $(dataRows[dataRows.length-1]).find("button.editProject");
+			var completeProject = $(dataRows[dataRows.length-1]).find("button.confirmProject");
+			var deleteProject = $(dataRows[dataRows.length-1]).find("button.deleteProject");
+			var manageProject = $(dataRows[dataRows.length-1]).find("button.manageProject");
+			$(dataRows[dataRows.length-1]).find("a.goToProject").remove();
+
+			editProject.attr("disabled",true);
+			completeProject.attr("disabled", false);
+			manageProject.attr("disabled", true);
+
+			completeProject.removeClass("confirmProject");
+			completeProject.attr('id', "CompleteRow");
+			deleteProject.removeClass("deleteProject");
+			deleteProject.attr("id", "deleteRow");
+
+			$("#tableData").prepend(newRow);
+		}else{
+			alert("Already have a new Row, complete it before continuing.");
+		}
+
+	},
+
+	'click #CompleteRow' : function() {
+		var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
+		var projectID = 12345;
+
+		var dataRows = completedRow.find("td");
+		var editProject = $(dataRows[dataRows.length-1]).find("button.editProject");
+		var manageProject = $(dataRows[dataRows.length-1]).find("button.manageProject");
+		var completeProject = $(dataRows[dataRows.length-1]).find("#CompleteRow");
+		var deleteProject = $(dataRows[dataRows.length-1]).find("#deleteRow");
+
+		editProject.attr("disabled",false);
+		completeProject.attr("disabled", true);
+		manageProject.attr("disabled", false);
+
+		completeProject.removeAttr('id');
+		deleteProject.removeAttr('id');
+		manageProject.removeAttr('id');
+		editProject.removeAttr('id');
+
+		completeProject.attr('id', 'confirmbutton-' + projectID);
+		editProject.attr('id', 'editbutton-'+ projectID);
+		manageProject.attr('id', 'button-' + projectID);
+		deleteProject.attr('id', 'button-' + projectID);
+
+		var iValue = $(dataRows[dataRows.length-1]).find("i");
+		iValue.removeAttr('id');
+		iValue.attr('id', 'i-' + projectID);
+
+		completeProject.addClass('confirmProject');
+		deleteProject.addClass('deleteProject');
+
+		for (var i = 0; i < dataRows.length; i++) {
+			if(i>0){
+				var dataRow = $(dataRows[i]);
+				if(dataRow.hasClass('String')){
+					dataRow.html(dataRow.find("input").val());
+				}else if(dataRow.hasClass("Boolean")){
+					if(dataRow.find("input").is(":checked")){
+						dataRow.html("<i class=\"fa fa-check\"></i>");
+					}else{
+						dataRow.html("<i class=\"fa fa-ban\"></i>");
+					}
+				}
+			}
+		}
+
+		$(dataRows[dataRows.length-1]).append("<a href=\"#\" class=\"goToProject\" title=\"Go To Project\"><i class=\"nudgeRight fa fa-arrow-circle-o-right bigger-120\"></i></a>");
+
+		completedRow.removeAttr('id');
+		completedRow.attr('id', 'row-'+projectID);
+
+		Session.set("NewRow", false);
+
+	},
+
+	'click #deleteRow' : function() {
+		var newRow = $($('#tableData').find("tbody").find("tr")[0]).remove();
+		Session.set("NewRow", false);
+	},
+
 	'click .manageProject' : function(event, template) {
 		event.preventDefault();
 		var split = event.target.id.split("-");
@@ -106,7 +205,6 @@ Template.projectsAdminList.events({
 		var split = event.target.id.split("-");
 		var row = $('#row-' + split[1]);
 		// row.remove();
-
 		var projectID = split[1];
 		Meteor.call('removeProject', projectID, function (error, result) {});
 	}

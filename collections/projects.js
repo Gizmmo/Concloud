@@ -9,6 +9,7 @@ Meteor.methods({
 	 * @return {[string]}                   [A String of its ID in the collection]
 	 */
 	project: function(projectAttributes){
+
 		var user = Meteor.user();
 		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
 
@@ -41,7 +42,6 @@ Meteor.methods({
 
 		//Inserts new project into collection
 		var projectID = Projects.insert(proj);
-
 		//returns the ID of the new project
 		return projectID;
 	},

@@ -1,14 +1,6 @@
-Meteor.subscribe('projects', Meteor.user().profile.userGroup);
-Meteor.subscribe('notifications');
-Meteor.subscribe('subscriptions');
-Meteor.subscribe('users', Meteor.user().profile.userGroup);
-Meteor.subscribe('hrData', Meteor.user().profile.userGroup);
-Meteor.subscribe('hr', Meteor.user().profile.userGroup);
-Meteor.subscribe('folders');
-Meteor.subscribe("my_channel");
 
 Template.concloud.rendered = function () {
-   
+
 	jqueryui();
   metroNotifications();
 
@@ -23,7 +15,7 @@ Template.concloud.rendered = function () {
     wf.async = 'true';
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(wf, s);
-  })(); 
+  })();
      $('body').removeAttr('style');
-    
+
 };

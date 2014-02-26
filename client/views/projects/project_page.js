@@ -192,7 +192,7 @@ function isIn(checkArray, userGroup){
 Template.projectPage.created = function() {
 	folderStack = [];
 	Session.set("uploadType", "file");
-
+	
 };
 
 Template.projectPage.rendered = function() {

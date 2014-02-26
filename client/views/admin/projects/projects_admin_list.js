@@ -21,6 +21,81 @@ Template.projectsAdminList.events({
 		
 	},
 
+	'click .editProject' : function(event, template) {
+		event.preventDefault();
+		var split = event.target.id.split("-");
+		var button = $("#editbutton-" + split[1]);
+		var confirmbutton = $("#confirmbutton-" + split[1]);
+
+		button.attr("disabled",true);
+		confirmbutton.attr("disabled", false);
+
+		var row = $('#row-' + split[1]);
+		var dataRows = row.find("td");
+
+		for (var i = 0; i < dataRows.length; i++) {
+			if(i>0){
+				var dataRow = $(dataRows[i]);
+				if(dataRow.hasClass('String')){
+					dataRow.html("<input type='text' id='txtName' value='"+dataRow.html()+"'/>");
+				}else if(dataRow.hasClass("Boolean")){
+					if(dataRow.find("i").hasClass("fa-check")){
+						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
+					}else{
+						dataRow.html("<input type='checkbox' id='checkbox' checked = 'false' />");
+					}
+				}
+			}
+		};
+	},
+
+	'click .confirmProject' : function(event, template) {
+		event.preventDefault();
+		var split = event.target.id.split("-");
+		var button = $("#editbutton-" + split[1]);
+		var confirmbutton = $("#confirmbutton-" + split[1]);
+
+		confirmbutton.attr("disabled",true);
+		button.attr("disabled", false);
+
+		var row = $('#row-' + split[1]);
+		var dataRows = row.find("td");
+
+		for (var i = 0; i < dataRows.length; i++) {
+			if(i>0){
+				var dataRow = $(dataRows[i]);
+				if(dataRow.hasClass('String')){
+					dataRow.html(dataRow.find("input").val());
+				}else if(dataRow.hasClass("Boolean")){
+					if(dataRow.find("input").is(":checked")){
+						dataRow.html("<i class=\"fa fa-check\"></i>");
+					}else{
+						dataRow.html("<i class=\"fa fa-ban\"></i>");
+					}
+				}
+			}
+		};
+	},
+
+	'click .manageProject' : function(event, template) {
+		event.preventDefault();
+		var split = event.target.id.split("-");
+
+		var proejctID = $(split[1]);
+		
+
+	},
+
+	'click .deleteProject' : function(event, template) {
+		event.preventDefault();
+		var split = event.target.id.split("-");
+		var row = $('#row-' + split[1]);
+		row.remove();
+
+		var proejctID = $(split[1]);
+	},
+
+
 	'click #delbtn' : function () {
 		onProjectDelete = !onProjectDelete;
 		onProjectRoles = false;

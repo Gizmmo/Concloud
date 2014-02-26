@@ -98,5 +98,6 @@ Template.dashboard.created = function() {
   $('body').removeClass("modal-open");  
   $('body').height('auto');
   Session.set("LoggedIn", true);
-};
+
+}
 

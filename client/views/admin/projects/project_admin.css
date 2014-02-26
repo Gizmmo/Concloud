@@ -30,3 +30,23 @@
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.inTableButton {
+  font-size:12px;
+}
+
+.centerButton {
+  text-align: center;
+}
+
+.String {
+  max-width:60px;
+}
+
+.String input[type=text]{
+  max-width:120px;
+}
+
+.Boolean{
+  text-align: center;
+}

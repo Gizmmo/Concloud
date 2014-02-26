@@ -40,6 +40,9 @@
 					</div>
 				</div>
 				<div class="modal-footer">
+					{{#if addingProject}}
+						{{spinner}}
+					{{/if}}
 					<button id="create-side-project" class="btn btn-success submitModal">Create Project</button>
 					<button type="button" class="btn btn-default closeModal" data-dismiss="modal">Close</button>
 				</div>

@@ -76,6 +76,10 @@ Meteor.methods({
 		Meteor.call("createProjectNotification", project);
 	},
 
+	updateProjectVitals: function(project){
+		Projects.update({_id: project._id}, project);
+
+	},
 	checkPassword: function (data) {
 		var project = Projects.findOne({_id: data._id});
 		if(project.password === data.password){

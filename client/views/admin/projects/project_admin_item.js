@@ -9,12 +9,6 @@ Template.projectAdminItem.events({
     $(".b-project-item").attr("data-target", "");
     Session.set("projectId", this._id);
     $("#deleteProj").modal("show");
-  },
-
-  'click' : function () {
-    if(onProjectRoles){
-      Router.go('projectAdminPage', {"_id": this._id});
-    }
   }
 });
 
@@ -57,26 +51,6 @@ Template.projectAdminItem.helpers({
       }
     }
     return returnString;
-  },
-
-  badgerData: function () {
-    if(onProjectDelete){
-      return "badger-danger badger-left"
-    }
-    if(onProjectRoles){
-      return "badger-warning badger-right"
-    }
-    return "badger-info badger-left";
-  },
-
-  dataToggle : function () {
-    if(onProjectDelete){
-      return "#deleteData"
-    }
-    if(onProjectRoles){
-      return ""
-    }
-    return "#updateData";
   }
 });
 

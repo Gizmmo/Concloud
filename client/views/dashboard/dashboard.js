@@ -42,16 +42,11 @@ Template.dashboard.helpers({
 
 	hrEntries: function (){
 		var hr = HR.findOne({userId: Meteor.user()._id});
-		return  HR.findOne({userId: Meteor.user()._id}).hrValues;
-	},
-
-	fieldName: function () {
-		console.log(this);
-		return "Hello";
-	},
-
-	fieldValue: function () {
-		return "Goodbye";
+		if(HR.findOne({userId: Meteor.user()._id})){
+			return  HR.findOne({userId: Meteor.user()._id}).hrValues;
+		} else {
+			return [];
+		}
 	},
 
     removeHeight : function() {

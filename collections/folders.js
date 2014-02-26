@@ -8,5 +8,9 @@ Meteor.methods({
 
   removeFolder: function(folder){
     Folders.remove(folder._id);
+  },
+
+  updateFolder: function(folder){
+  	Folders.update({"_id": folder._id}, folder);
   }
 });

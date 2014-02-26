@@ -33,7 +33,7 @@ function createNewFolder(event){
         privilages[privilages.length] = "Client";
     }
     if($("#sub-check").is(":checked")){
-        privilages[privilages.length] = "Subtrade";
+        privilages[privilages.length] = "Sub-Trade";
     }
     folder = {
         name: $("#folder-name").val(),

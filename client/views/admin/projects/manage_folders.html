@@ -7,5 +7,52 @@
 	<a class="concord-button emp-btn conBtn" href="{{pathFor 'manageFolders'}}"id="defBtn">
 		<i class="fa fa-tags"></i>  Add Default Project Folders
 	</a>
+		<div id="default-search">
+			<form class="form-search">
+				<span class="input-icon">
+					<input type="text" placeholder="Search ..." class="nav-search-input" id="search-field" autocomplete="off">
+					<i class="fa fa-search icon-search nav-search-icon"></i>
+				</span>
+			</form>
+		</div><!-- #nav-search -->
+		
+		<div class="surround-table col-xs-8">
+			<table class="table table-striped">
+				<thead>
+					<td>Default Folder</td>
+					<td>Office Manager</td>
+					<td>Employee</td>
+					<td>Client</td>
+					<td>Subtrade<td>
+				</thead>
+				<tbody>
+					{{#each folders}}
+						<tr id="folder-{{_id}}">
+							<td>{{name}}</td>
+							{{#if officeManager}}
+								<td><input type="checkbox" checked="true" class="def-click" id="manager-{{_id}}"></td>
+							{{else}}
+								<td><input type="checkbox" class="def-click" id="manager-{{_id}}"></td>
+							{{/if}}
+							{{#if employee}}
+								<td><input type="checkbox" checked="true" class="def-click" id="employee-{{_id}}"></td>
+							{{else}}
+								<td><input type="checkbox" class="def-click" id="employee-{{_id}}"></td>
+							{{/if}}
+							{{#if client}}
+								<td><input type="checkbox" checked="true" class="def-click" id="client-{{_id}}"></td>
+							{{else}}
+								<td><input type="checkbox" class="def-click" id="client-{{_id}}"></td>
+							{{/if}}
+							{{#if subTrade}}
+								<td><input type="checkbox" checked="true" class="def-click" id="sub-{{_id}}"></td>
+							{{else}}
+								<td><input type="checkbox" class="def-click" id="sub-{{_id}}"></td>
+							{{/if}}
+						</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</div>
 	{{> addDefaultFolder}}
 </template>

@@ -6,7 +6,8 @@ Meteor.methods({
 			var user = Meteor.user();
 			var entry = _.extend(_.pick(newEntry, 'fieldName', 'defaultValue'), {
 				createdOn: new Date().getTime(),
-				createdBy: user._id
+				createdById: user._id,
+				createdBy: user.profile.firstName + " " + user.profile.lastName
 			});
 
 			var projectID = HRData.insert(entry);
@@ -42,7 +43,6 @@ Meteor.methods({
 
 		hrFound = HR.find({});
 		hrFound.forEach(function (post) {
-			console.log(post);
 			delete post['fieldName']; //LAST EDITING HERE
 			HR.update({userId: post.userId}, post);
 		});

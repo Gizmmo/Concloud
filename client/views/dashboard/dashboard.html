@@ -13,36 +13,6 @@
 
 			<!--User Data -->
 
-			<div class="col-sm-3 hidden-xs">
-				<div class="panel panel-default">
-					<div class="panel-body dashboard-panel">
-						<h6 class="userTitle">User Info</h6>
-						<div><span class="miniTitle">Name</span>: {{userName}}</div>
-						<div><span class="miniTitle">Role:</span> {{userGroup}}</div>
-						<div><span class="miniTitle">Joined:</span> {{joinDate}}</div>
-						<hr>
-						<h6 class="userTitle">Previous Work</h6>
-						<div><span class="miniTitle">Last Login:</span> {{lastLogin}}</div>
-						<div>
-							<span class="miniTitle">Last Project:</span>
-							{{#if isProject}}
-								<a href = "projects/{{lastProjectID}}"> 
-							{{/if}}
-							{{lastProject}}
-							{{#if isProject}}
-								</a> 
-							{{/if}}
-						</div>
-						<hr>
-						<h6 class="userTitle">H.R. Info</h6>
-						{{#each hrEntries}}
-							<div><span class="miniTitle">{{name}}:</span> {{value}}</div>
-						{{/each}}
-
-
-					</div>
-				</div>
-			</div>
-		</div>
+			{{>dashboardside}}
 	</div>
 </template>

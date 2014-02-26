@@ -8,7 +8,6 @@
 
 	<div class="sidebar" id="sidebar">
 		<img src="/img/logo.jpg" class="concord-logo">
-		<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 
 
 		<ul class="nav nav-list">
@@ -29,21 +28,61 @@
 
 			{{#if admin}}
 			<li>
-				<a href="{{pathFor 'userList'}}">
-					<i class="fa fa-gavel"></i>
-					<span class="menu-text"> Administration </span>
-				</a>
+				<a href="#" class="dropdown-toggle">
+					<i class="fa fa-pencil-square-o"></i>
+					<span class="menu-text"> Project Administration </span>
+					<b class="arrow fa fa-chevron-down"></b>
+					</a>
+					<ul class="submenu">
+								<li>
+									<a href="elements.html">
+										<i class="icon-double-angle-right"></i>
+										Create New Project
+									</a>
+								</li>
+
+								<li>
+									<a href="{{pathFor 'projectsAdminList'}}">
+										<i class="icon-double-angle-right"></i>
+										Manage Projects
+									</a>
+								</li>
+							</ul>
+				
 			</li>
 			<li>
-				<a href="{{pathFor 'reports'}}">
-					<i class="fa fa-tasks"></i>
-					<span class="menu-text"> Reports </span>
-				</a>
+				<a href="#" class="dropdown-toggle">
+					<i class="fa fa-gavel"></i>
+					<span class="menu-text"> User Administration </span>
+					<b class="arrow fa fa-chevron-down"></b>
+					</a>
+					<ul class="submenu">
+								<li>
+									<a href="elements.html">
+										<i class="icon-double-angle-right"></i>
+										Create New User
+									</a>
+								</li>
+
+								<li>
+									<a href="{{pathFor 'userList'}}">
+										<i class="icon-double-angle-right"></i>
+										Manage Users
+									</a>
+								</li>
+
+								<li>
+									<a href="buttons.html">
+										<i class="icon-double-angle-right"></i>
+										Manage H.R.
+									</a>
+								</li>
+							</ul>
+				
 			</li>
 			{{/if}}
 			</ul>
 
-		</div>
 	</div>
 	{{/if}}
 

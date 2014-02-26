@@ -50,24 +50,12 @@ Meteor.methods({
 	 * Create the inital Project directory in smart file
 	 * @param  {[String]} projectName Project Name, used for creation in smart file
 	 */
-	 createNewProjectDirectories : function(projectName) {
+	 createNewProjectDirectories : function(projectName, folders) {
+	 	console.log(folders);
 	 	sf.mkdir(projectName);
-	 	sf.mkdir(projectName + "/Change Orders");
-	 	sf.mkdir(projectName + "/Consultant");
-	 	sf.mkdir(projectName + "/Contracts and PO's");
-	 	sf.mkdir(projectName + "/Daily Log's");
-	 	sf.mkdir(projectName + "/Drawings");
-	 	sf.mkdir(projectName + "/Estimates");
-	 	sf.mkdir(projectName + "/Inspections, Reports & Tests");
-	 	sf.mkdir(projectName + "/Legal, Civic & Utility");
-	 	sf.mkdir(projectName + "/Minutes of Meetings");
-	 	sf.mkdir(projectName + "/Owner");
-	 	sf.mkdir(projectName + "/PCN's");
-	 	sf.mkdir(projectName + "/Pictures");
-	 	sf.mkdir(projectName + "/Preliminary");
-	 	sf.mkdir(projectName + "/Safety");
-	 	sf.mkdir(projectName + "/Shop Drawings");
-	 	sf.mkdir(projectName + "/Subtrades");
+	 	folders.forEach(function (folder) {
+	 		sf.mkdir(projectName + "/" + folder.name);
+	 	});
 	 },
 
 	 createDirectory : function (name) {

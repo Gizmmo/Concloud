@@ -14,7 +14,6 @@
 }
 
 .page-content{
-	background-color:rgba(230,230,230,.6)!important;
 	height:100%;
 }
 
@@ -24,17 +23,12 @@ html,body{
 }
 
 .main-container{
-	background-color:rgba(230,230,230,.6)!important;
 	height:100%;
 	overflow:hidden!important;
 }
 
-.main-container:after {
-	background-color:transparent!important;
-}
-
 .breadcrumbs {
-	border: 1px solid transparent;
+	border-bottom: 1px solid #d8d8d8;
 	border-radius: 4px;
 	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.0.05);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.05);

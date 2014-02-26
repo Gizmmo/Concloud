@@ -5,55 +5,68 @@ Template.createProjectModal.events({
 		}
 	},
 	'keypress' : function(event) {
-    if(event.which === 13){
-    	if(acceptPasswords()){
-	      createSideProject(event);
-  		}
-    }
-  },
+		if(event.which === 13){
+			if(acceptPasswords()){
+				createSideProject(event);
+			}
+		}
+	},
 
 	'click #create-side-project' : function (event) {
+		event.preventDefault();
 		if(acceptPasswords()){
 			createSideProject(event);
 		}
 	}
 });
 
+Template.createProjectModal.helpers({
+	addingProject: function () {
+		return Session.get("addingProject");
+	}
+});
+
 function createSideProject(event){
 	//This will stop the default submitting of the form
-		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
-	    	Meteor.call('createNewProjectDirectories', $('#create-side-title').val(), function (error, result) {
-	    		if(error)
-	    			console.log(error);
-	    	});
+	var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
+	var foldersData = Folders.find({}, {sort: {"name": 1}}).fetch();
+	
+	Meteor.call('createNewProjectDirectories', $('#create-side-title').val(), foldersData, function (error, result) {
+		if(error){
+			console.log(error);
+			Session.set("addingProject", false);
+				clearBackground(event, "createSideProj");
+				$("#createSideProj").modal("hide");
+		}
+		else{
+			var folderUpdate = createFolderUpdate();
+			var folderCreation = createFolderCreation();
+			var project = {title:$('#create-side-title').val(),
+			password: $("#project-password").val(),
+			folders:{}};
 
-	        var folderUpdate = createFolderUpdate();
-	        var folderCreation = createFolderCreation();
-	        var project = {title:$('#create-side-title').val(),
-	        	password: $("#project-password").val(),
-	    		folders:{}};
 
-	        var foldersData = Folders.find({}, {sort: {"name": 1}});
+			foldersData.forEach(function (folder) {
+				project.folders[folder.name] = createFolder(folder.name, folderCreation, folderUpdate);
+			});
 
-	        foldersData.forEach(function (folder) {
-	        	project.folders[folder.name] = createFolder(folder.name, folderCreation, folderUpdate);
-	        });
 
-			//Calls the newly created Project's path after creating
-		Meteor.call('project', project, function (error, id) {
-			if (error) {
-				console.log(error);
-                // display the error to the user
-                throwError(error.reason);
-                // if the error is that the post already exists, take us there
-                if (error.error === 302){
-                }
-            } else {
-            	clearBackground(event, "createSideProj");
-            	$("#createSideProj").modal("hide");
-            	//ENTER SPINNER STOP CODE HERE!!!!
-            }
-        });
+			// the newly created Project's path after creating
+			Meteor.call('project', project, function (error, id) {
+				if (error) {
+					console.log(error);
+				}
+
+				Session.set("addingProject", false);
+				clearBackground(event, "createSideProj");
+				$("#createSideProj").modal("hide");
+			});
+
+			}
+	});
+
+	
+
 }
 
 function acceptPasswords(){

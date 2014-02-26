@@ -102,8 +102,14 @@ Template.projectsAdminList.events({
 					var dataRow = $(dataRows[i]);
 					if(dataRow.hasClass('String')){
 						dataRow.html("<input type='text' id='txtName' value=''/>");
+					}else if (dataRow.hasClass('Password')){
+						dataRow.html("<input type='password' id='txtName' value=''/>");
 					}else if(dataRow.hasClass("Boolean")){
 						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
+					} else {
+						if(dataRows.length -1 !== i){
+							dataRow.html("");
+						}
 					}
 				}
 			}
@@ -132,54 +138,36 @@ Template.projectsAdminList.events({
 
 	'click #CompleteRow' : function() {
 		var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
+		//INSERT DATA HERE
 		var projectID = 12345;
 
 		var dataRows = completedRow.find("td");
-		var editProject = $(dataRows[dataRows.length-1]).find("button.editProject");
-		var manageProject = $(dataRows[dataRows.length-1]).find("button.manageProject");
-		var completeProject = $(dataRows[dataRows.length-1]).find("#CompleteRow");
-		var deleteProject = $(dataRows[dataRows.length-1]).find("#deleteRow");
 
-		editProject.attr("disabled",false);
-		completeProject.attr("disabled", true);
-		manageProject.attr("disabled", false);
+		var foldersData = Folders.find({}, {sort: {"name": 1}}).fetch();
+		var folderUpdate = createFolderUpdate();
+		var folderCreation = createFolderCreation();
+		var project = {
+			title: $(dataRows[1]).find('input').val(),
+			password: $(dataRows[2]).find('input').val(),
+			folders:{}
+		};
+		console.log(project);
 
-		completeProject.removeAttr('id');
-		deleteProject.removeAttr('id');
-		manageProject.removeAttr('id');
-		editProject.removeAttr('id');
+		foldersData.forEach(function (folder) {
+			project.folders[folder.name] = createFolder(folder.name, folderCreation, folderUpdate);
+		});
 
-		completeProject.attr('id', 'confirmbutton-' + projectID);
-		editProject.attr('id', 'editbutton-'+ projectID);
-		manageProject.attr('id', 'button-' + projectID);
-		deleteProject.attr('id', 'button-' + projectID);
 
-		var iValue = $(dataRows[dataRows.length-1]).find("i");
-		iValue.removeAttr('id');
-		iValue.attr('id', 'i-' + projectID);
-
-		completeProject.addClass('confirmProject');
-		deleteProject.addClass('deleteProject');
-
-		for (var i = 0; i < dataRows.length; i++) {
-			if(i>0){
-				var dataRow = $(dataRows[i]);
-				if(dataRow.hasClass('String')){
-					dataRow.html(dataRow.find("input").val());
-				}else if(dataRow.hasClass("Boolean")){
-					if(dataRow.find("input").is(":checked")){
-						dataRow.html("<i class=\"fa fa-check\"></i>");
-					}else{
-						dataRow.html("<i class=\"fa fa-ban\"></i>");
-					}
-				}
+		// the newly created Project's path after creating
+		Meteor.call('project', project, function (error, id) {
+			if (error) {
+				console.log(error);
 			}
-		}
 
-		$(dataRows[dataRows.length-1]).append("<a href=\"#\" class=\"goToProject\" title=\"Go To Project\"><i class=\"nudgeRight fa fa-arrow-circle-o-right bigger-120\"></i></a>");
+			Session.set("addingProject", false);
+		});
 
-		completedRow.removeAttr('id');
-		completedRow.attr('id', 'row-'+projectID);
+		$(completedRow).remove();
 
 		Session.set("NewRow", false);
 

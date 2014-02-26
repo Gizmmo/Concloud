@@ -1,30 +1,17 @@
-<template name = "userList">
+<template name="userList">
+
+	<!-- Bread Crumbs -->
+
 	{{> breadcrumbs}}
 
-	<div class = "users">
+
+	<!-- Project Data -->
+	<div class = "projects">
 		<div class = "page-content">
 			<div class="page-header">
-				<h1>Manage Employees<small><i class="fa fa-angle-double-right"></i>Administration</small></h1>
+				<h1>Manage Users<small><i class="fa fa-angle-double-right"></i>Administration</small></h1>
 			</div>
-			<div class="above-content">
-				<div class="button-headers">
-				<a class="btn btn-primary emp-btn userBtn" href="{{pathFor 'projectsAdminList'}}">
-					<i class="fa fa-folder-open-o"></i> Manage Projects
-				</a>
-			</div>
-				<a class="mp-btn conBtn concord-button" href="{{pathFor 'manageHR'}}">
-					<i class="fa fa-tags"></i>  Manage HR Fields
-				</a>
-				<a class="emp-btn userBtn concord-button" data-toggle="modal" data-target="#createData">
-					<i class="fa fa-pencil-square-o"></i> Create New User
-				</a>
-				<a class="emp-btn userBtn concord-button" id="hrbtn">
-					<i class="fa fa-flag-o"></i> Manage Human Resource
-				</a>
-				<a class="userBtn concord-button" id="delbtn">
-					<i class="fa fa-times"></i> Delete User
-				</a>
-			</div>
+			
 			<div class = "search-buffer">
 				<div id="emp-search">
 					<form class="form-search">
@@ -32,29 +19,52 @@
 							<input type="text" placeholder="Search ..." class="nav-search-input" id="search-field" autocomplete="off">
 							<i class="fa fa-search icon-search nav-search-icon"></i>
 						</span>
+						<span class="pull-right greenFont">
+					<i class="fa fa-plus-circle" title="Add Project" id="addRow"></i>
+				</span>
 					</form>
+
 				</div><!-- #nav-search -->
+				
 			</div>
 			<div class="row">
 				<div class = "projects col-xs-12">
-					
-							{{#each users}}
-								{{>userItem}}
-							{{/each}}
-						
+
+					<div class="table-responsive">
+						<table id="tableData" class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th class="center">
+										<label>
+											<input type="checkbox" class="ace">
+											<span class="lbl"></span>
+										</label>
+									</th>
+									<th>Last Name</th>
+									<th>First Name</th>
+									<th>
+										<i class="icon-time bigger-110 hidden-480"></i>
+										User Group
+									</th>
+									<th class="hidden-480">Email</th>
+									<th class="hidden-480">Last Logged In</th>
+
+									<th>Manage Project Options</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each users}}
+									{{> userItem}}
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-				   
-	{{> updateUserModal}}
 
-	{{> updateHRModal}}
-
-	{{> createNewUserModal}}
-
-	{{> deleteUserModal}}
-
-
-
+	{{> updateProjectModal}}
+	{{> createProjectModal}}
+	{{> deleteModal}}
 </template>

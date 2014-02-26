@@ -1,17 +1,206 @@
-clickedID = null;
-onUserDelete = false;
-onUserHR = false;
+Template.userList.events({
+	'keyup #search-field' : function () {
+		updateView($("#search-field").val());
+		
+	},
+
+	'click .editProject' : function(event, template) {
+		event.preventDefault();
+		var split = event.target.id.split("-");
+		var button = $("#editbutton-" + split[1]);
+		var confirmbutton = $("#confirmbutton-" + split[1]);
+
+		button.attr("disabled",true);
+		confirmbutton.attr("disabled", false);
+
+		var row = $('#row-' + split[1]);
+		var dataRows = row.find("td");
+
+		var user = Meteor.users.findOne({_id: split[1]});
+		for (var i = 0; i < dataRows.length; i++) {
+			if(i>0){
+				var dataRow = $(dataRows[i]);
+				if(dataRow.hasClass('String')){
+					dataRow.html("<input type='text' id='txtName' value='"+dataRow.html()+"'/>");
+				} else if(dataRow.hasClass('Password')){
+					dataRow.html("<input type='password' id='txtName' value=''/>");
+				} else if (dataRow.hasClass("Selection")){
+						var selectVal = dataRow.html();
+						dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Admin'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");
+						var select = $(dataRow.find("select")).attr('id');
+						$("#" + select +' option[value=' + selectVal +']').attr('selected', 'selected');
+				} else if(dataRow.hasClass("Boolean")){
+					if(dataRow.find("i").hasClass("fa-check")){
+						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
+					}else{
+						dataRow.html("<input type='checkbox' id='checkbox' checked = 'false' />");
+					}
+				}
+			}
+		}
+	},
+
+	'click .confirmProject' : function(event, template) {
+		event.preventDefault();
+		var split = event.target.id.split("-");
+		var button = $("#editbutton-" + split[1]);
+		var confirmbutton = $("#confirmbutton-" + split[1]);
+		var user = Meteor.users.findOne({_id: split[1]});
+
+		confirmbutton.attr("disabled",true);
+		button.attr("disabled", false);
+
+		var row = $('#row-' + split[1]);
+		var dataRows = row.find("td");
+
+		for (var i = 0; i < dataRows.length; i++) {
+			if(i>0){
+				var dataRow = $(dataRows[i]);
+				if(dataRow.hasClass('String')){
+					dataRow.html(dataRow.find("input").val());
+				}else if(dataRow.hasClass('Password')){
+					var data = dataRow.find("input").val();
+					var returnString = "";
+					for(var t = 0; t < data.length; t++){
+						returnString += '*';
+					}
+					dataRow.html(returnString);
+				} else if (dataRow.hasClass("Selection")){
+					dataRow.html(dataRow.find("select").val());
+				}else if(dataRow.hasClass("Boolean")){
+					if(dataRow.find("input").is(":checked")){
+						dataRow.html("<i class=\"fa fa-check\"></i>");
+					}else{
+						dataRow.html("<i class=\"fa fa-ban\"></i>");
+					}
+				}
+			}
+		}
+
+		var firstName = $(dataRows[2]).html();
+		var lastName = $(dataRows[1]).html();
+		var userGroup = $(dataRows[3]).html();
+		Meteor.users.update({_id: split[1]}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
+	},
+
+	'click #addRow' : function(){
+		if(!Session.get("NewRow")){
+			Session.set("NewRow", true);
+			var newRow = $($('#tableData').find("tbody").find("tr")[0]).clone();
+			var dataRows = newRow.find("td");
+
+			for (var i = 0; i < dataRows.length; i++) {
+				if(i>0){
+					var dataRow = $(dataRows[i]);
+					if(dataRow.hasClass('String')){
+						dataRow.html("<input type='text' id='txtName' value=''/>");
+					}else if (dataRow.hasClass('Password')){
+						dataRow.html("<input type='password' id='txtName' value=''/>");
+					}else if(dataRow.hasClass("Boolean")){
+						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
+					}else if (dataRow.hasClass("Selection")){
+						dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Admin'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");;
+					}else {
+						if(dataRows.length -1 !== i){
+							dataRow.html("");
+						}
+					}
+				}
+			}
+
+			var editProject = $(dataRows[dataRows.length-1]).find("button.editProject");
+			var completeProject = $(dataRows[dataRows.length-1]).find("button.confirmProject");
+			var deleteProject = $(dataRows[dataRows.length-1]).find("button.deleteProject");
+			var manageProject = $(dataRows[dataRows.length-1]).find("button.manageProject");
+			$(dataRows[dataRows.length-1]).find("a.goToProject").remove();
+
+			editProject.attr("disabled",true);
+			completeProject.attr("disabled", false);
+			manageProject.attr("disabled", true);
+
+			completeProject.removeClass("confirmProject");
+			completeProject.attr('id', "CompleteRow");
+			deleteProject.removeClass("deleteProject");
+			deleteProject.attr("id", "deleteRow");
+
+			$("#tableData").prepend(newRow);
+		}else{
+			alert("Already have a new Row, complete it before continuing.");
+		}
+
+	},
+
+	'click #CompleteRow' : function() {
+		var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
+		//INSERT DATA HERE
+
+		var dataRows = completedRow.find("td");
+
+        var time = new Date().getTime();
+        var options = {
+            email : $(dataRows[4]).find('input').val(),
+            password : 'password',
+                //Profile is the object within the user that can
+                //be freely edited by the user
+                profile : {
+                    firstName : $(dataRows[2]).find('input').val(),
+                    lastName: $(dataRows[1]).find('input').val(),
+                    email: $(dataRows[4]).find('input').val(),
+                    userGroup : $(dataRows[3]).find('select').val(),
+                    joinDate: time,
+                    recent: {
+                        lastLogin: time,
+                        lastProjectName: "None",
+                        lastProjectID: "None"
+                    }
+                }
+            }
+        Meteor.call('createNewUser', options, function (error, id) {
+            if(error){
+
+            }else {
+                Meteor.call("HREntry", {userId: id}, function (error, id){});
+            }
+        });
+        $("#search-field").val("");
+
+		$(completedRow).remove();
+
+		Session.set("NewRow", false);
+
+	},
+
+	'click #deleteRow' : function() {
+		var newRow = $($('#tableData').find("tbody").find("tr")[0]).remove();
+		Session.set("NewRow", false);
+	},
+
+	'click .manageProject' : function(event, template) {
+		event.preventDefault();
+		var split = event.target.id.split("-");
+
+		var projectID = split[1];
+		//Router.go('projectAdminPage', {"_id": split[1]});
+		
+
+	},
+
+	'click .deleteProject' : function(event, template) {
+		event.preventDefault();
+		var split = event.target.id.split("-");
+		var row = $('#row-' + split[1]);
+		// row.remove();
+		var projectID = split[1];
+		Meteor.users.remove({_id: projectID});
+	}
+});
 
 Template.userList.helpers({
-	/**
-	 * Finds all projects
-	 * @return collection All projects in collection
-	 */
-	 users: function() {
+	users: function() {
 	 	return Meteor.users.find({}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
 	 },
 
-	 convertedTime: function () {
+	convertedTime: function () {
 	 	if(this.profile.recent){
 	 		if(this.profile.recent.lastLogin){
 	 			return formatDate(this.profile.recent.lastLogin);
@@ -19,14 +208,13 @@ Template.userList.helpers({
 	 	}
 	 	return formatDate(new Date().getTime());
 	 }
+});
 
-	});
-
-function updateView(searchValue) {
-	if(searchValue == undefined || searchValue == null || searchValue == ""){
+function updateView(searchValue){
+		if(searchValue == undefined || searchValue == null || searchValue == ""){
 		users = Meteor.users.find({});
 		users.forEach(function (user) {
-			$('#' + user._id).show();
+			$('#' + "row-" + user._id).show();
 		});
 	}else {
 		users = Meteor.users.find({});
@@ -40,140 +228,13 @@ function updateView(searchValue) {
 			}
 
 			if(found){
-				$('#' + user._id).show();
+				$('#' + "row-" + user._id).show();			
 			}
 
 			if(!found){
-				$('#' + user._id).hide();
+				$('#' + "row-" + user._id).hide();			
 			}
 
 		});
 	}
-}
-
-Template.userList.events({
-	'keyup' : function () {
-		updateView($("#search-field").val());
-		
-	},
-	/**
-	 * This will mimic an actual update to the current project
-	 * @param  Meteor.call('updateProject', this._id, function (error, result) {		});	}} [description]
-	 * @return {[type]}   [description]
-	 */
-	 'click .b-user-item': function () {
-	 	$("#delete-email").text(this.profile.email)
-	 	$("#first-name").text(this.profile.firstName);
-	 	$("#first-delete-name").text(this.profile.firstName);
-	 	$("#last-name").text(this.profile.lastName);
-	 	$("#last-delete-name").text(this.profile.lastName);
-	 	$("div.controls select").val(this.profile.userGroup);
-	 	$("#last-logged-label").text(formatDate(this.profile.recent.lastLogin));
-	 	if(this.profile.recent.lastProjectName){
-	 		$("#last-worked-label").text(this.profile.recent.lastProjectName);
-	 	} else{
-	 		$("#last-worked-label").text("None");
-	 	}
-	 	$("#hr-email").text(this.profile.email);
-	 	$("#sick-days").val(this.profile.hr.sickDays);
-	 	$("#vacation-days").val(this.profile.hr.vacationDays);
-	 	clickedID = this._id;
-	 },
-	 'click #delbtn' : function () {
-	 	onUserDelete = !onUserDelete;
-	 	if(onUserDelete){
-	 		$( ".b-user-item" ).removeClass( "badger-info badger-warning badger-left" ).addClass( "badger-danger badger-left" );
-	 		var boxes = $( ".b-user-item" );
-	 		for(var i = 0; i < boxes.length; i++){
-	 			userID = $(boxes[i]).attr("id");
-	 			tempUser = Meteor.users.findOne({"_id":userID});
-	 			$(boxes[i]).attr("data-target", "");
-	 			$(boxes[i]).append('<i class="fa fa-times fa-2x close-x" id="close-x" title="Delete Project" rel="tooltip"></i>');
-	 			$("[rel=tooltip").tooltip();
-	 			if(onUserHR){
-	 				removeHR($(boxes[i]));
-	 			}
-	 		}
-	 	} else{
-	 		$( ".b-user-item" ).removeClass( "badger-danger badger-warning badger-left" ).addClass( "badger-info badger-left" );
-	 		var boxes = $( ".b-user-item" );
-	 		for(var i = 0; i < boxes.length; i++){
-	 			userID = $(boxes[i]).attr("id");
-	 			tempUser = Meteor.users.findOne({"_id":userID});
-	 			$(boxes[i]).attr("data-target", "#updateData");
-	 			$('i').remove('#close-x');
-	 		}
-	 	}
-	 	onUserHR = false;
-	 },
-
-	 'click #hrbtn': function () {
-	 	onUserHR = !onUserHR;
-	 	onUserDelete = false;
-	 	if(onUserHR){
-	 		$( ".b-user-item" ).removeClass( "badger-info badger-left badger-danger" ).addClass( "badger-warning badger-left" );
-	 		var boxes = $( ".b-user-item" );
-	 		for(var i = 0; i < boxes.length; i++){
-	 			$(boxes[i]).attr("data-target", "#hrData");
-	 			userID = $(boxes[i]).attr("id");
-	 			tempUser = Meteor.users.findOne({"_id":userID});
-	 			$('i').remove('#close-x');
-	 			$("[rel=tooltip").tooltip();
-	 			$('div').remove("#userInfo");
-	 			$(boxes[i]).append('<div id="hrInfo">' +
-	 				'<span class = "my-title">Email: </span>'+tempUser.profile.email+'<br>'+
-	 				'<span class = "my-title"> Sick Days: </span>'+tempUser.profile.hr.sickDays+'<br>'+
-	 				'<span class = "my-title">Vacation Days: </span>'+tempUser.profile.hr.vacationDays+
-	 				'</div>');
-
-	 		}
-			//data-target="#updateData
-		} else{
-			$( ".b-user-item" ).removeClass( "badger-warning badger-right" ).addClass( "badger-info badger-left" );
-			var boxes = $( ".b-user-item" );
-			for(var i = 0; i < boxes.length; i++){
-				$(boxes[i]).attr("data-target", "#updateData");
-				userID = $(boxes[i]).attr("id");
-				tempUser = Meteor.users.findOne({"_id":userID});
-				$('i').remove('#close-x');
-				$("[rel=tooltip").tooltip();
-				removeHR($(boxes[i]));
-			}
-		}
-	}
-});
-
-Template.userList.created = function () {
-	onUserDelete = false;
-};
-
-Template.userList.rendered = function () {
-	if(onUserDelete){
-		$( ".b-user-item" ).removeClass( "badger-info badger-left" ).addClass( "badger-danger badger-left" );
-		var boxes = $( ".b-user-item" );
-		for(var i = 0; i < boxes.length; i++){
-			$(boxes[i]).attr("data-target", "");
-			$(boxes[i]).append('<i class="fa fa-times fa-2x close-x" id="close-x" title="Delete Project" rel="tooltip"></i>');
-			$("[rel=tooltip").tooltip();
-		}
-	} else{
-	}
-};
-
-function removeHR(item) {
-	$('div').remove("#hrInfo");
-	$(item).append('<div id="userInfo">' +
-		'<span class = "my-title">Email: </span>'+tempUser.profile.email+'<br>'+
-		'<span class = "my-title"> User Group: </span>'+tempUser.profile.userGroup+'<br>'+
-		'<span class = "my-title"> Last Logged In: </span>'+convertedTime(tempUser)+
-		'</div>');
-}
-
-function convertedTime(tempUser) {
-	if(tempUser.profile.recent){
-		if(tempUser.profile.recent.lastLogin){
-			return formatDate(tempUser.profile.recent.lastLogin);
-		}
-	}
-	return formatDate(new Date().getTime());
 }

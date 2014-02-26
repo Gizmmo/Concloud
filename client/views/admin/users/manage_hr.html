@@ -7,6 +7,33 @@
 	<a class="concord-button emp-btn conBtn" href="{{pathFor 'manageHR'}}"id="defHRBtn">
 		<i class="fa fa-tags"></i>  Add HR Field
 	</a>
+			<div id="hr-search">
+			<form class="form-search">
+				<span class="input-icon">
+					<input type="text" placeholder="Search ..." class="nav-search-input" id="search-field" autocomplete="off">
+					<i class="fa fa-search icon-search nav-search-icon"></i>
+				</span>
+			</form>
+		</div><!-- #nav-search -->
+		
+		<div class="surround-table col-xs-8">
+			<table class="table table-striped">
+				<thead>
+					<td>HR Field Name</td>
+					<td>Default Value</td>
+					<td>Delete</td>
+				</thead>
+				<tbody>
+					{{#each hrField}}
+						<tr id="hr-{{_id}}">
+							<td>{{fieldName}}</td>
+							<td><input type="text" class="def-write" value = "{{defaultValue}}" id="default-{{_id}}"></td>
+							<td><input type="button" value="Delete" class="def-click btn btn-danger deleteBtn" id="delete-{{_id}}"></td>
+						</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</div>
 	{{> createHRFieldModal}}
 
 </template>

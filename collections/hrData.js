@@ -2,22 +2,26 @@ HRData = new Meteor.Collection('hrData');
 
 Meteor.methods({
 	HRField: function (newEntry) {
-		var user = Meteor.user();
-		var entry = _.extend(_.pick(newEntry, 'fieldName', 'defaultValue'), {
-			createdOn: new Date().getTime(),
-			createdBy: user._id
-		});
+		if(!HRData.findOne({fieldName: newEntry.fieldName})){
+			var user = Meteor.user();
+			var entry = _.extend(_.pick(newEntry, 'fieldName', 'defaultValue'), {
+				createdOn: new Date().getTime(),
+				createdBy: user._id
+			});
 
-		var projectID = HRData.insert(entry);
+			var projectID = HRData.insert(entry);
 
-		hrFound = HR.find({});
-		var insertObject = {};
-		insertObject[entry.fieldName] = entry.defaultValue;
-		hrFound.forEach(function (post) {
-			HR.update({userId: post.userId}, {$set: insertObject});
-		});
+			hrFound = HR.find({});
+			var insertObject = {};
+			insertObject[entry.fieldName] = entry.defaultValue;
+			hrFound.forEach(function (post) {
+				HR.update({userId: post.userId}, {$set: insertObject});
+			});
 
-		return projectID;
+			return projectID;
+		} else {
+			throw new Meteor.Error(403, "This Field already exists");
+		}
 	},
 
 	HRFieldUpdate: function (newEntry) {
@@ -32,13 +36,14 @@ Meteor.methods({
 		return entryID;
 	},
 
-	HRFieldDelete: function (entryID) {
-		var fieldName = HRData.findOne({"_id" : entryID}).fieldName;
-		HRData.remove({"_id" : entryID});
+	HRFieldRemove: function (deleteEntry) {
+		var fieldName = deleteEntry.fieldName;
+		HRData.remove({"_id" : deleteEntry._id});
 
 		hrFound = HR.find({});
 		hrFound.forEach(function (post) {
-			delete post[fieldName]; //LAST EDITING HERE
+			console.log(post);
+			delete post['fieldName']; //LAST EDITING HERE
 			HR.update({userId: post.userId}, post);
 		});
 	}

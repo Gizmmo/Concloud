@@ -1,4 +1,8 @@
 Template.manageFolders.events({
+	'keyup' : function () {
+		updateView($("#search-field").val());
+	},
+
 	'click #defBtn': function (){
 		$("#addDefFolder").modal('show');
 	},
@@ -23,6 +27,35 @@ Template.manageFolders.events({
 	        });
 	},
 });
+
+function updateView(searchValue){
+		if(searchValue == undefined || searchValue == null || searchValue == ""){
+		folders = Folders.find({});
+		folders.forEach(function (folder) {
+			$('#folder-' + folder._id).show();
+		});
+	}else {
+		folders = Folders.find({});
+		folders.forEach(function (folder) {
+			searchStrings = searchValue.trim().split(" ");
+			var found = true;
+			for (var i = 0; i < searchStrings.length; i++) {
+				if(folder.name.toLowerCase().indexOf(searchStrings[i].toLowerCase() ) === -1){
+					found = false;
+				}
+			}
+
+			if(found){
+				$('#folder-' + folder._id).show();
+			}
+
+			if(!found){
+				$('#folder-' + folder._id).hide();
+			}
+
+		});
+	}
+}
 
 Template.manageFolders.helpers({
 	folders: function () {

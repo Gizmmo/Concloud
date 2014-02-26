@@ -13,6 +13,8 @@ Meteor.publish('subscriptions', function() {
 Meteor.publish('hr', function(userGroup) {
 	if(userGroup === "Admin" || userGroup === "Office Manager"){
   		return HR.find();
+  	} else if (userGroup === "Employee"){
+  		return HR.find({userID: this.userID});
   	}
 });
 

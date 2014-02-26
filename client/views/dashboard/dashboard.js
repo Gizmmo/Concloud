@@ -40,7 +40,21 @@ Template.dashboard.helpers({
 		});
 	},
 
-        removeHeight : function() {
+	hrEntries: function (){
+		var hr = HR.findOne({userId: Meteor.user()._id});
+		return  HR.findOne({userId: Meteor.user()._id}).hrValues;
+	},
+
+	fieldName: function () {
+		console.log(this);
+		return "Hello";
+	},
+
+	fieldValue: function () {
+		return "Goodbye";
+	},
+
+    removeHeight : function() {
 	    $('body').css('height', "auto");
 	},
 

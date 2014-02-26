@@ -35,8 +35,9 @@
 						</div>
 						<hr>
 						<h6 class="userTitle">H.R. Info</h6>
-						<div><span class="miniTitle">Sick Days Reminaing:</span> {{sickDays}}</div>
-						<div><span class="miniTitle">Vacation Remaining:</span> {{vacationDays}}</div>
+						{{#each hrEntries}}
+							<div><span class="miniTitle">{{name}}:</span> {{value}}</div>
+						{{/each}}
 
 
 					</div>

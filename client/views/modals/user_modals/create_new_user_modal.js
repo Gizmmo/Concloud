@@ -41,20 +41,15 @@ function createNewUser(event){
                         lastLogin: time,
                         lastProjectName: "None",
                         lastProjectID: "None"
-                    },
-                    hr : {
-                        sickDays: 0,
-                        vacationDays: 0,
-                    //Updates in an arryay conataining update objects
-                    //that contain a value, and how it has changed
-                    updates : [{
-                        hrValue: "User",
-                        valueChanged: "Was Created"
-                    }]
+                    }
                 }
             }
-        };
         Meteor.call('createNewUser', options, function (error, id) {
+            if(error){
+
+            }else {
+                Meteor.call("HREntry", {userId: id}, function (error, id){});
+            }
         });
         $("#search-field").val("");
         clearBackground(event, "createData");

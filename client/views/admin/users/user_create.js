@@ -25,18 +25,9 @@ Template.userCreate.events({
 					lastProjectName: "None",
 					lastProjectID: "None"
 					},
-				hr : {
-					sickDays: 0,
-					vacationDays: 0,
-                    //Updates in an arryay conataining update objects
-                    //that contain a value, and how it has changed
-					updates : [{
-						hrValue: "User",
-						valueChanged: "Was Created"
-					}]
                 }
             }
-        };
+
         Meteor.call('createNewUser', options, function (error, id) {
         	if (error) {
              	// display the error to the user
@@ -45,7 +36,7 @@ Template.userCreate.events({
         			Router.go('userPage', error.details);
                 }
             } else {
-                //no errors send to the new page
+                Meteor.call("HREntry", {}, function (error, id){});
                 options._id = id;
         		Router.go('userPage', options);
             }

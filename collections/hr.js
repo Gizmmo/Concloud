@@ -5,24 +5,29 @@ Meteor.methods({
 		var user = Meteor.user();
 		var hrData = HRData.find({});
 		var hrInsertArray = new Array();
+		console.log("Hello");
 		hrData.forEach(function (field) {
 				if(hrAttributes[field.fieldName]){
 					var name = field.fieldName;
+					var value = hrAttributes[field.fieldName];
 					var insertObject = {};
-					insertObject[name] = hrAttributes[field.fieldName];
+					insertObject["name"] = name;
+					insertObject["value"] = value;
 					hrInsertArray[hrInsertArray.length] = insertObject;
 					
+				} else {
+					var name = field.fieldName;
+					var value = field.defaultValue;;
+					var insertObject = {};
+					insertObject["name"] = name;
+					insertObject["value"] = value;
+					hrInsertArray[hrInsertArray.length] = insertObject;
 				}
 		});
 
 		var insertObject = {};
-		for(var i = 0; i < hrInsertArray.length; i++){
-			for(var name in hrInsertArray[i]){
-				insertObject[name] = hrInsertArray[i][name];
-			}
-			
-		}
 		insertObject.userId = hrAttributes.userId;
+		insertObject.hrValues = hrInsertArray;
 		HR.insert(insertObject);
 	},
 

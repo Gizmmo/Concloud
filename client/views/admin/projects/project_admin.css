@@ -50,3 +50,24 @@
 .Boolean{
   text-align: center;
 }
+
+.nudgeRight{
+  margin-left:10px;
+  margin-top:4px;
+}
+
+.table-height{
+  max-height:420px;
+  overflow-y:scroll;
+}
+
+.greenFont{
+  color:#87b87f;
+  font-size:26px;
+
+}
+
+.greenFont:hover{
+  color:#629b58;
+  cursor: pointer;
+}

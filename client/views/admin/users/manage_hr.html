@@ -1,39 +1,63 @@
-<template name = "manageHR">
-		<!-- Bread Crumbs -->
+<template name="manageHR">
+
+	<!-- Bread Crumbs -->
 
 	{{> breadcrumbs}}
-	
-	Enter code for manage HR
-	<a class="concord-button emp-btn conBtn" href="{{pathFor 'manageHR'}}"id="defHRBtn">
-		<i class="fa fa-tags"></i>  Add HR Field
-	</a>
-			<div id="hr-search">
-			<form class="form-search">
-				<span class="input-icon">
-					<input type="text" placeholder="Search ..." class="nav-search-input" id="search-field" autocomplete="off">
-					<i class="fa fa-search icon-search nav-search-icon"></i>
-				</span>
-			</form>
-		</div><!-- #nav-search -->
-		
-		<div class="surround-table col-xs-8">
-			<table class="table table-striped">
-				<thead>
-					<td>HR Field Name</td>
-					<td>Default Value</td>
-					<td>Delete</td>
-				</thead>
-				<tbody>
-					{{#each hrField}}
-						<tr id="hr-{{_id}}">
-							<td>{{fieldName}}</td>
-							<td><input type="text" class="def-write" value = "{{defaultValue}}" id="default-{{_id}}"></td>
-							<td><input type="button" value="Delete" class="def-click btn btn-danger deleteBtn" id="delete-{{_id}}"></td>
-						</tr>
-					{{/each}}
-				</tbody>
-			</table>
-		</div>
-	{{> createHRFieldModal}}
 
+
+	<!-- Project Data -->
+	<div class = "projects">
+		<div class = "page-content">
+			<div class="page-header">
+				<h1>Human Resource Managment<small><i class="fa fa-angle-double-right"></i>Administration</small></h1>
+			</div>
+			
+			<div class = "search-buffer">
+				<div id="emp-search">
+					<form class="form-search">
+						<span class="input-icon">
+							<input type="text" placeholder="Search ..." class="nav-search-input" id="search-field" autocomplete="off">
+							<i class="fa fa-search icon-search nav-search-icon"></i>
+						</span>
+					</form>
+
+				</div><!-- #nav-search -->
+				
+			</div>
+			<div class="row">
+				<div class = "projects col-xs-12">
+
+					<div class="table-responsive">
+						<table id="tableData" class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th class="center">
+										<label>
+											<input type="checkbox" class="ace">
+											<span class="lbl"></span>
+										</label>
+									</th>
+									<th>Last Name</th>
+									<th>First Name</th>
+									{{#each hrName}}
+										<th>{{fieldName}}</th>
+									{{/each}}
+									<th>Manage Project Options</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each users}}
+									{{> hrItem}}
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{{> updateProjectModal}}
+	{{> createProjectModal}}
+	{{> deleteModal}}
 </template>

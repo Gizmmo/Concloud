@@ -111,12 +111,12 @@ Template.userList.events({
 			var editProject = $(dataRows[dataRows.length-1]).find("button.editProject");
 			var completeProject = $(dataRows[dataRows.length-1]).find("button.confirmProject");
 			var deleteProject = $(dataRows[dataRows.length-1]).find("button.deleteProject");
-			var manageProject = $(dataRows[dataRows.length-1]).find("button.manageProject");
+			// var manageProject = $(dataRows[dataRows.length-1]).find("button.manageProject");
 			$(dataRows[dataRows.length-1]).find("a.goToProject").remove();
 
 			editProject.attr("disabled",true);
 			completeProject.attr("disabled", false);
-			manageProject.attr("disabled", true);
+			// manageProject.attr("disabled", true);
 
 			completeProject.removeClass("confirmProject");
 			completeProject.attr('id', "CompleteRow");

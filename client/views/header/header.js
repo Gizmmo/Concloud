@@ -7,13 +7,6 @@ Template.header.events({
 		Meteor.users.update({_id: Meteor.userId()}, {$set : {'profile.recent.lastLogin' : new Date().getTime() } });
 		Meteor.logout();
 	},
-
-	'click #password-btn' : function(){
-		$("#old-password").val("");
-		$("#sign-password").val("");
-		$("#sign-confirm-password").val("");
-		$("#updatePass").modal("show");
-	}
 });
 
 Template.header.helpers({

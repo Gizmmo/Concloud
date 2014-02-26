@@ -43,6 +43,22 @@ Template.projectAdminItem.helpers({
     }
   },
 
+  createTime: function () {
+    if(this.submitted){
+      return formatDate(this.submitted);
+    }
+  },
+
+  getPassword: function (){
+    var returnString = "";
+    if(this.password){
+      for(var i = 0; i < this.password.length; i++){
+        returnString += '*';
+      }
+    }
+    return returnString;
+  },
+
   badgerData: function () {
     if(onProjectDelete){
       return "badger-danger badger-left"

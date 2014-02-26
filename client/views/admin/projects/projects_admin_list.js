@@ -161,7 +161,7 @@ Template.projectsAdminList.helpers({
 	 * Finad all projects and give them an integer rank for animation
 	 * @return Collection Returns all projects sorted by update time with an integer ranking
 	 */
-	projectsWithRank: function() {
+	projects: function() {
     	return Projects.find({}, {sort : {"title" : 1}});
 		
 	}

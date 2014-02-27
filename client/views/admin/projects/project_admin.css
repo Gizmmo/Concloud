@@ -67,6 +67,18 @@
 
 }
 
+.redFont{
+  color: rgb(209, 91, 71);
+  font-size:26px;
+
+}
+
+.redFont:hover{
+  color: rgb(180, 91, 71);
+  cursor: pointer;
+
+}
+
 .greenFont:hover{
   color:#629b58;
   cursor: pointer;

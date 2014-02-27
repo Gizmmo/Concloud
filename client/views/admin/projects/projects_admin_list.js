@@ -1,3 +1,4 @@
+var selectAll = false;
 Template.projectsAdminList.events({
 	"click #newProjBtn" : function () {
 		$("#search-field").val("");
@@ -15,6 +16,10 @@ Template.projectsAdminList.events({
 	'keyup #search-field' : function () {
 		updateView($("#search-field").val());
 		
+	},
+
+	'click #selectAll': function () {
+
 	},
 
 	'click .editProject' : function(event, template) {

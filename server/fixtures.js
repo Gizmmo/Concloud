@@ -18,21 +18,12 @@ if (Meteor.users.find().count() === 0) {
                         lastLogin: time,
                         lastProjectName: "None",
                         lastProjectID: "None"
-                    },
-                    hr : {
-                        sickDays: 0,
-                        vacationDays: 0,
-                    //Updates in an arryay conataining update objects
-                    //that contain a value, and how it has changed
-                    updates : [{
-                        hrValue: "User",
-                        valueChanged: "Was Created"
-                    }]
+                    }
                 }
-            }
-        };
+    }
 
         var id = Accounts.createUser(options);
+        Meteor.call("HREntry", {userId: id}, function (error, id){});
         Accounts.sendEnrollmentEmail(id);
     }
 

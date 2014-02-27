@@ -80,7 +80,8 @@ Template.editHR.events({
 	'click #addRow' : function(){
 		if(!Session.get("NewRow")){
 			Session.set("NewRow", true);
-			var newRow = $($('#tableData').find("tbody").find("tr")[0]).clone();
+			$('#tableData').find("tbody").prepend(Template['emptyHRRow']());
+			var newRow = $($('#tableData').find("tbody").find('tr')[0]);
 			var dataRows = newRow.find("td");
 
 			for (var i = 0; i < dataRows.length; i++) {

@@ -4,6 +4,19 @@ Template.editHR.events({
 		
 	},
 
+	'click #selectAll': function () {
+		myArray = $('.tableBox');
+		if ($('#selectAll').is(':checked')){
+			for(var i = 0; i < myArray.length; i++){
+				$(myArray[i]).prop('checked', true);
+			}
+		} else {
+			for(var i = 0; i < myArray.length; i++){
+				$(myArray[i]).prop('checked', false);
+			}
+		}
+	},
+
 	'click .editProject' : function(event, template) {
 		event.preventDefault();
 		var split = event.target.id.split("-");

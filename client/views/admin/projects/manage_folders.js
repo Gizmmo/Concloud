@@ -48,6 +48,17 @@ Template.manageFolders.events({
 		}
 	},
 
+	'click #removeSelected': function () {
+		myArray = $('.tableBox');
+		for(var i = 0; i < myArray.length; i++){
+			if($(myArray[i]).is(':checked')){
+				var split = $(myArray[i]).context.id.split("-");
+				var folder = Folders.findOne({_id: split[1]});
+				Meteor.call('removeFolder', folder, function (error, result){});
+			}
+		}
+	},
+
 	'click .confirmProject' : function(event, template) {
 		event.preventDefault();
 		var split = event.target.id.split("-");

@@ -17,6 +17,17 @@ Template.editHR.events({
 		}
 	},
 
+	'click #removeSelected': function () {
+		myArray = $('.tableBox');
+		for(var i = 0; i < myArray.length; i++){
+			if($(myArray[i]).is(':checked')){
+				var split = $(myArray[i]).context.id.split("-");
+				var hrItem = HRData.findOne({_id: split[1]});
+				Meteor.call('HRFieldRemove', hrItem, function (error, result) {});
+			}
+		}
+	},
+
 	'click .editProject' : function(event, template) {
 		event.preventDefault();
 		var split = event.target.id.split("-");

@@ -17,6 +17,17 @@ Template.userList.events({
 		}
 	},
 
+	'click #removeSelected': function () {
+		myArray = $('.tableBox');
+		for(var i = 0; i < myArray.length; i++){
+			if($(myArray[i]).is(':checked')){
+				var split = $(myArray[i]).context.id.split("-");
+				var projectID = split[1];
+				Meteor.users.remove({_id: projectID});
+			}
+		}
+	},
+
 	'click .editProject' : function(event, template) {
 		event.preventDefault();
 		var split = event.target.id.split("-");

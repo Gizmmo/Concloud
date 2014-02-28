@@ -50,7 +50,7 @@ Template.userList.events({
 					dataRow.html("<input type='password' id='txtName' value=''/>");
 				} else if (dataRow.hasClass("Selection")){
 						var selectVal = dataRow.html();
-						dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Admin'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");
+						dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Office Manager'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");
 						var select = $(dataRow.find("select")).attr('id');
 						$("#" + select +' option[value=' + selectVal +']').attr('selected', 'selected');
 				} else if(dataRow.hasClass("Boolean")){
@@ -124,7 +124,7 @@ Template.userList.events({
 					}else if(dataRow.hasClass("Boolean")){
 						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
 					}else if (dataRow.hasClass("Selection")){
-						dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Admin'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");;
+						dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Office Manager'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");;
 					}else {
 						if(dataRows.length -1 !== i){
 							dataRow.html("");

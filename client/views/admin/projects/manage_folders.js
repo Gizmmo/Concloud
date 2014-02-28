@@ -95,7 +95,6 @@ Template.manageFolders.events({
 			}
 		}
 
-		//UPDATES PROJECT!!
 		folder.name = $(dataRows[1]).html();
 		var permissions = [];
 

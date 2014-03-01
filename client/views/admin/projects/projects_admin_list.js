@@ -31,7 +31,6 @@ Template.projectsAdminList.events({
 	},
 
 	'click #removeSelected': function () {
-		myArray = $('.tableBox');
 		for(var i = 0; i < myArray.length; i++){
 			if($(myArray[i]).is(':checked')){
 				var split = $(myArray[i]).context.id.split("-");
@@ -216,8 +215,27 @@ Template.projectsAdminList.events({
 	'click .deleteProject' : function(event, template) {
 		event.preventDefault();
 		var split = event.target.id.split("-");
-		var row = $('#row-' + split[1]);
-		// row.remove();
+		targetParent = $(event.target)[0].parentNode;
+		while(!$(targetParent).hasClass('btn-group')){
+			targetParent = targetParent.parentNode;
+		}
+		if($(targetParent).find('.confirmDelete').length ==0){
+			$(targetParent).append(Template['confirmDeleteButton']({_id: this._id}));
+			var foundButton = $(targetParent).find('.confirmDelete');
+			var height = $("#confirmbutton-"+split[1]).css('height');
+			$(foundButton).toggle('show');
+		} else {
+			var foundButton = $(targetParent).find('.confirmDelete');
+			$(foundButton).toggle('show', function() {
+				$(foundButton).remove();
+			});
+			
+		}
+
+	},
+
+	'click .confirmDelete' : function () {
+		var split = event.target.id.split("-");
 		var projectID = split[1];
 		Meteor.call('removeProject', projectID, function (error, result) {});
 	}

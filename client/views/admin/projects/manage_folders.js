@@ -197,6 +197,27 @@ Template.manageFolders.events({
 	'click .deleteProject' : function(event, template) {
 		event.preventDefault();
 		var split = event.target.id.split("-");
+		targetParent = $(event.target)[0].parentNode;
+		while(!$(targetParent).hasClass('btn-group')){
+			targetParent = targetParent.parentNode;
+		}
+		if($(targetParent).find('.confirmDelete').length ==0){
+			$(targetParent).append(Template['confirmDeleteButton']({_id: this._id}));
+			var foundButton = $(targetParent).find('.confirmDelete');
+			var height = $("#confirmbutton-"+split[1]).css('height');
+			$(foundButton).toggle('show');
+		} else {
+			var foundButton = $(targetParent).find('.confirmDelete');
+			$(foundButton).toggle('show', function() {
+				$(foundButton).remove();
+			});
+			
+		}
+
+	},
+
+	'click .confirmDelete' : function () {
+		var split = event.target.id.split("-");
 		var row = $('#row-' + split[1]);
 		var folder = Folders.findOne({_id: split[1]});
 		Meteor.call('removeFolder', folder, function (error, result) {});

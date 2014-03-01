@@ -173,6 +173,7 @@ Template.manageFolders.events({
 				permissions[permissions.length] = $(eachHeader[i]).html();
 			}
 		}
+		$(completedRow).remove();
 
 		folder.permissions = permissions;
 
@@ -183,7 +184,6 @@ Template.manageFolders.events({
 	       	}
 	    });
 
-		$(completedRow).remove();
 
 		Session.set("NewRow", false);
 

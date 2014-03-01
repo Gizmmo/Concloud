@@ -180,7 +180,7 @@ Template.projectsAdminList.events({
 		foldersData.forEach(function (folder) {
 			project.folders[folder.name] = createFolder(folder.name, folderCreation, folderUpdate);
 		});
-
+		$(completedRow).remove();
 
 		// the newly created Project's path after creating
 		Meteor.call('project', project, function (error, id) {
@@ -190,8 +190,6 @@ Template.projectsAdminList.events({
 
 			Session.set("addingProject", false);
 		});
-
-		$(completedRow).remove();
 
 		Session.set("NewRow", false);
 

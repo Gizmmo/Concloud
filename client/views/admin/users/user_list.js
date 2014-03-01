@@ -180,6 +180,7 @@ Template.userList.events({
                     }
                 }
             }
+        $(completedRow).remove();
         Meteor.call('createNewUser', options, function (error, id) {
             if(error){
 
@@ -188,8 +189,6 @@ Template.userList.events({
             }
         });
         $("#search-field").val("");
-
-		$(completedRow).remove();
 
 		Session.set("NewRow", false);
 

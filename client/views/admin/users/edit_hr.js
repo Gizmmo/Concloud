@@ -155,7 +155,7 @@ Template.editHR.events({
 			fieldName: $(dataRows[1]).find('input').val(),
 			defaultValue: $(dataRows[2]).find('input').val()
 		}
-
+		$(completedRow).remove();
 
 		// the newly created Project's path after creating
 		Meteor.call('HRField', item, function (error, id) {
@@ -164,7 +164,6 @@ Template.editHR.events({
 			}
 		});
 
-		$(completedRow).remove();
 
 		Session.set("NewRow", false);
 

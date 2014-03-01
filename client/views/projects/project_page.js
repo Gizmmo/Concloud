@@ -204,6 +204,11 @@ Template.projectPage.rendered = function() {
 		content: function () {
 			return $('.content').html();
 		}
+	}).on('shown.bs.popover', function(){
+		$($('.addFolderPopover')[1]).find('#submit-FolderName').on('click', function(){
+			submitFolder($(document.getElementsByClassName('textPopover')[1]).val());
+			$('#add-folder').popover('hide');
+		});
 	});
 
 	$('#uploadItem').popover({
@@ -325,6 +330,26 @@ function downloadFile(itemName){
 			window.location.href = result+"?download=true";
 		}
 	});
+}
+
+function submitFolder(folderTitle) {
+	if(folderTitle != 'undefined'){
+		var projectData = Projects.findOne({_id: Session.get("currentProject")});
+		var folderData = getFolderData(projectData);
+		if(!(folderTitle in folderData.folders)){
+			folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
+			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
+				if(error){
+					console.log(error);
+				} else {
+					clearBackground(event, "addFolder");
+				}
+			});
+			Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+		}else{
+			throwError("This folder already existed, please create a new folder name.");
+		}
+	}
 }
 
 

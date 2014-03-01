@@ -23,7 +23,7 @@ Template.userList.events({
 			if($(myArray[i]).is(':checked')){
 				var split = $(myArray[i]).context.id.split("-");
 				var projectID = split[1];
-				Meteor.users.remove({_id: projectID});
+				removeUser(projectID);
 			}
 		}
 	},
@@ -236,7 +236,7 @@ Template.userList.events({
 		var row = $('#row-' + split[1]);
 		// row.remove();
 		var projectID = split[1];
-		Meteor.users.remove({_id: projectID});
+		removeUser(projectID);
 	}
 });
 
@@ -282,4 +282,10 @@ function updateView(searchValue){
 
 		});
 	}
+}
+
+function removeUser(id){
+	Meteor.users.remove({_id: id}, function(error, result){
+		Meteor.call("HRDelete", id);
+	});
 }

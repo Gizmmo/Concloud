@@ -43,10 +43,6 @@ Template.dashboard.helpers({
     removeHeight : function() {
 	    $('body').css('height', "auto");
 	}
-
-	
-
-
 });
 
 Template.dashboard.created = function() {

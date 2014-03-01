@@ -253,7 +253,12 @@ Template.projectsAdminList.events({
 	'click .confirmDelete' : function () {
 		var split = event.target.id.split("-");
 		var projectID = split[1];
+		var project = Projects.findOne({_id: projectID});
 		Meteor.call('removeProject', projectID, function (error, result) {});
+		Meteor.call("remove", project.title, function(err,result){
+		if(err)
+			console.log(err);
+	});
 	}
 });
 

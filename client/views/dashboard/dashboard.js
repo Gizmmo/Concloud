@@ -32,7 +32,7 @@ Template.dashboard.helpers({
 
 		var i = 0;
 
-		var options = {sort: {"recentUpdate.updateDate" : -1}};
+		var options = {sort: {"recentUpdate.updateDate" : -1}, limit: 5};
 		return Projects.find({_id : { $in: ids}}, options).map(function(project) {
 			project = createProject(project, i);
 			i += 1;

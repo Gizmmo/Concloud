@@ -43,7 +43,12 @@ Template.projectsAdminList.events({
 					if($(myArray[i]).is(':checked')){
 						var split = $(myArray[i]).context.id.split("-");
 						var projectID = split[1];
+						var project = Projects.findOne({_id: projectID});
 						Meteor.call('removeProject', projectID, function (error, result) {});
+						Meteor.call("remove", project.title, function(err,result){
+							if(err)
+								console.log(err);
+						});
 					}
 				}
 			}
@@ -256,9 +261,9 @@ Template.projectsAdminList.events({
 		var project = Projects.findOne({_id: projectID});
 		Meteor.call('removeProject', projectID, function (error, result) {});
 		Meteor.call("remove", project.title, function(err,result){
-		if(err)
-			console.log(err);
-	});
+			if(err)
+				console.log(err);
+		});
 	}
 });
 

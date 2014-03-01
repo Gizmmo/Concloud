@@ -1,75 +1,114 @@
 <template name="projectPage">
-  {{> breadcrumbs}}
+	{{> breadcrumbs}}
 
-  <div class = "projectData col-xs-12">
-    <div class="row no-margins">
-      <h3 class="alignLeft" id="projectBreadcrumbs"><span class="headerLink" id="header-base">{{title}}</span></h3>
-      {{> errors}}
-      <div id="browse-sort" class="clearfix">
-	<a id="name-sorter" data-sort="FILES_BY_NAME" class="sortable-column-header bolded col-xs-6" data-ascending="true" style="cursor: pointer;">
-	  <span style="cursor: pointer;">
-	    Name
-	  </span>
-	</a>
-	<a id="kind-sorter" data-sort="FILES_BY_KIND" class="sortable-column-header noarrow col-xs-2" data-ascending="false" style="cursor: pointer;">
-	  <span id="kind-sorter-label" style="cursor: pointer;">
-	    Kind
-	  </span>
-	</a>
-	<a id="modified-sorter" data-sort="FILES_BY_MODIFIED" class="sortable-column-header col-xs-4" data-ascending="false" style="cursor: pointer;">
-	  <span style="cursor: pointer;">
-	    Modified
-	  </span>
-	</a>
-      </div>
-       {{#if uploadingData}}
+	<div class = "projectData col-xs-12">
+		<div class="row no-margins">
+			{{> errors}}
+			<div class="row">
+				<h3 class="alignLeft col-xs-6" id="projectBreadcrumbs"><span class="headerLink" id="header-base">{{title}}</span></h3>
+
+
+				<span class="pull-right projectButtons col-xs-6">
+					<!--Folders and Files -->
+					{{#if officeManager}}
+					<span class="dropdown">
+						<i class="fa fa-upload createCircle greenCircle" id="uploadItem"  data-container="body" data-toggle="popover" data-placement="left"></i>
+						<span id="popoverContent">
+						<div id="uploadhead" class="uploadhead hide">Upload Content</div>
+						<div id="uploadcontent" class="uploadcontent hide">
+							<div class="form-group uploadData">
+								
+								<div class="row center">
+									<i class="fa fa-folder-open-o"></i> Folder
+								</div>
+								<input type="file" webkitdirectory class="center col-xs-10 fileInput inFolder" value="folder" id="upload-folder" name="upload-folder"/>
+								<button class="btn btn-xs btn-primary submitFolders col-xs-2" id="submitFolder"><i class="fa fa-check"></i></button><br>
+								<hr>
+								<div class="row center">
+									<i class="fa fa-file-o"></i> File
+								</div>
+								<input type="file" class="center col-xs-10 fileInput inFile" id="upload-file" name="upload-file"/>
+								<button class="btn btn-xs btn-primary submitFolders col-xs-2" id="submitFile"><i class="fa fa-check"></i></button>
+							
+							</div>
+							
+						</div>
+					</span>
+					</span>
+					{{/if}}
+					<i class="fa fa-download createCircle blueCircle " id='downloadItems' title="download"></i>
+					{{#if officeManager}}
+					<span class="dropdown">
+						<i class="fa fa-folder createCircle yellowCircle" id="add-folder" data-container="body" data-toggle="popover" data-placement="left"></i>
+						<div class="head hide">Add New Folder</div>
+						<div class="content hide">
+							<div class="form-group addFolderPopover">
+								<input type="text" class="form-control textPopover col-xs-9" placeholder="Enter Folder Name..." id="folder-Name">
+								<button type="submit" id="submit-FolderName" class="btn btn-primary submitPopover col-xs-3"><i class="fa fa-check"></i></button>
+							</div>
+							
+						</div>
+						<ul class="dropdown-menu folderDropdown alignLeft" aria-labelledby="add-folder"> 
+							<li class="dataInput"></li><br>
+						</ul>
+					</span>
+					{{/if}}
+					{{#if officeManager}}
+					<i class="fa fa-minus createCircle redCircle" id="deleteItem" title = "delete"></i>
+					{{/if}}
+				</span>
+				{{> addFolderModal}}
+				{{> uploadModal}}
+			</div>
+
+			<div id="browse-sort" class="clearfix">
+				<a id="name-sorter" data-sort="FILES_BY_NAME" class="sortable-column-header bolded col-xs-6" data-ascending="true" style="cursor: pointer;">
+					<span style="cursor: pointer;">
+						Name
+					</span>
+				</a>
+				<a id="kind-sorter" data-sort="FILES_BY_KIND" class="sortable-column-header noarrow col-xs-2" data-ascending="false" style="cursor: pointer;">
+					<span id="kind-sorter-label" style="cursor: pointer;">
+						Kind
+					</span>
+				</a>
+				<a id="modified-sorter" data-sort="FILES_BY_MODIFIED" class="sortable-column-header col-xs-4" data-ascending="false" style="cursor: pointer;">
+					<span style="cursor: pointer;">
+						Modified
+					</span>
+				</a>
+			</div>
+			{{#if uploadingData}}
 			{{>spinner}}
-		{{/if}}
-      <!--File and Folder Buttons -->
-	
-      <div class="projectHeader">
-    {{#if officeManager}}
-		<div class="concord-button" id="uploadItem"><i class="fa fa-upload"></i> Upload</div> 
-	{{/if}}
-	<div class="concord-button" id='downloadItems'><i class="fa fa-download"></i> Download</div>
-	{{#if officeManager}}
-		<div class="concord-button" id="add-folder"><i class="fa fa-folder"></i> Add Folder</div>
-	{{/if}}
-	<div class="concord-button" id="selectAllItems"><i class="fa fa-check-circle-o"></i> Select All</div>
-	{{#if officeManager}}
-		<div class="concord-button" id="deleteItem"><i class="fa fa-times"></i> Delete</div>
-	{{/if}}
-      </div>
-      {{> addFolderModal}}
-      {{> uploadModal}}
+			{{/if}}
 
-      <!-- Folders and Files -->
-      
-      <ol id="browse-files" class="mouse-active" style="cursor: default;">
-	<!-- Individual Folders -->
-	<div id="projectFolders">
-	{{#each arrayify projectData}}
-		{{#if allowedView}}
-            {{> project_folder}}
-        {{/if}}
-	{{/each}}
+			<!-- Folders and Files -->
+
+			<ol id="browse-files" class="mouse-active" style="cursor: default;">
+				<!-- Individual Folders -->
+				<div id="projectFolders">
+					{{#each arrayify projectData}}
+					{{#if allowedView}}
+					{{> project_folder}}
+					{{/if}}
+					{{/each}}
+				</div>
+
+
+				<!-- Project Files -->
+				<div id="projectFiles">
+					{{#each arrayify projectFiles}}
+					{{> project_files}}
+					{{/each}}
+				</div>
+
+
+			</ol>
+
+
+
+
+		</div>
 	</div>
-	
-
-	<!-- Project Files -->
-	<div id="projectFiles">
-		{{#each arrayify projectFiles}}
-		    {{> project_files}}
-		{{/each}}
-	</div>
-
-
-      </ol>
-
-
-      
-
-    </div>
-  </div>
 
 </template>

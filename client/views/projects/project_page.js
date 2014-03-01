@@ -15,17 +15,17 @@ Template.projectPage.events({
 	'click #file-upload' :function () {
 		if(Session.get("uploadType") != "file"){
 			Session.set("uploadType", "file");
-			$('#file-li').addClass('active');
-			$('#folder-li').removeClass('active');
 		}
 	},
 
 	'click #folder-upload' : function () {
 		if(Session.get('uploadType') != 'folder'){
 			Session.set('uploadType', 'folder');
-			$('#folder-li').addClass('active');
-			$('#file-li').removeClass('active')
 		}
+	},
+
+	'click #submitFolder' : function(e, template){
+		smartFileFolder(e,template);
 	},
 
 	'click #deleteItem' : function () {
@@ -45,14 +45,14 @@ Template.projectPage.events({
 
 	},
 
-     'click #uploadItem' : function(){
-     	if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
-     		$("#uploadData").modal("toggle");
-     	}
-     },
- 
- 	'click #add-folder' : function(){
-     	$("#addFolder").modal("toggle");
+	'click #uploadItem' : function(){
+		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
+
+		}
+	},
+
+	'click #add-folder' : function(){
+     	// $("#addFolder").modal("toggle");
      },
 
 
@@ -196,11 +196,58 @@ Template.projectPage.created = function() {
 };
 
 Template.projectPage.rendered = function() {
+	$('#add-folder').popover({
+		html: true,
+		title: function () {
+			return $('.head').html();
+		},
+		content: function () {
+			return $('.content').html();
+		}
+	}).on('shown.bs.popover', function(){
+		$($('.addFolderPopover')[1]).find('#submit-FolderName').on('click', function(){
+			submitFolder($(document.getElementsByClassName('textPopover')[1]).val());
+			$('#add-folder').popover('hide');
+		});
+	});
+
+	$('#uploadItem').popover({
+		html: true,
+		title: function () {
+			return $('#uploadhead').html();
+		},
+		content: function () {
+			return $('#uploadcontent').html();
+		}
+	}).on('shown.bs.popover', function(){
+		$($('.uploadData')[1]).find('#submitFile').on('click', function(){
+			smartFileFile(document.getElementsByClassName('inFile')[1]);
+			$('#uploadItem').popover('hide');
+		});
+
+		$($('.uploadData')[1]).find('#submitFolder').on('click', function(){
+			smartFileFolder(document.getElementsByClassName('inFolder')[1]);
+			$('#uploadItem').popover('hide');
+		});
+	});
+
+	console.log($('.inFile'));
+	// $('#popoverContent').remove();
+
 	var stackSession = Session.get('folderStack');
 	if(typeof stackSession != 'undefined'){
 		folderStack = stackSession;
 		constructProject();
 	}
+
+	// $(document).on('click', '#submitFile', function(){
+	// 	console.log(document.getElementById("upload-file"));
+	// 	smartFileFile(document.getElementById("upload-file"));
+	// });
+
+	// $(document).on('click', '#submit-FolderName', function(){
+	// 	console.log($('#folder-Name').val());
+	// });
 };
 
 Template.projectPage.destroyed = function() {
@@ -283,6 +330,26 @@ function downloadFile(itemName){
 			window.location.href = result+"?download=true";
 		}
 	});
+}
+
+function submitFolder(folderTitle) {
+	if(folderTitle != 'undefined'){
+		var projectData = Projects.findOne({_id: Session.get("currentProject")});
+		var folderData = getFolderData(projectData);
+		if(!(folderTitle in folderData.folders)){
+			folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
+			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
+				if(error){
+					console.log(error);
+				} else {
+					clearBackground(event, "addFolder");
+				}
+			});
+			Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+		}else{
+			throwError("This folder already existed, please create a new folder name.");
+		}
+	}
 }
 
 

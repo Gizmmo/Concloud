@@ -20,6 +20,11 @@
 							<input type="text" placeholder="Search ..." class="nav-search-input" id="search-field" autocomplete="off">
 							<i class="fa fa-search icon-search nav-search-icon"></i>
 						</span>
+						{{#if addingProject}}
+							
+								{{> spinner}}
+							
+						{{/if}}
 						<span class="pull-right redFont">
 							<i class="fa fa-minus-circle" title="Remove Project" id="removeSelected"></i>
 						</span>

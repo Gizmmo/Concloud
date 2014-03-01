@@ -48,7 +48,7 @@ Template.projectsAdminList.events({
 				}
 			}
 		}
-		 
+
 	},
 
 	'click .editProject' : function(event, template) {
@@ -173,9 +173,8 @@ Template.projectsAdminList.events({
 	},
 
 	'click #CompleteRow' : function() {
+		Session.set("addingProject", true);
 		var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
-		//INSERT DATA HERE
-		var projectID = 12345;
 
 		var dataRows = completedRow.find("td");
 
@@ -187,21 +186,28 @@ Template.projectsAdminList.events({
 			password: $(dataRows[2]).find('input').val(),
 			folders:{}
 		};
-		console.log(project);
 
 		foldersData.forEach(function (folder) {
 			project.folders[folder.name] = createFolder(folder.name, folderCreation, folderUpdate);
 		});
 		$(completedRow).remove();
 
-		// the newly created Project's path after creating
-		Meteor.call('project', project, function (error, id) {
-			if (error) {
-				console.log(error);
-			}
+		Meteor.call('createNewProjectDirectories', project.title, foldersData, function (error, result) {
+			
 
-			Session.set("addingProject", false);
+			// the newly created Project's path after creating
+			Meteor.call('project', project, function (error, id) {
+				if (error) {
+					console.log(error);
+				}
+
+				Session.set("addingProject", false);
+
+
+			});
 		});
+
+		
 
 		Session.set("NewRow", false);
 
@@ -256,14 +262,18 @@ Template.projectsAdminList.helpers({
 	 * Finad all projects and give them an integer rank for animation
 	 * @return Collection Returns all projects sorted by update time with an integer ranking
 	 */
-	projects: function() {
-    	return Projects.find({}, {sort : {"title" : 1}});
-		
-	}
-});
+	 projects: function() {
+	 	return Projects.find({}, {sort : {"title" : 1}});
+
+	 },
+
+	 addingProject: function() {
+	 	return Session.get("addingProject");
+	 }
+	});
 
 function updateView(searchValue){
-		if(searchValue == undefined || searchValue == null || searchValue == ""){
+	if(searchValue == undefined || searchValue == null || searchValue == ""){
 		projects = Projects.find({});
 		projects.forEach(function (project) {
 			$('#' + "row-" + project._id).show();

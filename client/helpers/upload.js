@@ -1,7 +1,7 @@
 var sf = new SmartFile({});
 
-smartFileFolder = function(e, template){
-  var files = template.find('#upload-folder').files;
+smartFileFolder = function(template){
+  var files = template.files;
   var projectData = Projects.findOne({_id: Session.get("currentProject")});
   var folderData = getFolderData(projectData);
   counter = 0;
@@ -46,10 +46,12 @@ smartFileFolder = function(e, template){
 
     };
 
-    smartFileFile = function(e, template){
+    smartFileFile = function(template){
+      console.log(template.files);
      var projectData = Projects.findOne({_id: Session.get("currentProject")});
      var folderData = getFolderData(projectData);
-     var file = template.find('#upload-file').files[0];
+     var file = template.files[0];
+     console.log(file);
      if(getFolderStack().length > 0){
        Session.set("uploadingData", true);
        upload(file,projectData, folderData);

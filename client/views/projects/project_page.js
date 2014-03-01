@@ -24,12 +24,8 @@ Template.projectPage.events({
 		}
 	},
 
-	'change #upload-folder' : function(e, template){
+	'click #submitFolder' : function(e, template){
 		smartFileFolder(e,template);
-	},
-
-	'change #upload-file' : function(e, template){
-		smartFileFile(e,template);
 	},
 
 	'click #deleteItem' : function () {
@@ -49,13 +45,13 @@ Template.projectPage.events({
 
 	},
 
-     'click #uploadItem' : function(){
-     	if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
+	'click #uploadItem' : function(){
+		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
 
-     	}
-     },
- 
- 	'click #add-folder' : function(){
+		}
+	},
+
+	'click #add-folder' : function(){
      	// $("#addFolder").modal("toggle");
      },
 
@@ -201,30 +197,52 @@ Template.projectPage.created = function() {
 
 Template.projectPage.rendered = function() {
 	$('#add-folder').popover({
-    html: true,
-    title: function () {
-        return $(this).parent().find('.head').html();
-    },
-    content: function () {
-        return $(this).parent().find('.content').html();
-    }
-});
+		html: true,
+		title: function () {
+			return $('.head').html();
+		},
+		content: function () {
+			return $('.content').html();
+		}
+	});
+
+	$('#uploadItem').popover({
+		html: true,
+		title: function () {
+			return $('#uploadhead').html();
+		},
+		content: function () {
+			return $('#uploadcontent').html();
+		}
+	}).on('shown.bs.popover', function(){
+		$($('.uploadData')[1]).find('#submitFile').on('click', function(){
+			smartFileFile(document.getElementsByClassName('inFile')[1]);
+			$('#uploadItem').popover('hide');
+		});
+
+		$($('.uploadData')[1]).find('#submitFolder').on('click', function(){
+			smartFileFolder(document.getElementsByClassName('inFolder')[1]);
+			$('#uploadItem').popover('hide');
+		});
+	});
+
+	console.log($('.inFile'));
+	// $('#popoverContent').remove();
+
 	var stackSession = Session.get('folderStack');
 	if(typeof stackSession != 'undefined'){
 		folderStack = stackSession;
 		constructProject();
 	}
 
-	$('.dropdown').on('show.bs.dropdown', function(e){
-    $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+	// $(document).on('click', '#submitFile', function(){
+	// 	console.log(document.getElementById("upload-file"));
+	// 	smartFileFile(document.getElementById("upload-file"));
+	// });
 
-
-  });
-
-  // ADD SLIDEUP ANIMATION TO DROPDOWN //
-  $('.dropdown').on('hide.bs.dropdown', function(e){
-    $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
-  });
+	// $(document).on('click', '#submit-FolderName', function(){
+	// 	console.log($('#folder-Name').val());
+	// });
 };
 
 Template.projectPage.destroyed = function() {

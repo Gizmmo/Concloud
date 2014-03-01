@@ -11,7 +11,11 @@
       <span class="pull-right projectButtons col-xs-6">
       <!--Folders and Files -->
     {{#if officeManager}}
-		<i class="fa fa-upload createCircle greenCircle" id="uploadItem" title="upload"></i>
+		<i class="fa fa-upload createCircle greenCircle dropdown-toggle" id="uploadItem" title="upload" data-toggle="dropdown"></i>
+		<ul class="dropdown-menu alignLeft">
+      <li><a href="#"><i class="fa fa-folder-open-o"></i> Folder</a></li>
+      <li><a href="#"><i class="fa fa-file-o"></i> File</a></li>
+    </ul>
 	{{/if}}
 	<i class="fa fa-download createCircle blueCircle" id='downloadItems' title="download"></i>
 	{{#if officeManager}}

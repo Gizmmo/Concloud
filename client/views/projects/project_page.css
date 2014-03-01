@@ -57,6 +57,11 @@
 	border-radius: 50px;
 	padding:6px;
 	color:white;
+	 -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -ms-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
 }
 
 .greenCircle{
@@ -97,4 +102,10 @@
 	cursor:pointer;
 	margin-top:20px;
 }
+
+.alignLeft{
+	text-align:left;
+}
+
+
 

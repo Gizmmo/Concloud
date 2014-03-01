@@ -47,12 +47,13 @@ Template.projectPage.events({
 
      'click #uploadItem' : function(){
      	if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
-     		$("#uploadData").modal("toggle");
+     		console.log($('#folderAndFiles'));
+     		$('#folderAndFiles').css("display", "inline-block").css("opacity", 1);
      	}
      },
  
  	'click #add-folder' : function(){
-     	$("#addFolder").modal("toggle");
+     	// $("#addFolder").modal("toggle");
      },
 
 
@@ -201,6 +202,15 @@ Template.projectPage.rendered = function() {
 		folderStack = stackSession;
 		constructProject();
 	}
+
+	$('.dropdown').on('show.bs.dropdown', function(e){
+    $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+  });
+
+  // ADD SLIDEUP ANIMATION TO DROPDOWN //
+  $('.dropdown').on('hide.bs.dropdown', function(e){
+    $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+  });
 };
 
 Template.projectPage.destroyed = function() {

@@ -31,13 +31,24 @@ Template.projectsAdminList.events({
 	},
 
 	'click #removeSelected': function () {
-		for(var i = 0; i < myArray.length; i++){
-			if($(myArray[i]).is(':checked')){
-				var split = $(myArray[i]).context.id.split("-");
-				var projectID = split[1];
-				Meteor.call('removeProject', projectID, function (error, result) {});
+		myArray = $('.tableBox');
+		if(Session.get("NewRow")){
+			if($("#newRow").length>0){
+				$($('#tableData').find("tbody").find("tr")[0]).remove();
+			}
+			Session.set("NewRow", false);
+		} else {
+			if(myArray){
+				for(var i = 0; i < myArray.length; i++){
+					if($(myArray[i]).is(':checked')){
+						var split = $(myArray[i]).context.id.split("-");
+						var projectID = split[1];
+						Meteor.call('removeProject', projectID, function (error, result) {});
+					}
+				}
 			}
 		}
+		 
 	},
 
 	'click .editProject' : function(event, template) {

@@ -19,11 +19,18 @@ Template.editHR.events({
 
 	'click #removeSelected': function () {
 		myArray = $('.tableBox');
-		for(var i = 0; i < myArray.length; i++){
-			if($(myArray[i]).is(':checked')){
-				var split = $(myArray[i]).context.id.split("-");
-				var hrItem = HRData.findOne({_id: split[1]});
-				Meteor.call('HRFieldRemove', hrItem, function (error, result) {});
+		if(Session.get("NewRow")){
+			if($("#newRow").length>0){
+				$($('#tableData').find("tbody").find("tr")[0]).remove();
+			}
+			Session.set("NewRow", false);
+		} else {
+			for(var i = 0; i < myArray.length; i++){
+				if($(myArray[i]).is(':checked')){
+					var split = $(myArray[i]).context.id.split("-");
+					var hrItem = HRData.findOne({_id: split[1]});
+					Meteor.call('HRFieldRemove', hrItem, function (error, result) {});
+				}
 			}
 		}
 	},

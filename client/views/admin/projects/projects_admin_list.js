@@ -154,6 +154,7 @@ Template.projectsAdminList.events({
 			deleteProject.attr("id", "deleteRow");
 
 			$("#tableData").prepend(newRow);
+			$(newRow.find('td')[1]).find('input').focus();
 		}else{
 			alert("Already have a new Row, complete it before continuing.");
 		}

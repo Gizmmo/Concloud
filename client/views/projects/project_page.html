@@ -13,8 +13,11 @@
     {{#if officeManager}}
 		<i class="fa fa-upload createCircle greenCircle dropdown-toggle" id="uploadItem" title="upload" data-toggle="dropdown"></i>
 		<ul class="dropdown-menu alignLeft">
-      <li><a href="#"><i class="fa fa-folder-open-o"></i> Folder</a></li>
-      <li><a href="#"><i class="fa fa-file-o"></i> File</a></li>
+      <li class="center"><i class="fa fa-folder-open-o"></i> Folder</li>
+      <li class="dataInput"><input type="file" webkitdirectory class="center col-xs-12 fileInput" value="folder" id="upload-folder" name="upload-folder"/></li><br>
+      <li class="divider"></li>
+      <li class="center filePadding"><i class="fa fa-file-o"></i> File</li>
+      <li class="dataInput"><input type="file" class="center col-xs-12 fileInput" id="upload-file" name="upload-file"/></li><br>
     </ul>
 	{{/if}}
 	<i class="fa fa-download createCircle blueCircle" id='downloadItems' title="download"></i>

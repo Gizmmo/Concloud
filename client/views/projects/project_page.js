@@ -15,17 +15,21 @@ Template.projectPage.events({
 	'click #file-upload' :function () {
 		if(Session.get("uploadType") != "file"){
 			Session.set("uploadType", "file");
-			$('#file-li').addClass('active');
-			$('#folder-li').removeClass('active');
 		}
 	},
 
 	'click #folder-upload' : function () {
 		if(Session.get('uploadType') != 'folder'){
 			Session.set('uploadType', 'folder');
-			$('#folder-li').addClass('active');
-			$('#file-li').removeClass('active')
 		}
+	},
+
+	'change #upload-folder' : function(e, template){
+		smartFileFolder(e,template);
+	},
+
+	'change #upload-file' : function(e, template){
+		smartFileFile(e,template);
 	},
 
 	'click #deleteItem' : function () {
@@ -47,8 +51,7 @@ Template.projectPage.events({
 
      'click #uploadItem' : function(){
      	if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
-     		console.log($('#folderAndFiles'));
-     		$('#folderAndFiles').css("display", "inline-block").css("opacity", 1);
+
      	}
      },
  

@@ -14,7 +14,6 @@ Meteor.methods({
 					insertObject["name"] = name;
 					insertObject["value"] = value;
 					hrInsertArray[hrInsertArray.length] = insertObject;
-					
 				} else {
 					var name = field.fieldName;
 					var value = field.defaultValue;;

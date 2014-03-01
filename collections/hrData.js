@@ -13,10 +13,13 @@ Meteor.methods({
 			var projectID = HRData.insert(entry);
 
 			hrFound = HR.find({});
+			var name = entry.fieldName;
+			var value = entry.defaultValue;
 			var insertObject = {};
-			insertObject[entry.fieldName] = entry.defaultValue;
+			insertObject["name"] = name;
+			insertObject["value"] = value;
 			hrFound.forEach(function (post) {
-				HR.update({userId: post.userId}, {$set: insertObject});
+				HR.update({userId: post.userId}, {$addToSet: {hrValues: insertObject}});
 			});
 
 			return projectID;

@@ -13,6 +13,14 @@ Template.splash.events({
 
 });
 
+Template.splash.helpers({
+	checkLog: function (){
+		if(Meteor.user()){
+			location.reload();
+		}
+	}
+});
+
 //Hides the dimmed effect
 Template.splash.rendered = function () {
 	theme();

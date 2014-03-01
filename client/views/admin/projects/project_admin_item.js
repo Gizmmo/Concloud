@@ -56,3 +56,6 @@ Template.projectAdminItem.helpers({
 Template.projectAdminItem.rendered = function(){
   $("[rel='tooltip']").tooltip();
 };
+
+Template.projectAdminItem.created = function() {
+}

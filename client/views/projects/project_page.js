@@ -200,6 +200,15 @@ Template.projectPage.created = function() {
 };
 
 Template.projectPage.rendered = function() {
+	$('#add-folder').popover({
+    html: true,
+    title: function () {
+        return $(this).parent().find('.head').html();
+    },
+    content: function () {
+        return $(this).parent().find('.content').html();
+    }
+});
 	var stackSession = Session.get('folderStack');
 	if(typeof stackSession != 'undefined'){
 		folderStack = stackSession;
@@ -208,6 +217,8 @@ Template.projectPage.rendered = function() {
 
 	$('.dropdown').on('show.bs.dropdown', function(e){
     $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+
+
   });
 
   // ADD SLIDEUP ANIMATION TO DROPDOWN //

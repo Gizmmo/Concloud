@@ -119,4 +119,24 @@
 	margin-right:15px;
 }
 
+.uploadDropdown{
+	left:-200px;
+	width:300px;
+}
+
+.folderDropdown{
+	left:-250px;
+	width:300px;
+}
+
+.submitPopover{
+	padding: 3px 0px 0px 2px;
+}
+
+.textPopover{
+	width:75%;
+	margin-bottom:10px;
+	height: 33px;
+}
+
 

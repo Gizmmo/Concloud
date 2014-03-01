@@ -41,10 +41,11 @@
 
 .String {
   max-width:60px;
+  overflow-x:hidden;
 }
 
 .String input[type=text]{
-  max-width:120px;
+  max-width:100%;
 }
 
 .Boolean{

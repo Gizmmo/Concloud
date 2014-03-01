@@ -1,7 +1,6 @@
 
 Template.projectAdminItem.events({
-    'click .rightBtn' : function () {
-    $(".b-project-item").attr("data-target", "");
+    'click .goToBtn' : function () {
       Router.go('projectPage', {"_id": this._id});
   },
 

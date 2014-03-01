@@ -48,3 +48,53 @@
 	cursor: pointer;
 }
 
+.projectButtons{
+	text-align: right;
+}
+
+.createCircle{
+	border: 1px solid transparent;
+	border-radius: 50px;
+	padding:6px;
+	color:white;
+}
+
+.greenCircle{
+	background-color: #87b87f;
+}
+
+.blueCircle{
+	background-color: #6fb3e0;
+}
+
+.yellowCircle{
+	background-color: #ffb752;
+}
+
+.greenCircle:hover{
+	background-color: #629b58;
+}
+
+.blueCircle:hover{
+	background-color: #4f99c6!important;
+	border-color: #6fb3e0;
+}
+
+.yellowCircle:hover{
+	background-color: #e59729!important;
+	border-color: #ffb752;
+}
+
+.redCircle{
+	background-color: #d15b47;
+}
+
+.redCircle:hover{
+	background-color: #b74635;
+}
+
+.projectButtons{
+	cursor:pointer;
+	margin-top:20px;
+}
+

@@ -3,8 +3,28 @@
 
   <div class = "projectData col-xs-12">
     <div class="row no-margins">
-      <h3 class="alignLeft" id="projectBreadcrumbs"><span class="headerLink" id="header-base">{{title}}</span></h3>
-      {{> errors}}
+    	      {{> errors}}
+    	<div class="row">
+      <h3 class="alignLeft col-xs-6" id="projectBreadcrumbs"><span class="headerLink" id="header-base">{{title}}</span></h3>
+
+
+      <span class="pull-right projectButtons col-xs-6">
+      <!--Folders and Files -->
+    {{#if officeManager}}
+		<i class="fa fa-upload createCircle greenCircle" id="uploadItem" title="upload"></i>
+	{{/if}}
+	<i class="fa fa-download createCircle blueCircle" id='downloadItems' title="download"></i>
+	{{#if officeManager}}
+		<i class="fa fa-folder createCircle yellowCircle" id="add-folder" title="Add Folder"></i>
+	{{/if}}
+	{{#if officeManager}}
+	<i class="fa fa-minus createCircle redCircle" id="deleteItem" title = "delete"></i>
+	{{/if}}
+      </span>
+      {{> addFolderModal}}
+      {{> uploadModal}}
+  </div>
+
       <div id="browse-sort" class="clearfix">
 	<a id="name-sorter" data-sort="FILES_BY_NAME" class="sortable-column-header bolded col-xs-6" data-ascending="true" style="cursor: pointer;">
 	  <span style="cursor: pointer;">
@@ -25,23 +45,6 @@
        {{#if uploadingData}}
 			{{>spinner}}
 		{{/if}}
-      <!--File and Folder Buttons -->
-	
-      <div class="projectHeader">
-    {{#if officeManager}}
-		<div class="concord-button" id="uploadItem"><i class="fa fa-upload"></i> Upload</div> 
-	{{/if}}
-	<div class="concord-button" id='downloadItems'><i class="fa fa-download"></i> Download</div>
-	{{#if officeManager}}
-		<div class="concord-button" id="add-folder"><i class="fa fa-folder"></i> Add Folder</div>
-	{{/if}}
-	<div class="concord-button" id="selectAllItems"><i class="fa fa-check-circle-o"></i> Select All</div>
-	{{#if officeManager}}
-		<div class="concord-button" id="deleteItem"><i class="fa fa-times"></i> Delete</div>
-	{{/if}}
-      </div>
-      {{> addFolderModal}}
-      {{> uploadModal}}
 
       <!-- Folders and Files -->
       

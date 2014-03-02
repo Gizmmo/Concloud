@@ -120,21 +120,29 @@ Template.projectPage.events({
 },
 
 'click #downloadItems' : function() {
-	$('input:checkbox.projectCheckbox').each(function() {
-		var thisVal = (this.checked ? $(this).attr('id') : "");
+	// $('input:checkbox.projectCheckbox').each(function() {
+	// 	var thisVal = (this.checked ? $(this).attr('id') : "");
 
-		if(thisVal != ""){
-			var itemType = thisVal.split("-")[0];
-			var itemName = thisVal.split("-")[1];
-			if(itemType == 'folder'){
+	// 	if(thisVal !== ""){
+	// 		var itemType = thisVal.split("-")[0];
+	// 		var itemName = thisVal.split("-")[1];
+	// 		if(itemType == 'folder'){
 
-			}else if (itemType == "file"){
-				downloadFile(itemName);
+	// 		}else if (itemType == "file"){
+	// 			downloadFile(itemName);
 
-			}
+	// 		}
+	// 	}
+
+
+	// });
+	// 
+	Meteor.call('compressSmartFiles', "%2fTesting", function(err, result){
+		if(err){
+			console.log(err);
 		}
 
-
+		console.log(result);
 	});
 
 }

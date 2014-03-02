@@ -35,6 +35,14 @@ Template.dashboardside.helpers({
 		return true;
 	},
 
+	isOfficeManager : function() {
+		return (Meteor.user().profile.userGroup === "Office Manager");
+	},
+
+	getSpace : function(){
+		return (Session.get('smartFileSize'));
+	},
+
 	lastProjectID : function() {
 		return Meteor.user().profile.recent.lastProjectID;
 	},

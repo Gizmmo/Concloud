@@ -125,12 +125,12 @@ Template.projectPage.events({
 
 	// });
 	// 
-	Meteor.call('compressSmartFiles', "Testing", function(err, result){
+	Meteor.call('smartFileSize', function(err, result){
 		if(err){
 			console.log(err);
 		}
 
-		console.log(result);
+		Session.set("smartFileSize", result);
 	});
 
 }

@@ -7,7 +7,7 @@ Template.projectPage.events({
 		Meteor.call('updateProject', this._id, function (error, result) {
 		});
 	},
-	'click #selectAllItems' : function () {
+	'click #selectAll' : function () {
 		isSelectAll = !isSelectAll;
 		$('.projectCheckbox').prop('checked', isSelectAll);
 	},

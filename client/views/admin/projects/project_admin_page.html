@@ -5,41 +5,59 @@
 		<h1>Manage Project<small><i class="fa fa-angle-double-right"></i>Administration</small></h1>
 	</div>
 	
-	<div id="manage_project_role">
-		<h3>Employees</h3>
-		<div id="employee-search">
-			<form class="form-search">
-				<span class="input-icon">
-					<input type="text" placeholder="Search ..." class="nav-search-input" id="search-field" autocomplete="off">
-					<i class="fa fa-search icon-search nav-search-icon"></i>
-				</span>
-			</form>
-		</div><!-- #nav-search -->
-		
-		<div class="surround-table col-xs-8">
-			<table class="table table-striped">
-				<thead>
-					<td>Concloud Staff Name</td>
-					<td>Project Employee</td>
-				</thead>
-				<tbody>
-					{{#each employees}}
-						<tr id="emp-row-{{_id}}">
-							<td>{{profile.lastName}}, {{profile.firstName}}</td>
-							{{#if projectEmployee}}
-								<td><input type="checkbox" checked="true" class="emp-click" id="{{_id}}"></td>
-							{{else}}
-								<td><input type="checkbox" class="emp-click" id="{{_id}}"></td>
-							{{/if}}
-						</tr>
-					{{/each}}
-				</tbody>
-			</table>
+	<div id="manage_project_role" class="col-md-12">
+		<div class="col-md-6 employee-admin">
+			
+
+			<div class="widget-box light-border col-xs-12">
+				<div class="widget-header header-color-dark">
+					<h5 class="bigger lighter"><i class="fa fa-truck"></i> Employees</h5>
+					<div class="widget-toolbar">
+						<div id="employee-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="search-field" autocomplete="off">
+									<i class="fa fa-search icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main no-padding table-responsive">
+						<table id="tableData" class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Concloud Staff Name</th>
+									<th>Project Employee</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each employees}}
+								<tr id="emp-row-{{_id}}">
+									<td>{{profile.lastName}}, {{profile.firstName}}</td>
+									{{#if projectEmployee}}
+									<td class="center"><input type="checkbox" checked="true" class="emp-click" id="{{_id}}"></td>
+									{{else}}
+									<td class="center"><input type="checkbox" class="emp-click" id="{{_id}}"></td>
+									{{/if}}
+								</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
 
-		<h3>Clients</h3>
-		<div class = "row">
-			<div id="client-search">
+		<div class="col-md-6 client-admin">
+
+			<div class="widget-box light-border col-xs-12">
+				<div class="widget-header header-color-dark">
+					<h5 class="bigger lighter"><i class="fa fa-user"></i> Clients</h5>
+					<div class="widget-toolbar">
+						<div id="client-search">
 				<form class="form-search">
 					<span class="input-icon">
 						<input type="text" placeholder="Search ..." class="nav-search-input" id="search-client-field" autocomplete="off">
@@ -47,29 +65,37 @@
 					</span>
 				</form>
 			</div><!-- #nav-search -->
-		</div>
+					</div>
+				</div>
 
-		<div class="surround-table col-xs-8">
-			<table class="table table-striped">
-				<thead>
-					<td>Concloud Clients</td>
-					<td>Project Client</td>
-				</thead>
-				<tbody>
-					{{#each clients}}
-						<tr id="client-row-{{_id}}">
-							<td>{{profile.lastName}}, {{profile.firstName}}</td>
-							{{#if projectClient}}
-								<td><input type="checkbox" checked="true" class="client-click" id="{{_id}}"></td>
-							{{else}}
-								<td><input type="checkbox" class="client-click" id="{{_id}}"></td>
-							{{/if}}
-						</tr>
-					{{/each}}
-				</tbody>
-			</table>
-		</div>
+				<div class="widget-body">
+					<div class="widget-main no-padding table-responsive">
+						<table id="tableData" class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>Concloud Clients</th>
+									<th>Project Client</th>
+								</tr>
+							</thead>
+							<tbody>
+								{{#each clients}}
+								<tr id="client-row-{{_id}}">
+									<td>{{profile.lastName}}, {{profile.firstName}}</td>
+									{{#if projectClient}}
+									<td class="center"><input type="checkbox" checked="true" class="client-click" id="{{_id}}"></td>
+									{{else}}
+									<td class="center"><input type="checkbox" class="client-click" id="{{_id}}"></td>
+									{{/if}}
+								</tr>
+								{{/each}}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 
+			
+		</div>
 	</div>
 
 </template>

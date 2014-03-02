@@ -2,9 +2,8 @@
 	margin-left:10px;
 }
 
-#client-search{
-	margin-left:18px;
-	margin-top:20px;
+#employee-search, #client-search{
+	margin-top:4px;
 }
 
 .surround-table {
@@ -16,7 +15,10 @@
   	background-color: white;
 }
 
-.nav-search-input {
+input[type="text"].nav-search-input {
 	width: 200px;
 	margin-bottom: 10px;
+	padding-top:1px!important;
+	border-radius:10px!important;
+
 }

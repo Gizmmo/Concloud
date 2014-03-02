@@ -195,7 +195,7 @@ Template.projectPage.created = function() {
 	
 };
 
-Template.projectPage.rendered = function() {
+function makePopover(){
 	$('#add-folder').popover({
 		html: true,
 		title: function () {
@@ -207,9 +207,16 @@ Template.projectPage.rendered = function() {
 	}).on('shown.bs.popover', function(){
 		$($('.addFolderPopover')[1]).find('#submit-FolderName').on('click', function(){
 			submitFolder($(document.getElementsByClassName('textPopover')[1]).val());
-			$('#add-folder').popover('hide');
+			$('#add-folder').popover('destroy');
 		});
+		}).on('hidden.bs.popover', function(){
+			makePopover();
 	});
+}
+
+Template.projectPage.rendered = function() {
+	$('#uploadItem').popover('destroy');
+	makePopover();
 
 	$('#uploadItem').popover({
 		html: true,

@@ -261,7 +261,7 @@ function confirmDelete(){
 			});
 		});
 	}).on('hidden.bs.popover', function(){
-		makeFilePopover();
+		confirmDelete();
 	});
 }
 

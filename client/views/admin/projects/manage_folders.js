@@ -48,24 +48,6 @@ Template.manageFolders.events({
 		}
 	},
 
-	'click #removeSelected': function () {
-		myArray = $('.tableBox');
-		if(Session.get("NewRow")){
-			if($("#newRow").length>0){
-				$($('#tableData').find("tbody").find("tr")[0]).remove();
-			}
-			Session.set("NewRow", false);
-		} else {
-			for(var i = 0; i < myArray.length; i++){
-				if($(myArray[i]).is(':checked')){
-					var split = $(myArray[i]).context.id.split("-");
-					var folder = Folders.findOne({_id: split[1]});
-					Meteor.call('removeFolder', folder, function (error, result){});
-				}
-			}
-		}
-	},
-
 	'click .confirmProject' : function(event, template) {
 		event.preventDefault();
 		var split = event.target.id.split("-");
@@ -248,6 +230,49 @@ Template.manageFolders.helpers({
 		return Folders.find({}, {sort: {name: 1}});
 	}
 });
+
+Template.manageFolders.rendered = function () {
+	confirmDelete();
+};
+
+function confirmDelete(){
+	$('#removeSelected').popover({
+		html: true,
+		title: function () {
+			return $('#deletehead').html();
+		},
+		content: function () {
+			return $('#deletecontent').html();
+		}
+	}).on('shown.bs.popover', function(){
+		$($('.deleteData')[1]).find('#confirmDelete').on('click', function(){
+			removeSelected();
+			$('.popover').each(function(){
+				$(this).remove();
+			});
+		});
+	}).on('hidden.bs.popover', function(){
+		confirmDelete();
+	});
+}
+
+function removeSelected(){
+	myArray = $('.tableBox');
+		if(Session.get("NewRow")){
+			if($("#newRow").length>0){
+				$($('#tableData').find("tbody").find("tr")[0]).remove();
+			}
+			Session.set("NewRow", false);
+		} else {
+			for(var i = 0; i < myArray.length; i++){
+				if($(myArray[i]).is(':checked')){
+					var split = $(myArray[i]).context.id.split("-");
+					var folder = Folders.findOne({_id: split[1]});
+					Meteor.call('removeFolder', folder, function (error, result){});
+				}
+			}
+		}
+}
 
 function updateView(searchValue){
 		if(searchValue == undefined || searchValue == null || searchValue == ""){

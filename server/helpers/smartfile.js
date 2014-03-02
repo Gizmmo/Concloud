@@ -1,5 +1,6 @@
 var sf = new SmartFile();
 var exchange = "https://app.smartfile.com/api/2/path/exchange/";
+var compress = "https://app.smartfile.com/api/2/path/oper/compress/";
 var key = "XFrwhXrnX5YdEGucym71yWnzP1EFpW";
 var password = "1z3CPFe6gn8BuEs0cJjLCLtoMBnZn8";
 
@@ -25,6 +26,23 @@ Meteor.methods({
 		return sf.ls("");
 	},
 
+	compressSmartFiles : function(pathName){
+		try{
+			var httpResponse = HTTP.post(compress,{
+				auth:sf._getApiAuthString(),
+				data: {
+					path: pathName,
+				}
+			});
+			var url = httpResponse.data.url;
+			console.log(url);
+			return url;
+
+		}catch(e){
+			console.log(e.message);
+		}
+	},
+
 	exchangeSmartFiles : function(pathName) {
 		try{
 			var httpResponse = HTTP.post(exchange+"?download=true",{
@@ -37,8 +55,8 @@ Meteor.methods({
 				// 	"Content-Disposition": "attachment"
 				// }
 			});
-			var url = httpResponse.data.url;
-			return url;
+			// var url = httpResponse;
+			// return url;
 
 		}catch(e){
 			console.log(e.message);

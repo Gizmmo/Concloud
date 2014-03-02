@@ -54,7 +54,21 @@
 					</span>
 					{{/if}}
 					{{#if officeManager}}
-					<i class="fa fa-minus createCircle redCircle" id="deleteItem" title = "delete"></i>
+					<i class="fa fa-minus createCircle redCircle" id="deleteItem" data-container="body" data-toggle="popover" data-placement="left"></i>
+					<span id="popoverContent">
+						<div id="deletehead" class="deletehead hide">Confirm Deletion</div>
+						<div id="deletecontent" class="deletecontent hide">
+							<div class="form-group deleteData">
+								
+								Are you sure you wish to delete this content?
+								
+								
+								<button class="btn btn-xs btn-danger deleteItems col-xs-2" id="confirmDelete"><i class="fa fa-check"></i></button>
+							
+							</div>
+							
+						</div>
+					</span>
 					{{/if}}
 				</span>
 				{{> addFolderModal}}

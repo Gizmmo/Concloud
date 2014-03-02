@@ -30,32 +30,6 @@ Template.projectsAdminList.events({
 		}
 	},
 
-	'click #removeSelected': function () {
-		myArray = $('.tableBox');
-		if(Session.get("NewRow")){
-			if($("#newRow").length>0){
-				$($('#tableData').find("tbody").find("tr")[0]).remove();
-			}
-			Session.set("NewRow", false);
-		} else {
-			if(myArray){
-				for(var i = 0; i < myArray.length; i++){
-					if($(myArray[i]).is(':checked')){
-						var split = $(myArray[i]).context.id.split("-");
-						var projectID = split[1];
-						var project = Projects.findOne({_id: projectID});
-						Meteor.call('removeProject', projectID, function (error, result) {});
-						Meteor.call("remove", project.title, function(err,result){
-							if(err)
-								console.log(err);
-						});
-					}
-				}
-			}
-		}
-
-	},
-
 	'click .editProject' : function(event, template) {
 		event.preventDefault();
 		var split = event.target.id.split("-");
@@ -266,6 +240,56 @@ Template.projectsAdminList.events({
 		});
 	}
 });
+
+function confirmDelete(){
+	$('#removeSelected').popover({
+		html: true,
+		title: function () {
+			return $('#deletehead').html();
+		},
+		content: function () {
+			return $('#deletecontent').html();
+		}
+	}).on('shown.bs.popover', function(){
+		$($('.deleteData')[1]).find('#confirmDelete').on('click', function(){
+			removeSelected();
+			$('.popover').each(function(){
+				$(this).remove();
+			});
+		});
+	}).on('hidden.bs.popover', function(){
+		confirmDelete();
+	});
+}
+
+Template.projectsAdminList.rendered = function () {
+	confirmDelete();
+};
+
+function removeSelected(){
+	myArray = $('.tableBox');
+		if(Session.get("NewRow")){
+			if($("#newRow").length>0){
+				$($('#tableData').find("tbody").find("tr")[0]).remove();
+			}
+			Session.set("NewRow", false);
+		} else {
+			if(myArray){
+				for(var i = 0; i < myArray.length; i++){
+					if($(myArray[i]).is(':checked')){
+						var split = $(myArray[i]).context.id.split("-");
+						var projectID = split[1];
+						var project = Projects.findOne({_id: projectID});
+						Meteor.call('removeProject', projectID, function (error, result) {});
+						Meteor.call("remove", project.title, function(err,result){
+							if(err)
+								console.log(err);
+						});
+					}
+				}
+			}
+		}
+}
 
 Template.projectsAdminList.helpers({
 	/**

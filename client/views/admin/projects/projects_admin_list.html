@@ -21,14 +21,29 @@
 							<i class="fa fa-search icon-search nav-search-icon"></i>
 						</span>
 						{{#if addingProject}}
-								{{> spinner}}
+						{{> spinner}}
 						{{/if}}
 						<span class="pull-right redFont">
-							<i class="fa fa-minus-circle" title="Remove Project" id="removeSelected"></i>
+							<i class="fa fa-minus-circle" id="removeSelected" data-container="body" data-toggle="popover" data-placement="left"></i>
+
+							<span id="popoverContent">
+								<div id="deletehead" class="deletehead hide">Confirm Deletion</div>
+								<div id="deletecontent" class="deletecontent hide">
+									<div class="form-group deleteData">
+										
+										Are you sure you wish to delete this content?
+										
+										
+										<button class="btn btn-xs btn-danger deleteItems col-xs-2" id="confirmDelete"><i class="fa fa-check"></i></button>
+										
+									</div>
+									
+								</div>
+							</span>
 						</span>
 						<span class="pull-right greenFont">
-					<i class="fa fa-plus-circle" title="Add Project" id="addRow"></i>
-				</span>
+							<i class="fa fa-plus-circle" title="Add Project" id="addRow"></i>
+						</span>
 					</form>
 
 				</div><!-- #nav-search -->
@@ -62,7 +77,7 @@
 							</thead>
 							<tbody>
 								{{#each projects}}
-									{{> projectAdminItem}}
+								{{> projectAdminItem}}
 								{{/each}}
 							</tbody>
 						</table>

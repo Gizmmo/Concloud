@@ -29,19 +29,7 @@ Template.projectPage.events({
 	},
 
 	'click #deleteItem' : function () {
-		$('input:checkbox.projectCheckbox').each(function() {
-			var thisVal = (this.checked ? $(this).attr('id') : "");
-
-			if(thisVal != ""){
-				var itemType = thisVal.split("-")[0];
-				var itemName = thisVal.split("-")[1];
-				if(itemType == 'folder'){
-					deleteFolder(itemName);
-				}else if (itemType == "file"){
-					deleteFile(itemName);
-				}
-			}
-		});
+		
 
 	},
 
@@ -120,21 +108,29 @@ Template.projectPage.events({
 },
 
 'click #downloadItems' : function() {
-	$('input:checkbox.projectCheckbox').each(function() {
-		var thisVal = (this.checked ? $(this).attr('id') : "");
+	// $('input:checkbox.projectCheckbox').each(function() {
+	// 	var thisVal = (this.checked ? $(this).attr('id') : "");
 
-		if(thisVal != ""){
-			var itemType = thisVal.split("-")[0];
-			var itemName = thisVal.split("-")[1];
-			if(itemType == 'folder'){
+	// 	if(thisVal !== ""){
+	// 		var itemType = thisVal.split("-")[0];
+	// 		var itemName = thisVal.split("-")[1];
+	// 		if(itemType == 'folder'){
 
-			}else if (itemType == "file"){
-				downloadFile(itemName);
+	// 		}else if (itemType == "file"){
+	// 			downloadFile(itemName);
 
-			}
+	// 		}
+	// 	}
+
+
+	// });
+	// 
+	Meteor.call('compressSmartFiles', "Testing", function(err, result){
+		if(err){
+			console.log(err);
 		}
 
-
+		console.log(result);
 	});
 
 }
@@ -248,10 +244,48 @@ function makeFilePopover(){
 	});
 }
 
+function confirmDelete(){
+	$('#deleteItem').popover({
+		html: true,
+		title: function () {
+			return $('#deletehead').html();
+		},
+		content: function () {
+			return $('#deletecontent').html();
+		}
+	}).on('shown.bs.popover', function(){
+		$($('.deleteData')[1]).find('#confirmDelete').on('click', function(){
+			deleteItems();
+			$('.popover').each(function(){
+				$(this).remove();
+			});
+		});
+	}).on('hidden.bs.popover', function(){
+		confirmDelete();
+	});
+}
+
+function deleteItems(){
+	$('input:checkbox.projectCheckbox').each(function() {
+			var thisVal = (this.checked ? $(this).attr('id') : "");
+
+			if(thisVal != ""){
+				var itemType = thisVal.split("-")[0];
+				var itemName = thisVal.split("-")[1];
+				if(itemType == 'folder'){
+					deleteFolder(itemName);
+				}else if (itemType == "file"){
+					deleteFile(itemName);
+				}
+			}
+		});
+}
+
 Template.projectPage.rendered = function() {
 	$('#uploadItem').popover('destroy');
 	makePopover();
 	makeFilePopover();
+	confirmDelete();
 
 	console.log($('.inFile'));
 	// $('#popoverContent').remove();

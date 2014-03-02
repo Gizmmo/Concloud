@@ -29,6 +29,11 @@
 	margin-top:8px;
 }
 
+.deleteItems {
+	float:right;
+	margin-top:10px;
+}
+
 .alignLeft {
     text-align:left;
 }

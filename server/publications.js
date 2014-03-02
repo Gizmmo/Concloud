@@ -19,7 +19,6 @@ Meteor.publish('hr', function(userGroup) {
 });
 
 Meteor.publish('hrData', function(userGroup) {
-	console.log(userGroup);
 	if(userGroup === "Admin" || userGroup === "Office Manager"){
   		return HRData.find();
   	}

@@ -48,7 +48,7 @@ Meteor.methods({
 		hrFound.forEach(function (post) {
 			for(var i = 0; i < post.hrValues.length; i++){
 				if(post.hrValues[i].name === fieldName){
-					delete post.hrValues[i];
+					post.hrValues.splice(i,1);
 				}
 			}
 			HR.update({userId: post.userId}, post);

@@ -208,16 +208,16 @@ function makePopover(){
 		$($('.addFolderPopover')[1]).find('#submit-FolderName').on('click', function(){
 			submitFolder($(document.getElementsByClassName('textPopover')[1]).val());
 			$('#add-folder').popover('destroy');
-		});
+			$('.popover').each(function(){
+				$(this).remove();
+			});
 		}).on('hidden.bs.popover', function(){
 			makePopover();
+		});
 	});
 }
 
-Template.projectPage.rendered = function() {
-	$('#uploadItem').popover('destroy');
-	makePopover();
-
+function makeFilePopover(){
 	$('#uploadItem').popover({
 		html: true,
 		title: function () {
@@ -228,15 +228,30 @@ Template.projectPage.rendered = function() {
 		}
 	}).on('shown.bs.popover', function(){
 		$($('.uploadData')[1]).find('#submitFile').on('click', function(){
+			console.log("before popover");
 			smartFileFile(document.getElementsByClassName('inFile')[1]);
-			$('#uploadItem').popover('hide');
+			console.log("check popover");
+			console.log($('.popover'));
+			$('.popover').each(function(){
+				$(this).remove();
+			});
 		});
 
 		$($('.uploadData')[1]).find('#submitFolder').on('click', function(){
 			smartFileFolder(document.getElementsByClassName('inFolder')[1]);
-			$('#uploadItem').popover('hide');
+			$('.popover').each(function(){
+				$(this).remove();
+			});
 		});
+	}).on('hidden.bs.popover', function(){
+		makeFilePopover();
 	});
+}
+
+Template.projectPage.rendered = function() {
+	$('#uploadItem').popover('destroy');
+	makePopover();
+	makeFilePopover();
 
 	console.log($('.inFile'));
 	// $('#popoverContent').remove();
@@ -246,19 +261,9 @@ Template.projectPage.rendered = function() {
 		folderStack = stackSession;
 		constructProject();
 	}
-
-	// $(document).on('click', '#submitFile', function(){
-	// 	console.log(document.getElementById("upload-file"));
-	// 	smartFileFile(document.getElementById("upload-file"));
-	// });
-
-	// $(document).on('click', '#submit-FolderName', function(){
-	// 	console.log($('#folder-Name').val());
-	// });
 };
 
 Template.projectPage.destroyed = function() {
-	Session.set("folderStack", []);
 };
 
 addToFolderStack = function(name){

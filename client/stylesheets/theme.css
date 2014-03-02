@@ -222,6 +222,7 @@ html,body{
 .sortable-column-header {
 	margin-bottom: 0px;
 	font-size: 14px;
+	margin-left:18px;
 }
 
 .bolded {

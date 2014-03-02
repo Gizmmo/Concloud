@@ -16,6 +16,28 @@
     border-radius: 6px;
 }
 
+.inWidget{
+    margin-left:10px;
+    margin-right:10px;
+    margin-bottom:20px;
+    padding-top:15px;
+}
+
+.widget-header{
+    overflow-x:hidden;
+}
+
+.removeStyle{
+    text-decoration: none;
+    color:white;
+}
+
+.removeStyle:hover{
+    text-decoration:none;
+    color:white;
+    cursor: pointer;
+}
+
 [class*="badger"]:after {
     content: attr(data-badger);
     position: absolute;

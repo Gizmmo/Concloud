@@ -1,6 +1,16 @@
 <template name = "projectItem">
-	<div class="{{badgerData}} col-xs-12 col-sm-6 col-md-4 b-project-item" data-toggle="modal" data-target="{{dataToggle}}" data-badger="{{getTitle}}" id="{{_id}}">
-		<span class = "my-title">Submitted by: </span>{{authorName}} <br>
-		<span class = "my-title">Last Updated: </span>{{convertedTime}}
+	<div class=" col-xs-12 col-sm-6 col-md-3 b-project-item widget-box light-border" data-toggle="modal" data-target="{{dataToggle}}" id="{{_id}}">
+		<div class="widget-header header-color-dark">
+			<h5 class="smaller">{{title}}</h5>
+			<div class="widget-toolbar">
+				<span class="badge badge-success"><a href="{{pathFor 'projectPage'}}" class="removeStyle">View</a></span>
+			</div>
+		</div>
+		<div class="widget-body">
+			<div class="inWidget">
+				<span class = "my-title">Submitted by: </span>{{authorName}} <br>
+				<span class = "my-title">Last Updated: </span>{{convertedTime}}
+			</div>
+		</div>
 	</div>
 </template>

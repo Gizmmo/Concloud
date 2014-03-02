@@ -23,6 +23,12 @@
 	float:left;
 }
 
+#selectAll{
+	margin-left:22px;
+	float:left;
+	margin-top:8px;
+}
+
 .alignLeft {
     text-align:left;
 }

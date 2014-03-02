@@ -33,11 +33,7 @@ Template.projectItem.helpers({
 	 */
 	convertedTime: function () {
 		return formatDate(this.recentUpdate.updateDate);
-	},
-
-  badgerData: function () {
-    return "badger-info badger-left";
-  }
+	}
 });
 
 Template.projectItem.rendered = function(){

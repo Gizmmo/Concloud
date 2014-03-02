@@ -295,6 +295,7 @@ Template.projectPage.rendered = function() {
 		folderStack = stackSession;
 		constructProject();
 	}
+	
 };
 
 Template.projectPage.destroyed = function() {

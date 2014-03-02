@@ -13,6 +13,10 @@ Template.notifications.helpers({
     });
     return notifications;
   },
+
+  isNotification : function() {
+    return this.notificationCount > 0;
+  },
   /**
    * Returns the amount of notifications there are for the current user
    * @return int Amount of notifications for the current user

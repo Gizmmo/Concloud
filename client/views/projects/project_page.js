@@ -137,7 +137,7 @@ Template.projectPage.events({
 
 	// });
 	// 
-	Meteor.call('compressSmartFiles', "%2fTesting", function(err, result){
+	Meteor.call('compressSmartFiles', "Testing", function(err, result){
 		if(err){
 			console.log(err);
 		}

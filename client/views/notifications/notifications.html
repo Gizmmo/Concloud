@@ -1,6 +1,10 @@
 <template name="notifications">
 	<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+		{{#if isNotification}}
 		<i class="fa fa-bell icon-animated-bell"></i>
+		{{else}}
+		<i class="fa fa-bell"></i>
+		{{/if}}
 		<span class="badge badge-important">{{notificationCount}}</span>
 	</a>
 

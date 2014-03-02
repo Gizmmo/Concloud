@@ -15,7 +15,8 @@
   	background-color: white;
 }
 
-input[type="text"].nav-search-input {
+#employee-search > .form-search > .input-icon > input[type="text"].nav-search-input,
+#client-search > .form-search > .input-icon > input[type="text"].nav-search-input {
 	width: 200px;
 	margin-bottom: 10px;
 	padding-top:1px!important;

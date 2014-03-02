@@ -1,6 +1,7 @@
 var sf = new SmartFile();
 var exchange = "https://app.smartfile.com/api/2/path/exchange/";
 var compress = "https://app.smartfile.com/api/2/path/oper/compress/";
+var info = "https://app.smartfile.com/api/2/path/info/?children=on";
 var key = "XFrwhXrnX5YdEGucym71yWnzP1EFpW";
 var password = "1z3CPFe6gn8BuEs0cJjLCLtoMBnZn8";
 
@@ -37,6 +38,27 @@ Meteor.methods({
 			var url = httpResponse.data.url;
 			console.log(url);
 			return url;
+
+		}catch(e){
+			console.log(e.message);
+		}
+	},
+
+	smartFileSize : function(){
+		try{
+			var httpResponse = HTTP.get(info,{
+				auth:sf._getApiAuthString(),
+				data: {
+				}
+			});
+			var children = httpResponse.data.children;
+			var size = 0;
+			for (var i = 0; i < children.length; i++) {
+				size += children[i].size;
+			};
+
+			
+			return (size/1000/1000/1000).toFixed(2);
 
 		}catch(e){
 			console.log(e.message);

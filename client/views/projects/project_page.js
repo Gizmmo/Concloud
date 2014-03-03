@@ -28,29 +28,6 @@ Template.projectPage.events({
 		smartFileFolder(e,template);
 	},
 
-	'click #uploadItem' : function(){
-		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
-
-		}
-	},
-
-	'click #add-folder' : function(){
-     	// $("#addFolder").modal("toggle");
-     },
-
-
-     'click #downloadMe' : function(e, template){
-     	e.preventDefault();
-     	Meteor.call('downloadFile', "bench.jpg", window,
-     		function(err, result){
-     			if(err)
-     				console.log(err);
-
-
-     		});
-
-
-     },
      'click .headerLink' : function(e, template) {
 	//Find which folder in the breadcrumbs has been clicked
 	var folderClicked = $(e.target).attr('id');

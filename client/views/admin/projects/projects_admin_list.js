@@ -343,6 +343,7 @@ function validateRow(dataRows){
 			var dataRow = $(dataRows[i]);
 			dataRow.find('.valCheck').remove();
 			if(dataRow.hasClass('String') || dataRow.hasClass('Password')){
+				var dataVal = $(dataRow).find('input').val();
 				if($(dataRow).find('input').val().length < 1){
 					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
 					returnValue = false;

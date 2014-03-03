@@ -27,7 +27,7 @@ if (Meteor.users.find().count() === 0) {
         Accounts.sendEnrollmentEmail(id);
     }
 
-    if(Folders.find().count() === 0){
+    if(DefaultFolders.find().count() === 0){
         var folder = {};
         createFolder("Change Orders", ["Office Manager", "Admin", "Employee", "Client"]);
         createFolder("Consultant", ["Office Manager", "Admin", "Employee", "Client"]);

@@ -219,20 +219,20 @@ function makeFilePopover(){
 		}
 	}).on('shown.bs.popover', function(){
 		$($('.uploadData')[1]).find('#submitFile').on('click', function(){
-			console.log("before popover");
-			smartFileFile(document.getElementsByClassName('inFile')[1]);
-			console.log("check popover");
-			console.log($('.popover'));
+			var files = document.getElementsByClassName('inFile')[1].files;
 			$('.popover').each(function(){
 				$(this).remove();
 			});
+			smartFileFile(files, new Date().getTime());
+			
 		});
 
 		$($('.uploadData')[1]).find('#submitFolder').on('click', function(){
-			smartFileFolder(document.getElementsByClassName('inFolder')[1]);
+			var files = document.getElementsByClassName('inFolder')[1].files;
 			$('.popover').each(function(){
 				$(this).remove();
 			});
+			smartFileFolder(files, new Date().getTime());
 		});
 	}).on('hidden.bs.popover', function(){
 		makeFilePopover();

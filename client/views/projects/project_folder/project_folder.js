@@ -8,7 +8,7 @@ Template.project_folder.events({
 
 Template.project_folder.helpers({
 	getDate : function(event){
-		var todaysDate = formatDate(this.proData.folderUpdate.updateDate);
+		var todaysDate = formatDate(this.updated);
 		return todaysDate;
 	}
 });

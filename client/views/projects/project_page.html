@@ -93,16 +93,13 @@
 					</span>
 				</a>
 			</div>
-			{{#if uploadingData}}
-			{{>spinner}}
-			{{/if}}
 
 			<!-- Folders and Files -->
 
 			<ol id="browse-files" class="mouse-active" style="cursor: default;">
 				<!-- Individual Folders -->
 				<div id="projectFolders">
-					{{#each arrayify projectData}}
+					{{#each projectData}}
 					{{#if allowedView}}
 					{{> project_folder}}
 					{{/if}}
@@ -112,7 +109,7 @@
 
 				<!-- Project Files -->
 				<div id="projectFiles">
-					{{#each arrayify projectFiles}}
+					{{#each projectFiles}}
 					{{> project_files}}
 					{{/each}}
 				</div>

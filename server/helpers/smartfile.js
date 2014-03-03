@@ -103,6 +103,7 @@ Meteor.methods({
 	 },
 
 	 remove : function (name) {
+	 	console.log(name);
 	 	sf.rm(name);
 	 }
 	});

@@ -47,7 +47,6 @@ smartFileFolder = function(template){
     };
 
     smartFileFile = function(template){
-      console.log(template.files);
      var projectData = Projects.findOne({_id: Session.get("currentProject")});
      var folderData = getFolderData(projectData);
      var file = template.files[0];
@@ -101,13 +100,13 @@ smartFileFolder = function(template){
       //get type after .
       type = nameSplit[1];
       //Collect file name without .
-      fileName = nameSplit[0];
+      fileName = nameSplit[0]+nameSplit[1];
     }else{
       type = "none";
     }
 
     //Create File
-    folderData.files[nameSplit[0]] = createFile(nameSplit[0], type);
+    folderData.files[fileName] = createFile(fileName, type);
   }
 
   function runUpdate(){

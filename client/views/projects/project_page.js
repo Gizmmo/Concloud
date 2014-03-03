@@ -28,11 +28,6 @@ Template.projectPage.events({
 		smartFileFolder(e,template);
 	},
 
-	'click #deleteItem' : function () {
-		
-
-	},
-
 	'click #uploadItem' : function(){
 		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
 
@@ -354,7 +349,7 @@ function deleteFolder(folderName){
 function deleteFile(fileName){
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
 	var folderData = getFolderData(projectData);
-	var fileNameType = folderData.files[fileName].fileName + "." + folderData.files[fileName].fileType;
+	var fileNameType = fileName.split(folderData.files[fileName].fileType)[0] + "." + folderData.files[fileName].fileType;
 	delete folderData.files[fileName];
 	Meteor.call("remove", getDirectoryFromStack(projectData, false) + fileNameType, function(err, result){
 		if(err)

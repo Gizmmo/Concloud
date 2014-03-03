@@ -9,6 +9,6 @@ Template.project_files.helpers({
 	},
 
 	collectFileName : function(event){
-		return this.proData.fileName;
+		return this.proData.fileName.split(this.proData.fileType)[0];
 	}
 });

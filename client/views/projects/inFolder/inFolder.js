@@ -80,7 +80,7 @@ Template.inFolder.events({
 },
 
 'click .download-file-link' : function(event) {
-	downloadFile($(event.target).html());
+	downloadFile($(event.target).attr('id'));
 },
 
 'click #downloadItems' : function() {
@@ -136,7 +136,9 @@ Template.inFolder.helpers({
 	},
 
 	projectFiles : function() {
-		return Files.find({projectId: Session.get("currentProject"), parentId: "none"});;
+		console.log("Get Project Files");
+		console.log(Files.find({projectId: Session.get("currentProject"), parentId: this._id}));
+		return Files.find({projectId: Session.get("currentProject"), parentId: this._id});
 	},
 	officeManager: function () {
 		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
@@ -294,7 +296,6 @@ getDirectoryFromStack = function(projectData, fillSpaces){
 	}
 
 	var folderStack = getPathStack(Session.get('thisId'));
-	console.log(folderStack);
 	var directory = projectData.title + "/";
 	for (var i = 0; i < folderStack.length; i++) {
 		var hold = "";
@@ -311,18 +312,6 @@ getDirectoryFromStack = function(projectData, fillSpaces){
 	return directory;
 }
 
-topOfFolderStack = function(){
-	return folderStack(folderStack.length).folderName;
-};
-
-removeFromFolderStack = function(){
-	folderStack.pop();
-};
-
-getFolderStack = function() {
-	return folderStack;
-};
-
 function deleteFolder(folderName){
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
 	var folderData = getFolderData(projectData);
@@ -338,7 +327,7 @@ function deleteFolder(folderName){
 function deleteFile(fileName){
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
 	var folderData = getFolderData(projectData);
-	var fileNameType = fileName.split(folderData.files[fileName].fileType)[0] + "." + folderData.files[fileName].fileType;
+	var fileNameType = fileName.split(folderData.files[fileName].type)[0] + "." + folderData.files[fileName].type;
 	delete folderData.files[fileName];
 	Meteor.call("remove", getDirectoryFromStack(projectData, false) + fileNameType, function(err, result){
 		if(err)
@@ -348,32 +337,42 @@ function deleteFile(fileName){
 }
 
 function downloadFile(itemName){
+	console.log("itemName");
+	console.log(itemName);
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
-	var folderData = getFolderData(projectData);
-	var fileType = folderData.files[itemName].fileType;
+	var file = Files.findOne({_id: itemName, parentId: Session.get('thisId')});
+	var parent = Folders.findOne({_id: Session.get('thisId')});
 
-	var directory = getDirectoryFromStack(projectData, false) + itemName + "." + fileType;
+	var directory = getDirectoryFromStack(projectData, false) + file.name.split(file.type)[0] + "." + file.type;
 
+	console.log(directory);
 	Meteor.call('exchangeSmartFiles', directory, function (error, result) {
 		if(error){
 			console.log(error);
 		}else{
+			console.log("see exchange result");
+			console.log(result);
 			window.location.href = result+"?download=true";
 		}
 	});
 }
 
+createFolder = function(name, parent){
+	var folder = {
+			name: name,
+			parentId: parent._id,
+			parentName: parent.name,
+			projectName: parent.projectName,
+			projectId: parent.projectId,
+		};
+		return folder;
+};
+
 function submitFolder(folderTitle) {
 	if(typeof folderTitle !== 'undefined'){
-		var currentProject = Folders.findOne({_id: Session.get('thisId')});
-		var projectData = Projects.findOne({_id: currentProject.projectId});
-		var folder = {
-			name: folderTitle,
-			parentId: currentProject._id,
-			parentName: currentProject.name,
-			projectName: currentProject.projectName,
-			projectId: currentProject.projectId,
-		};
+		var parentFolder = Folders.findOne({_id: Session.get('thisId')});
+		var projectData = Projects.findOne({_id: parentFolder.projectId});
+		var folder = createFolder(folderTitle, parentFolder);
 		console.log(getDirectoryFromStack(projectData, false) + folderTitle);
 			Meteor.call('createFolder', folder, function(err,res){if(err){console.log(err);}});
 			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {

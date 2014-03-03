@@ -1,14 +1,14 @@
 Template.project_files.helpers({
 	getDate : function(event){
-		var todaysDate = formatDate(this.proData.fileUpdate.updateDate);
+		var todaysDate = formatDate(this.updated);
 		return todaysDate;
 	},
 
 	getImage : function(event){
-		return checkImageType(this.proData.fileType);
+		return checkImageType(this.type);
 	},
 
 	collectFileName : function(event){
-		return this.proData.fileName.split(this.proData.fileType)[0];
+		return this.name.split(this.type)[0];
 	}
 });

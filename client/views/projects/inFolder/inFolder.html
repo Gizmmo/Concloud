@@ -1,0 +1,134 @@
+<template name="inFolder">
+	{{> breadcrumbs}}
+
+	<div class = "projectData col-xs-12">
+		<div class="row no-margins">
+			{{> errors}}
+			<div class="row">
+				<h3 class="alignLeft col-xs-6" id="projectBreadcrumbs"><span class="headerLink" id="header-base">
+					{{projectName}} /
+					
+				</span>
+				{{#each getPath}}
+				{{> breadcrumb}} /
+				{{/each}}</h3>
+
+
+				<span class="pull-right projectButtons col-xs-6">
+					<!--Folders and Files -->
+					{{#if officeManager}}
+					<span class="dropdown">
+						<i class="fa fa-upload createCircle greenCircle" id="uploadItem"  data-container="body" data-toggle="popover" data-placement="left"></i>
+						<span id="popoverContent">
+							<div id="uploadhead" class="uploadhead hide">Upload Content</div>
+							<div id="uploadcontent" class="uploadcontent hide">
+								<div class="form-group uploadData">
+
+									<div class="row center">
+										<i class="fa fa-folder-open-o"></i> Folder
+									</div>
+									<input type="file" webkitdirectory class="center col-xs-10 fileInput inFolder" value="folder" id="upload-folder" name="upload-folder"/>
+									<button class="btn btn-xs btn-primary submitFolders col-xs-2" id="submitFolder"><i class="fa fa-check"></i></button><br>
+									<hr>
+									<div class="row center">
+										<i class="fa fa-file-o"></i> File
+									</div>
+									<input type="file" class="center col-xs-10 fileInput inFile" id="upload-file" name="upload-file"/>
+									<button class="btn btn-xs btn-primary submitFolders col-xs-2" id="submitFile"><i class="fa fa-check"></i></button>
+
+								</div>
+
+							</div>
+						</span>
+					</span>
+					{{/if}}
+					<i class="fa fa-download createCircle blueCircle " id='downloadItems' title="download"></i>
+					{{#if officeManager}}
+					<span class="dropdown">
+						<i class="fa fa-folder createCircle yellowCircle" id="add-folder" data-container="body" data-toggle="popover" data-placement="left"></i>
+						<div class="head hide">Add New Folder</div>
+						<div class="content hide">
+							<div class="form-group addFolderPopover">
+								<input type="text" class="form-control textPopover col-xs-9" placeholder="Enter Folder Name..." id="folder-Name">
+								<button type="submit" id="submit-FolderName" class="btn btn-primary submitPopover col-xs-3"><i class="fa fa-check"></i></button>
+							</div>
+							
+						</div>
+						<ul class="dropdown-menu folderDropdown alignLeft" aria-labelledby="add-folder"> 
+							<li class="dataInput"></li><br>
+						</ul>
+					</span>
+					{{/if}}
+					{{#if officeManager}}
+					<i class="fa fa-minus createCircle redCircle" id="deleteItem" data-container="body" data-toggle="popover" data-placement="left"></i>
+					<span id="popoverContent">
+						<div id="deletehead" class="deletehead hide">Confirm Deletion</div>
+						<div id="deletecontent" class="deletecontent hide">
+							<div class="form-group deleteData">
+								
+								Are you sure you wish to delete this content?
+								
+								
+								<button class="btn btn-xs btn-danger deleteItems col-xs-2" id="confirmDelete"><i class="fa fa-check"></i></button>
+
+							</div>
+							
+						</div>
+					</span>
+					{{/if}}
+				</span>
+				{{> addFolderModal}}
+				{{> uploadModal}}
+			</div>
+
+			<div id="browse-sort" class="clearfix">
+				<input type="checkbox" class="selectAllCheckbox" id="selectAll">
+				<a id="name-sorter" data-sort="FILES_BY_NAME" class="sortable-column-header bolded col-xs-5" data-ascending="true" style="cursor: pointer;">
+					<span style="cursor: pointer;">
+						Name
+					</span>
+				</a>
+				<a id="kind-sorter" data-sort="FILES_BY_KIND" class="sortable-column-header noarrow col-xs-2" data-ascending="false" style="cursor: pointer;">
+					<span id="kind-sorter-label" style="cursor: pointer;">
+						Kind
+					</span>
+				</a>
+				<a id="modified-sorter" data-sort="FILES_BY_MODIFIED" class="sortable-column-header col-xs-4" data-ascending="false" style="cursor: pointer;">
+					<span style="cursor: pointer;">
+						Modified
+					</span>
+				</a>
+			</div>
+
+
+			<!-- Folders and Files -->
+
+			<ol id="browse-files" class="mouse-active" style="cursor: default;">
+				<!-- Individual Folders -->
+				
+				<div id="projectFolders">
+					{{#each projectData}}
+					{{> project_folder}}
+
+					{{/each}}
+
+				</div>
+
+
+				<!-- Project Files -->
+				<div id="projectFiles">
+					{{#each projectFiles}}
+					{{> project_files}}
+					{{/each}}
+				</div>
+
+
+			</ol>
+
+
+
+
+		</div>
+	</div>
+
+</template>

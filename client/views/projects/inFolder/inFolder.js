@@ -2,7 +2,7 @@ var sf = new SmartFile({});
 var folderStack = [];
 var isSelectAll = false;
 
-Template.projectPage.events({
+Template.inFolder.events({
 	'click #update-btn': function () {
 		Meteor.call('updateProject', this._id, function (error, result) {
 		});
@@ -28,7 +28,7 @@ Template.projectPage.events({
 		smartFileFolder(e,template);
 	},
 
-     'click .headerLink' : function(e, template) {
+	'click .headerLink' : function(e, template) {
 	//Find which folder in the breadcrumbs has been clicked
 	var folderClicked = $(e.target).attr('id');
 	folderClicked = folderClicked.split("-")[1];
@@ -75,6 +75,10 @@ Template.projectPage.events({
 	}
 },
 
+'click #header-base' : function(){
+	Router.go('/project/'+ this.projectId);
+},
+
 'click .download-file-link' : function(event) {
 	downloadFile($(event.target).html());
 },
@@ -108,7 +112,13 @@ Template.projectPage.events({
 }
 });
 
-Template.projectPage.helpers({
+Template.inFolder.helpers({
+
+	getPath: function() {
+		var stack = getPathStack(this._id);
+		
+		return stack;
+	},
 
 	onFile : function() {
 		return (Session.get("uploadType")==="file");
@@ -119,8 +129,8 @@ Template.projectPage.helpers({
 	},
 
 	projectData : function() {
-		var data = Folders.find({projectId: Session.get("currentProject"), parentId: Session.get('folderId')});
-		console.log('hello');
+		var data = Folders.find({projectId: Session.get("currentProject"), parentId: this._id});
+		Session.set('thisId', this._id);
 		return data;
 
 	},
@@ -165,12 +175,6 @@ function isIn(checkArray, userGroup){
 	return false;
 }
 
-Template.projectPage.created = function() {
-	folderStack = [];
-	Session.set("uploadType", "file");
-	
-};
-
 function makePopover(){
 	$('#add-folder').popover({
 		html: true,
@@ -182,15 +186,28 @@ function makePopover(){
 		}
 	}).on('shown.bs.popover', function(){
 		$($('.addFolderPopover')[1]).find('#submit-FolderName').on('click', function(){
-			submitFolder($(document.getElementsByClassName('textPopover')[1]).val());
-			$('#add-folder').popover('destroy');
+			console.log("in popover");
+			var temp = $(document.getElementsByClassName('textPopover')[1]).val();
 			$('.popover').each(function(){
 				$(this).remove();
 			});
+			submitFolder(temp);
+			$('#add-folder').popover('destroy');
 		}).on('hidden.bs.popover', function(){
 			makePopover();
 		});
 	});
+}
+
+function getPathStack(id){
+	var stack = [];
+		var myFolder = Folders.findOne({_id: id});
+		stack.unshift({name: myFolder.name, folderId: id});
+		while(myFolder.parentId !== "none"){
+			myFolder = Folders.findOne({_id: myFolder.parentId});
+			stack.unshift({name: myFolder.name, folderId: myFolder._id});
+		}
+		return stack;
 }
 
 function makeFilePopover(){
@@ -247,32 +264,52 @@ function confirmDelete(){
 
 function deleteItems(){
 	$('input:checkbox.projectCheckbox').each(function() {
-			var thisVal = (this.checked ? $(this).attr('id') : "");
+		var thisVal = (this.checked ? $(this).attr('id') : "");
 
-			if(thisVal != ""){
-				var itemType = thisVal.split("-")[0];
-				var itemName = thisVal.split("-")[1];
-				if(itemType == 'folder'){
-					deleteFolder(itemName);
-				}else if (itemType == "file"){
-					deleteFile(itemName);
-				}
+		if(thisVal != ""){
+			var itemType = thisVal.split("-")[0];
+			var itemName = thisVal.split("-")[1];
+			if(itemType == 'folder'){
+				deleteFolder(itemName);
+			}else if (itemType == "file"){
+				deleteFile(itemName);
 			}
-		});
+		}
+	});
 }
 
-Template.projectPage.rendered = function() {
+Template.inFolder.rendered = function() {
 	$('#uploadItem').popover('destroy');
 	Session.set('folderId', 'none');
 	makePopover();
 	makeFilePopover();
 	confirmDelete();
-
 	
 };
 
-Template.projectPage.destroyed = function() {
-};
+getDirectoryFromStack = function(projectData, fillSpaces){
+
+	if(typeof projectData === 'undefined'){
+		projectData = Projects.findOne({_id: Session.get("currentProject")});
+	}
+
+	var folderStack = getPathStack(Session.get('thisId'));
+	console.log(folderStack);
+	var directory = projectData.title + "/";
+	for (var i = 0; i < folderStack.length; i++) {
+		var hold = "";
+		if(fillSpaces){
+			hold = folderStack[i].name.replace(/\s/g, "%20");
+		}else{
+			hold = folderStack[i].name;
+		}
+
+		directory += hold + "/";
+
+	}
+
+	return directory;
+}
 
 topOfFolderStack = function(){
 	return folderStack(folderStack.length).folderName;
@@ -327,9 +364,9 @@ function downloadFile(itemName){
 }
 
 function submitFolder(folderTitle) {
-	if(folderTitle != 'undefined'){
-
-		var currentProject = Folders.findOne({projectId: Session.get('currentProject'), _id: Session.get('folderId')});
+	if(typeof folderTitle !== 'undefined'){
+		var currentProject = Folders.findOne({_id: Session.get('thisId')});
+		var projectData = Projects.findOne({_id: currentProject.projectId});
 		var folder = {
 			name: folderTitle,
 			parentId: currentProject._id,
@@ -337,14 +374,13 @@ function submitFolder(folderTitle) {
 			projectName: currentProject.projectName,
 			projectId: currentProject.projectId,
 		};
-		Meteor.call('createFolder', folder, function(err,res){if(err){console.log(err);}});
-		// 	Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
-		// 		if(error){
-		// 			console.log(error);
-		// 		} else {
-		// 			clearBackground(event, "addFolder");
-		// 		}
-		// 	});
+		console.log(getDirectoryFromStack(projectData, false) + folderTitle);
+			Meteor.call('createFolder', folder, function(err,res){if(err){console.log(err);}});
+			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
+				if(error){
+					console.log(error);
+				}
+			});
 		// 	Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
 		// }else{
 		// 	throwError("This folder already existed, please create a new folder name.");

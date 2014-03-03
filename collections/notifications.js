@@ -27,7 +27,7 @@ Meteor.methods({
 
   createUploadNotification: function(project) {
     var user = Meteor.user();
-    notification = {
+    var notification = {
       userID: user._id,
       projectID: project._id,
       title: project.title,

@@ -89,7 +89,6 @@ Meteor.methods({
 	 * @param  {[String]} projectName Project Name, used for creation in smart file
 	 */
 	 createNewProjectDirectories : function(projectName, folders) {
-	 	console.log(folders);
 	 	sf.mkdir(projectName);
 	 	folders.forEach(function (folder) {
 	 		sf.mkdir(projectName + "/" + folder.name);

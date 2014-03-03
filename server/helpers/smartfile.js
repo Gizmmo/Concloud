@@ -55,9 +55,7 @@ Meteor.methods({
 			var size = 0;
 			for (var i = 0; i < children.length; i++) {
 				size += children[i].size;
-			};
-
-			
+			}
 			return (size/1000/1000/1000).toFixed(2);
 
 		}catch(e){

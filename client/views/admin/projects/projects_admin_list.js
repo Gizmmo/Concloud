@@ -152,44 +152,45 @@ Template.projectsAdminList.events({
 	},
 
 	'click #CompleteRow' : function() {
-		Session.set("addingProject", true);
 		var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
 
 		var dataRows = completedRow.find("td");
 
-		if(validateRow(dataRows))
-		var foldersData = DefaultFolders.find({}, {sort: {"name": 1}}).fetch();
-		var folderUpdate = createFolderUpdate();
-		var folderCreation = createFolderCreation();
-		var project = {
-			title: $(dataRows[1]).find('input').val(),
-			password: $(dataRows[2]).find('input').val(),
-			folders:{}
-		};
+		if(validateRow(dataRows)){
+			Session.set("addingProject", true);
+			var foldersData = DefaultFolders.find({}, {sort: {"name": 1}}).fetch();
+			var folderUpdate = createFolderUpdate();
+			var folderCreation = createFolderCreation();
+			var project = {
+				title: $(dataRows[1]).find('input').val(),
+				password: $(dataRows[2]).find('input').val(),
+				folders:{}
+			};
 
-		foldersData.forEach(function (folder) {
-			project.folders[folder.name] = createFolder(folder.name, folderCreation, folderUpdate);
-		});
-		$(completedRow).remove();
+			foldersData.forEach(function (folder) {
+				project.folders[folder.name] = createFolder(folder.name, folderCreation, folderUpdate);
+			});
+			$(completedRow).remove();
 
-		Meteor.call('createNewProjectDirectories', project.title, foldersData, function (error, result) {
+			Meteor.call('createNewProjectDirectories', project.title, foldersData, function (error, result) {
+				
+
+				// the newly created Project's path after creating
+				Meteor.call('project', project, function (error, id) {
+					if (error) {
+						console.log(error);
+					}
+
+					Session.set("addingProject", false);
+
+
+				});
+			});
+
 			
 
-			// the newly created Project's path after creating
-			Meteor.call('project', project, function (error, id) {
-				if (error) {
-					console.log(error);
-				}
-
-				Session.set("addingProject", false);
-
-
-			});
-		});
-
-		
-
-		Session.set("NewRow", false);
+			Session.set("NewRow", false);
+		}
 
 	},
 
@@ -342,13 +343,13 @@ function validateRow(dataRows){
 		if(i>0){
 			var dataRow = $(dataRows[i]);
 			dataRow.find('.valCheck').remove();
-			if(dataRow.hasClass('String') || dataRow.hasClass('Password')){
+			if(dataRow.hasClass('String')){
 				var dataVal = $(dataRow).find('input').val();
 				if($(dataRow).find('input').val().length < 1){
 					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
 					returnValue = false;
 				} else if (dataRow.hasClass('Unique')){
-					if(HRData.findOne({fieldName: dataVal}) && dataVal !== originalName){
+					if(Projects.findOne({title: dataVal}) && dataVal !== originalName){
 						dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Please use a Unique Name"></i>');
 						returnValue = false;
 					}

@@ -3,7 +3,7 @@ Files = new Meteor.Collection('files');
 Meteor.methods({
 
   createFile: function(file){
-  	var newFile = _.extend(_.pick(projectAttributes, 'name', 'parentId', 'parentName', 'projectId', 'projectName'), {
+  	var newFile = _.extend(_.pick(file, 'name', 'parentId', 'parentName', 'projectId', 'projectName'), {
     	updated: new Date().getTime()
     });
 

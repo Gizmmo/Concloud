@@ -8,7 +8,7 @@ Meteor.methods({
   		permission = folder.permissions;
   	}
 
-  	var newFolder = _.extend(_.pick(projectAttributes, 'name', 'parentId', 'parentName', 'projectId', 'projectName'), {
+  	var newFolder = _.extend(_.pick(folder, 'name', 'parentId', 'parentName', 'projectId', 'projectName'), {
     	updated: new Date().getTime(),
     	permissions: permission
     });

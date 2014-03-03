@@ -159,20 +159,15 @@ Template.projectsAdminList.events({
 		if(validateRow(dataRows)){
 			Session.set("addingProject", true);
 			var foldersData = DefaultFolders.find({}, {sort: {"name": 1}}).fetch();
-			var folderUpdate = createFolderUpdate();
-			var folderCreation = createFolderCreation();
+
 			var project = {
 				title: $(dataRows[1]).find('input').val(),
 				password: $(dataRows[2]).find('input').val(),
-				folders:{}
 			};
 
-			foldersData.forEach(function (folder) {
-				project.folders[folder.name] = createFolder(folder.name, folderCreation, folderUpdate);
-			});
 			$(completedRow).remove();
 
-			Meteor.call('createNewProjectDirectories', project.title, foldersData, function (error, result) {
+			 Meteor.call('createNewProjectDirectories', project.title, foldersData, function (error, result) {
 				
 
 				// the newly created Project's path after creating
@@ -180,6 +175,16 @@ Template.projectsAdminList.events({
 					if (error) {
 						console.log(error);
 					}
+					foldersData.forEach(function (folder) {
+						var adapterFolder = {
+							name : folder.name,
+							parentId: 'none',
+							parentName: 'none',
+							projectId: id,
+							projectName: project.title
+						};
+						Meteor.call("createFolder", adapterFolder, function(){})
+					});
 
 					Session.set("addingProject", false);
 

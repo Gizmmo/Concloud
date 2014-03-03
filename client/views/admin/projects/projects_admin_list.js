@@ -68,40 +68,40 @@ Template.projectsAdminList.events({
 		var confirmbutton = $("#confirmbutton-" + split[1]);
 		var project = Projects.findOne({_id: split[1]});
 
-		confirmbutton.attr("disabled",true);
-		button.attr("disabled", false);
-
 		var row = $('#row-' + split[1]);
 		var dataRows = row.find("td");
 
-		for (var i = 0; i < dataRows.length; i++) {
-			if(i>0){
-				var dataRow = $(dataRows[i]);
-				if(dataRow.hasClass('String')){
-					dataRow.html(dataRow.find("input").val());
-				}else if(dataRow.hasClass('Password')){
-					var data = dataRow.find("input").val();
-					var returnString = "";
-					for(var t = 0; t < data.length; t++){
-						returnString += '*';
-					}
-					dataRow.html(returnString);
-				}else if(dataRow.hasClass("Boolean")){
-					if(dataRow.find("input").is(":checked")){
-						dataRow.html("<i class=\"fa fa-check\"></i>");
-					}else{
-						dataRow.html("<i class=\"fa fa-ban\"></i>");
+		if(validateRow(dataRows)){
+			confirmbutton.attr("disabled",true);
+			button.attr("disabled", false);
+			for (var i = 0; i < dataRows.length; i++) {
+				if(i>0){
+					var dataRow = $(dataRows[i]);
+					if(dataRow.hasClass('String')){
+						dataRow.html(dataRow.find("input").val());
+					}else if(dataRow.hasClass('Password')){
+						var data = dataRow.find("input").val();
+						var returnString = "";
+						for(var t = 0; t < data.length; t++){
+							returnString += '*';
+						}
+						dataRow.html(returnString);
+					}else if(dataRow.hasClass("Boolean")){
+						if(dataRow.find("input").is(":checked")){
+							dataRow.html("<i class=\"fa fa-check\"></i>");
+						}else{
+							dataRow.html("<i class=\"fa fa-ban\"></i>");
+						}
 					}
 				}
 			}
+
+			//UPDATES PROJECT!!
+			project.title = $(dataRows[1]).html();
+			project.password = $(dataRows[2]).html();
+
+			Meteor.call('updateProjectVitals', project, function (error, result) {});
 		}
-
-		//UPDATES PROJECT!!
-		project.title = $(dataRows[1]).html();
-		project.password = $(dataRows[2]).html();
-		console.log(project);
-
-		Meteor.call('updateProjectVitals', project, function (error, result) {});
 	},
 
 	'click #addRow' : function(){
@@ -157,6 +157,7 @@ Template.projectsAdminList.events({
 
 		var dataRows = completedRow.find("td");
 
+		if(validateRow(dataRows))
 		var foldersData = Folders.find({}, {sort: {"name": 1}}).fetch();
 		var folderUpdate = createFolderUpdate();
 		var folderCreation = createFolderCreation();
@@ -333,4 +334,28 @@ function updateView(searchValue){
 
 		});
 	}
+}
+
+function validateRow(dataRows){
+	var returnValue = true;
+	for (var i = 0; i < dataRows.length; i++) {
+		if(i>0){
+			var dataRow = $(dataRows[i]);
+			dataRow.find('.valCheck').remove();
+			if(dataRow.hasClass('String') || dataRow.hasClass('Password')){
+				if($(dataRow).find('input').val().length < 1){
+					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
+					returnValue = false;
+				} else if (dataRow.hasClass('Unique')){
+					if(HRData.findOne({fieldName: dataVal}) && dataVal !== originalName){
+						dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Please use a Unique Name"></i>');
+						returnValue = false;
+					}
+				} else {
+					$(dataRow).append('<i class="valCheck fa fa-check fa-2x greenCheck"></i>');
+				}
+			}
+		}
+	}
+	return returnValue;
 }

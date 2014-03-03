@@ -60,40 +60,41 @@ Template.userList.events({
 		var confirmbutton = $("#confirmbutton-" + split[1]);
 		var user = Meteor.users.findOne({_id: split[1]});
 
-		confirmbutton.attr("disabled",true);
-		button.attr("disabled", false);
-
 		var row = $('#row-' + split[1]);
 		var dataRows = row.find("td");
 
-		for (var i = 0; i < dataRows.length; i++) {
-			if(i>0){
-				var dataRow = $(dataRows[i]);
-				if(dataRow.hasClass('String')){
-					dataRow.html(dataRow.find("input").val());
-				}else if(dataRow.hasClass('Password')){
-					var data = dataRow.find("input").val();
-					var returnString = "";
-					for(var t = 0; t < data.length; t++){
-						returnString += '*';
-					}
-					dataRow.html(returnString);
-				} else if (dataRow.hasClass("Selection")){
-					dataRow.html(dataRow.find("select").val());
-				}else if(dataRow.hasClass("Boolean")){
-					if(dataRow.find("input").is(":checked")){
-						dataRow.html("<i class=\"fa fa-check\"></i>");
-					}else{
-						dataRow.html("<i class=\"fa fa-ban\"></i>");
+		if(validateRow(dataRows)){
+			confirmbutton.attr("disabled",true);
+			button.attr("disabled", false);
+			for (var i = 0; i < dataRows.length; i++) {
+				if(i>0){
+					var dataRow = $(dataRows[i]);
+					if(dataRow.hasClass('String')){
+						dataRow.html(dataRow.find("input").val());
+					}else if(dataRow.hasClass('Password')){
+						var data = dataRow.find("input").val();
+						var returnString = "";
+						for(var t = 0; t < data.length; t++){
+							returnString += '*';
+						}
+						dataRow.html(returnString);
+					} else if (dataRow.hasClass("Selection")){
+						dataRow.html(dataRow.find("select").val());
+					}else if(dataRow.hasClass("Boolean")){
+						if(dataRow.find("input").is(":checked")){
+							dataRow.html("<i class=\"fa fa-check\"></i>");
+						}else{
+							dataRow.html("<i class=\"fa fa-ban\"></i>");
+						}
 					}
 				}
 			}
-		}
 
-		var firstName = $(dataRows[2]).html();
-		var lastName = $(dataRows[1]).html();
-		var userGroup = $(dataRows[3]).html();
-		Meteor.users.update({_id: split[1]}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
+			var firstName = $(dataRows[2]).html();
+			var lastName = $(dataRows[1]).html();
+			var userGroup = $(dataRows[3]).html();
+			Meteor.users.update({_id: split[1]}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
+		}
 	},
 
 	'click #addRow' : function(){
@@ -152,7 +153,7 @@ Template.userList.events({
 		//INSERT DATA HERE
 
 		var dataRows = completedRow.find("td");
-		if(validateNewRow()){
+		if(validateRow(dataRows)){
 	        var time = new Date().getTime();
 	        var options = {
 	            email : $(dataRows[4]).find('input').val(),
@@ -326,9 +327,7 @@ function removeUser(id){
 	});
 }
 
-function validateNewRow(){
-	var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
-	var dataRows = completedRow.find("td");
+function validateRow(dataRows){
 	var returnValue = true;
 	for (var i = 0; i < dataRows.length; i++) {
 		if(i>0){

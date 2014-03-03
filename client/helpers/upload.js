@@ -2,9 +2,8 @@ var sf = new SmartFile({});
 
 smartFileFolder = function(template, timeStamp){
   var files = template;
+  var folder = Folders.findOne({_id: Session.get('thisId')});
   var projectData = Projects.findOne({_id: Session.get("currentProject")});
-  var folderData = getFolderData(projectData);
-  console.log(timeStamp);
   counter = 0;
   Session.set("uploadAmount" + timeStamp, files.length);
   Session.set("uploadedAmount"+timeStamp, 0);
@@ -32,29 +31,31 @@ smartFileFolder = function(template, timeStamp){
           Session.set("uploadedAmount"+timeStamp, amount);
         }
 
+
+
         var createPath = getDirectoryFromStack(projectData, false);
         var filePath = getDirectoryFromStack(projectData, true);
-
+        var folderName = "";
         if(pathStack.length > 0){
 
-          for (var j = 0; j < pathStack.length; j++) {
-            if(j > 0){
+          for (var k = 0; k < pathStack.length; k++) {
+            if(k > 0){
               createPath += "/";
               filePath += "/";
             }
-            filePath += pathStack[j].replace(/\s/g, "%20");
-            createPath += pathStack[j];
+            filePath += pathStack[k].replace(/\s/g, "%20");
+            createPath += pathStack[k];
           }
           filePath += "/";
           createFoldersOnSmartfile(createPath);
-          var currentFolder = createFoldersOnServer(pathStack, projectData, folderData);
+          var currentFolder = createFoldersOnServer(pathStack, projectData, folder);
           uploadFile(files[i], projectData, filePath, timeStamp);
-          addToDatabase(files[i], currentFolder);
-          removeEmptyString(currentFolder);
+          addToDatabase(files[i], folder);
+          // removeEmptyString(currentFolder);
 
         }else{
 
-          upload(files[i],projectData, folderData, timeStamp);
+          upload(files[i],projectData, folder, timeStamp);
         }
       }
       // Meteor.setTimeout(function(){
@@ -66,22 +67,19 @@ smartFileFolder = function(template, timeStamp){
 
 smartFileFile = function(template, timeStamp){
  var projectData = Projects.findOne({_id: Session.get("currentProject")});
- var folderData = getFolderData(projectData);
+ var folder = Folders.findOne({_id: Session.get('thisId')});
  var file = template[0];
- if(getFolderStack().length > 0){
+
   Session.set("uploadedAmount"+timeStamp, 0);
   Session.set("uploadAmount"+timeStamp, 1);
-  upload(file,projectData, folderData, timeStamp);
-}else{
- alert("You can only upload a file within a folder.");
-}
+  upload(file,projectData, folder, timeStamp);  
 
 };
 
-function upload(file, projectData, folderData, timeStamp){
+function upload(file, projectData, folder, timeStamp){
   uploadFile(file,projectData, getDirectoryFromStack(projectData, true), timeStamp);
-  addToDatabase(file, folderData);
-  removeEmptyString(folderData);
+  addToDatabase(file, folder);
+  // removeEmptyString(folderData);
 }
 
 function uploadFile(file,projectData,path, timeStamp){
@@ -121,7 +119,7 @@ function removeEmptyString(folderData){
   delete folderData.files[""];
 }
 
-function addToDatabase(file, folderData){
+function addToDatabase(file, folder){
 
     //Find the document type by splitting on the .
     var nameSplit = file.name.split(".");
@@ -136,8 +134,20 @@ function addToDatabase(file, folderData){
       type = "none";
     }
 
-    //Create File
-    folderData.files[fileName] = createFile(fileName, type);
+    var createdFile = {
+      name: fileName,
+      type: type,
+      parentId : folder._id,
+      parentName: folder.name,
+      projectId: folder.projectId,
+      projectName: folder.projectName
+    };
+
+    Meteor.call('createFile', createdFile, function(err,res){
+      if(err){
+        console.log(err);
+      }
+    });
   }
 
   function createFoldersOnSmartfile(createPath){
@@ -147,21 +157,26 @@ function addToDatabase(file, folderData){
     });
   }
 
-  function createFoldersOnServer(folderStack, projectData, folderData){
+  function createFoldersOnServer(folderStack, projectData, folder){
 
     if(folderStack.length === 0){
       return;
     }
-
-    var currentFolders = folderData;
+    var parent = {_id: 'none', name: 'none', projectName: projectData.name, projectId: projectData._id};
     for (var i = 0; i < folderStack.length; i++) {
-      if(!(folderStack[i] in currentFolders.folders)){
-       currentFolders.folders[folderStack[i]] = createFolder(folderStack[i], folderStack[i]);
-     }
+      var myFolder = folderStack[i];
+      var checkFolder = Folders.findOne({name: myFolder, projectId: projectData._id, parentId: parent._id});
+      if (typeof checkFolder !== 'undefined'){
+        Meteor.call(createFolder, createFolder(myFolder.name, parent), function(err, res){
+          if(err){
+            console.log(err);
+          }
+        });
+      }
 
-     currentFolders = currentFolders.folders[folderStack[i]];
-   }
+      parent = Folders.findOne({_name: myFolder, projectId: projectData._id, parentId: parent._id});
+    }
 
-   return currentFolders;
- }
+  return currentFolders;
+}
 

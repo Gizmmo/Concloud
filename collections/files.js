@@ -3,9 +3,9 @@ Files = new Meteor.Collection('files');
 Meteor.methods({
 
   createFile: function(file){
-  	var newFile = _.extend(_.pick(file, 'name', 'parentId', 'parentName', 'projectId', 'projectName'), {
-    	updated: new Date().getTime()
-    });
+  	var newFile = _.extend(_.pick(file, 'name', 'type', 'parentId', 'parentName', 'projectId', 'projectName'), {
+     updated: new Date().getTime()
+   });
 
     Files.insert(newFile);
   },

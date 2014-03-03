@@ -2,7 +2,7 @@ var sf = new SmartFile({});
 var folderStack = [];
 var isSelectAll = false;
 
-Template.projectPage.events({
+Template.inFolder.events({
 	'click #update-btn': function () {
 		Meteor.call('updateProject', this._id, function (error, result) {
 		});
@@ -28,7 +28,7 @@ Template.projectPage.events({
 		smartFileFolder(e,template);
 	},
 
-     'click .headerLink' : function(e, template) {
+	'click .headerLink' : function(e, template) {
 	//Find which folder in the breadcrumbs has been clicked
 	var folderClicked = $(e.target).attr('id');
 	folderClicked = folderClicked.split("-")[1];
@@ -75,8 +75,12 @@ Template.projectPage.events({
 	}
 },
 
+'click #header-base' : function(){
+	Router.go('/project/'+ this.projectId);
+},
+
 'click .download-file-link' : function(event) {
-	downloadFile($(event.target).html());
+	downloadFile($(event.target).attr('id'));
 },
 
 'click #downloadItems' : function() {
@@ -108,7 +112,13 @@ Template.projectPage.events({
 }
 });
 
-Template.projectPage.helpers({
+Template.inFolder.helpers({
+
+	getPath: function() {
+		var stack = getPathStack(this._id);
+		
+		return stack;
+	},
 
 	onFile : function() {
 		return (Session.get("uploadType")==="file");
@@ -119,14 +129,16 @@ Template.projectPage.helpers({
 	},
 
 	projectData : function() {
-		var data = Folders.find({projectId: Session.get("currentProject"), parentId: Session.get('folderId')});
-		console.log('hello');
+		var data = Folders.find({projectId: Session.get("currentProject"), parentId: this._id});
+		Session.set('thisId', this._id);
 		return data;
 
 	},
 
 	projectFiles : function() {
-		return Files.find({projectId: Session.get("currentProject"), parentId: "none"});;
+		console.log("Get Project Files");
+		console.log(Files.find({projectId: Session.get("currentProject"), parentId: this._id}));
+		return Files.find({projectId: Session.get("currentProject"), parentId: this._id});
 	},
 	officeManager: function () {
 		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
@@ -165,12 +177,6 @@ function isIn(checkArray, userGroup){
 	return false;
 }
 
-Template.projectPage.created = function() {
-	folderStack = [];
-	Session.set("uploadType", "file");
-	
-};
-
 function makePopover(){
 	$('#add-folder').popover({
 		html: true,
@@ -182,15 +188,28 @@ function makePopover(){
 		}
 	}).on('shown.bs.popover', function(){
 		$($('.addFolderPopover')[1]).find('#submit-FolderName').on('click', function(){
-			submitFolder($(document.getElementsByClassName('textPopover')[1]).val());
-			$('#add-folder').popover('destroy');
+			console.log("in popover");
+			var temp = $(document.getElementsByClassName('textPopover')[1]).val();
 			$('.popover').each(function(){
 				$(this).remove();
 			});
+			submitFolder(temp);
+			$('#add-folder').popover('destroy');
 		}).on('hidden.bs.popover', function(){
 			makePopover();
 		});
 	});
+}
+
+function getPathStack(id){
+	var stack = [];
+		var myFolder = Folders.findOne({_id: id});
+		stack.unshift({name: myFolder.name, folderId: id});
+		while(myFolder.parentId !== "none"){
+			myFolder = Folders.findOne({_id: myFolder.parentId});
+			stack.unshift({name: myFolder.name, folderId: myFolder._id});
+		}
+		return stack;
 }
 
 function makeFilePopover(){
@@ -247,44 +266,51 @@ function confirmDelete(){
 
 function deleteItems(){
 	$('input:checkbox.projectCheckbox').each(function() {
-			var thisVal = (this.checked ? $(this).attr('id') : "");
+		var thisVal = (this.checked ? $(this).attr('id') : "");
 
-			if(thisVal != ""){
-				var itemType = thisVal.split("-")[0];
-				var itemName = thisVal.split("-")[1];
-				if(itemType == 'folder'){
-					deleteFolder(itemName);
-				}else if (itemType == "file"){
-					deleteFile(itemName);
-				}
+		if(thisVal != ""){
+			var itemType = thisVal.split("-")[0];
+			var itemName = thisVal.split("-")[1];
+			if(itemType == 'folder'){
+				deleteFolder(itemName);
+			}else if (itemType == "file"){
+				deleteFile(itemName);
 			}
-		});
+		}
+	});
 }
 
-Template.projectPage.rendered = function() {
+Template.inFolder.rendered = function() {
 	$('#uploadItem').popover('destroy');
 	Session.set('folderId', 'none');
 	makePopover();
 	makeFilePopover();
 	confirmDelete();
-
 	
 };
 
-Template.projectPage.destroyed = function() {
-};
+getDirectoryFromStack = function(projectData, fillSpaces){
 
-topOfFolderStack = function(){
-	return folderStack(folderStack.length).folderName;
-};
+	if(typeof projectData === 'undefined'){
+		projectData = Projects.findOne({_id: Session.get("currentProject")});
+	}
 
-removeFromFolderStack = function(){
-	folderStack.pop();
-};
+	var folderStack = getPathStack(Session.get('thisId'));
+	var directory = projectData.title + "/";
+	for (var i = 0; i < folderStack.length; i++) {
+		var hold = "";
+		if(fillSpaces){
+			hold = folderStack[i].name.replace(/\s/g, "%20");
+		}else{
+			hold = folderStack[i].name;
+		}
 
-getFolderStack = function() {
-	return folderStack;
-};
+		directory += hold + "/";
+
+	}
+
+	return directory;
+}
 
 function deleteFolder(folderName){
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
@@ -301,7 +327,7 @@ function deleteFolder(folderName){
 function deleteFile(fileName){
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
 	var folderData = getFolderData(projectData);
-	var fileNameType = fileName.split(folderData.files[fileName].fileType)[0] + "." + folderData.files[fileName].fileType;
+	var fileNameType = fileName.split(folderData.files[fileName].type)[0] + "." + folderData.files[fileName].type;
 	delete folderData.files[fileName];
 	Meteor.call("remove", getDirectoryFromStack(projectData, false) + fileNameType, function(err, result){
 		if(err)
@@ -311,40 +337,49 @@ function deleteFile(fileName){
 }
 
 function downloadFile(itemName){
+	console.log("itemName");
+	console.log(itemName);
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
-	var folderData = getFolderData(projectData);
-	var fileType = folderData.files[itemName].fileType;
+	var file = Files.findOne({_id: itemName, parentId: Session.get('thisId')});
+	var parent = Folders.findOne({_id: Session.get('thisId')});
 
-	var directory = getDirectoryFromStack(projectData, false) + itemName + "." + fileType;
+	var directory = getDirectoryFromStack(projectData, false) + file.name.split(file.type)[0] + "." + file.type;
 
+	console.log(directory);
 	Meteor.call('exchangeSmartFiles', directory, function (error, result) {
 		if(error){
 			console.log(error);
 		}else{
+			console.log("see exchange result");
+			console.log(result);
 			window.location.href = result+"?download=true";
 		}
 	});
 }
 
-function submitFolder(folderTitle) {
-	if(folderTitle != 'undefined'){
-
-		var currentProject = Folders.findOne({projectId: Session.get('currentProject'), _id: Session.get('folderId')});
-		var folder = {
-			name: folderTitle,
-			parentId: currentProject._id,
-			parentName: currentProject.name,
-			projectName: currentProject.projectName,
-			projectId: currentProject.projectId,
+createFolder = function(name, parent){
+	var folder = {
+			name: name,
+			parentId: parent._id,
+			parentName: parent.name,
+			projectName: parent.projectName,
+			projectId: parent.projectId,
 		};
-		Meteor.call('createFolder', folder, function(err,res){if(err){console.log(err);}});
-		// 	Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
-		// 		if(error){
-		// 			console.log(error);
-		// 		} else {
-		// 			clearBackground(event, "addFolder");
-		// 		}
-		// 	});
+		return folder;
+};
+
+function submitFolder(folderTitle) {
+	if(typeof folderTitle !== 'undefined'){
+		var parentFolder = Folders.findOne({_id: Session.get('thisId')});
+		var projectData = Projects.findOne({_id: parentFolder.projectId});
+		var folder = createFolder(folderTitle, parentFolder);
+		console.log(getDirectoryFromStack(projectData, false) + folderTitle);
+			Meteor.call('createFolder', folder, function(err,res){if(err){console.log(err);}});
+			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
+				if(error){
+					console.log(error);
+				}
+			});
 		// 	Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
 		// }else{
 		// 	throwError("This folder already existed, please create a new folder name.");

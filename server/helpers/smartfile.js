@@ -70,13 +70,9 @@ Meteor.methods({
 				data: {
 					path: pathName
 				},
-				download:true
-				// headers: {
-				// 	"Content-Disposition": "attachment"
-				// }
 			});
-			// var url = httpResponse;
-			// return url;
+			var url = httpResponse.data.url;
+			return url;
 
 		}catch(e){
 			console.log(e.message);

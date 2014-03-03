@@ -28,6 +28,14 @@ Meteor.publish('folders', function() {
 	return Folders.find();
 });
 
+Meteor.publish('files', function() {
+	return Files.find();
+});
+
+Meteor.publish('defaultFolders', function() {
+	return DefaultFolders.find();
+});
+
 Meteor.publish('projects', function(userGroup) {
 	if(userGroup === "Admin" || userGroup === "Office Manager"){
 		return Projects.find();

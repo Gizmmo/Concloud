@@ -51,5 +51,5 @@ if (Meteor.users.find().count() === 0) {
     function createFolder(name, permissions) {
         folder["name"]=name;
         folder["permissions"] = permissions;
-        Folders.insert(folder);
+        DefaultFolders.insert(folder);
     }

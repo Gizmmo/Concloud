@@ -132,21 +132,22 @@ Template.projectPage.helpers({
 		return false;
 	},
 	allowedView: function () {
-		if(isAccepted(this.proData.folderName)){
-			return true;
-		}
-		return false;
+		// if(isAccepted(this.proData.folderName)){
+		// 	return true;
+		// }
+		// return false;
+		return true;
 	}
 });
 
-function isAccepted(folderName){
-	var user = Meteor.user();
-	var folderData = Folders.findOne({name: folderName});
-	if(isIn(folderData.permissions, user.profile.userGroup)){
-		return true;
-	}
-	return false;
-}
+// function isAccepted(folderName){
+// 	var user = Meteor.user();
+// 	var folderData = Folders.findOne({name: folderName});
+// 	if(isIn(folderData.permissions, user.profile.userGroup)){
+// 		return true;
+// 	}
+// 	return false;
+// }
 
 function isIn(checkArray, userGroup){
 	for(var perm in checkArray){

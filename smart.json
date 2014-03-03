@@ -9,6 +9,7 @@
     "smartfile": {},
     "jquery-ui": {},
     "jquery-ui-bootstrap": {},
-    "moment": {}
+    "moment": {},
+    "jquery-validation": {}
   }
 }

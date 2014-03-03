@@ -1,4 +1,4 @@
-	Template.userItem.helpers({
+Template.userItem.helpers({
 	convertedTime: function () {
 		if(this.profile.recent){
 			if(this.profile.recent.lastLogin){

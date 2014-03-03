@@ -12,3 +12,19 @@ Template.notification.events({
 Template.notification.rendered = function () {
 	$("[rel='tooltip']").tooltip();
 };
+
+Template.notification.helpers({
+	projectType: function () {
+		if(this.type === "Project"){
+			return true;
+		}
+		return false;
+	},
+
+	uploadType: function () {
+		if(this.type === "Upload"){
+			return true;
+		}
+		return false;
+	}
+});

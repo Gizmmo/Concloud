@@ -18,6 +18,13 @@
 .button-headers{
 	margin-bottom:20px!important;
 }
+.redX {
+	color: red;
+}
+
+.greenCheck {
+	color: green;
+}
 
 .concord-button {
 	background-color: rgb(119,79,80);

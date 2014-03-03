@@ -75,8 +75,8 @@ Meteor.methods({
 		Projects.update(id, {$set : {recentUpdate: update}});
 		project = Projects.findOne(id);
 		Meteor.call("createProjectNotification", project);
-	},
-
+	}
+,
 	updateProjectVitals: function(project){
 		Projects.update({_id: project._id}, project);
 

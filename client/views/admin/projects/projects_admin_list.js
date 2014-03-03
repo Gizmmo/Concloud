@@ -157,7 +157,7 @@ Template.projectsAdminList.events({
 
 		var dataRows = completedRow.find("td");
 
-		var foldersData = Folders.find({}, {sort: {"name": 1}}).fetch();
+		var foldersData = DefaultFolders.find({}, {sort: {"name": 1}}).fetch();
 		var folderUpdate = createFolderUpdate();
 		var folderCreation = createFolderCreation();
 		var project = {

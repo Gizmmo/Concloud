@@ -181,7 +181,8 @@ Template.projectsAdminList.events({
 							parentId: 'none',
 							parentName: 'none',
 							projectId: id,
-							projectName: project.title
+							projectName: project.title,
+							permissions: folder.permissions
 						};
 						Meteor.call("createFolder", adapterFolder, function(){})
 					});

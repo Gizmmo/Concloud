@@ -37,9 +37,11 @@
 				<!-- Individual Folders -->
 				
 				<div id="projectFolders">
+				
 					{{#each projectData}}
-					{{> project_folder}}
-
+						{{#if allowedView}}
+							{{> project_folder}}
+						{{/if}}
 					{{/each}}
 
 				</div>

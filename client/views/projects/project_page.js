@@ -135,11 +135,10 @@ Template.projectPage.helpers({
 		return false;
 	},
 	allowedView: function () {
-		// if(isAccepted(this.proData.folderName)){
-		// 	return true;
-		// }
-		// return false;
-		return true;
+		if(isAccepted(this._id)){
+			return true;
+		}
+		return false;
 	},
 
 	inFolder: function(){
@@ -147,14 +146,21 @@ Template.projectPage.helpers({
 	}
 });
 
-// function isAccepted(folderName){
-// 	var user = Meteor.user();
-// 	var folderData = Folders.findOne({name: folderName});
-// 	if(isIn(folderData.permissions, user.profile.userGroup)){
-// 		return true;
-// 	}
-// 	return false;
-// }
+function isAccepted(id){
+	var user = Meteor.user();
+	var folderData = Folders.findOne({_id: id});
+	console.log(folderData)
+	if(folderData.permissions.length > 0){
+		if(isIn(folderData.permissions, user.profile.userGroup)){
+			console.log(true);
+			return true;
+		}
+		console.log('false');
+		return false;
+	}
+	console.log('outside true');
+	return true;
+}
 
 function isIn(checkArray, userGroup){
 	for(var perm in checkArray){

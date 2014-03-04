@@ -22,6 +22,10 @@ Meteor.methods({
 			throw new Meteor.Error(422, 'Error 422: Project must have a title');
 		}
 
+		if(Projects.findOne({"title" : projectAttributes.title})) {
+			throw new Meteor.Error(423, 'Must have a unique name');
+		}
+
 		//filling in other keys
 		var proj = _.extend(_.pick(projectAttributes, 'title', 'password', 'folders', 'files'), {
 			authorID: user._id,

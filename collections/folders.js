@@ -16,6 +16,22 @@ Meteor.methods({
     Folders.insert(newFolder);
   },
 
+  createFolderWithId : function(folder, id){
+    var permission = [];
+    if(folder.permissions){
+      permission = folder.permissions;
+    }
+
+    var newFolder = _.extend(_.pick(folder, 'name', 'parentId', 'parentName', 'projectId', 'projectName'), {
+      updated: new Date().getTime(),
+      _id: id,
+      permissions: permission
+    });
+
+    var myId = Folders.insert(newFolder);
+    console.log("Inserted Id: " + myId);
+  },
+
   removeFolder: function(folder){
 	//ENTER SMARTFILE LOGIC HERE
   	//

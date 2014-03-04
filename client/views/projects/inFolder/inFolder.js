@@ -158,13 +158,16 @@ function makePopover(){
 		}
 	}).on('shown.bs.popover', function(){
 		$($('.addFolderPopover')[1]).find('#submit-FolderName').on('click', function(){
-			console.log("in popover");
+			if($(document.getElementsByClassName('textPopover')[1]).val().length !== 0){
 			var temp = $(document.getElementsByClassName('textPopover')[1]).val();
 			$('.popover').each(function(){
 				$(this).remove();
 			});
 			submitFolder(temp);
 			$('#add-folder').popover('destroy');
+		}else{
+			makePopover();
+		}
 		}).on('hidden.bs.popover', function(){
 			makePopover();
 		});

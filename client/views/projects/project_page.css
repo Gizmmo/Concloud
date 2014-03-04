@@ -15,6 +15,10 @@
 	text-align:left;
 }
 
+.download-fileimage-link{
+	cursor:default!important;
+}
+
 .center{
 	text-align: center;
 }

@@ -25,27 +25,46 @@ Meteor.methods({
           submitted: new Date().getTime(),
           type: "Project"
         });
+        Meteor.call('cleanUserNotifications', sub.userID, function (error, result) {});
       }
     });
   },
 
   createUploadNotification: function(project) {
     var user = Meteor.user();
-    var found = Notifications.findOne({'userID': user._id, 'projectID': project._id, 'type': "Upload"});
-      if(found){
-        Meteor.call('deleteNotification', found, function() {});
-      }
-    var notification = {
-      userID: user._id,
-      projectID: project._id,
-      title: project.title,
-      submitted: new Date().getTime(),
-      type: "Upload"
-    }
+    var found = Notifications.find({'userID': user._id, 'projectID': project._id, 'type': "Upload"}, {sort : {"submitted" : -1}}).fetch();
+    if(found.length > 0){
+      if(numSecondsBetween(found[0].submitted, (new Date().getTime())) > 2.0) {
+        console.log(found);
+        var notification = {
+          userID: user._id,
+          projectID: project._id,
+          title: project.title,
+          submitted: new Date().getTime(),
+          type: "Upload"
+        }
         Notifications.insert(notification);
+        Meteor.call('cleanUserNotifications', user._id, function (error, result) {}); 
+      }
+    }
   },
 
   deleteNotification: function(notification){
     Notifications.remove({_id: notification._id});
+  },
+
+  cleanUserNotifications: function(userId){
+    var notifications = Notifications.find({'userID': userId}, {sort : {"submitted" : -1}}).fetch();
+    var limitLength = 5;
+    while(notifications.length > limitLength){
+      var i = notifications.length-1;
+      Meteor.call('deleteNotification', notifications[i], function(){});
+      notifications.pop();
+    }
   }
 });
+
+var numSecondsBetween = function(d1, d2) {
+  var diff = Math.abs(d1 - d2);
+  return diff / (1000);
+};

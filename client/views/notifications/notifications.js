@@ -6,11 +6,6 @@ Template.notifications.helpers({
   notifications: function() {
     $("[rel='tooltip']").tooltip();
     notifications = Notifications.find({userID: Meteor.userId()}, {sort : {"submitted" : -1}});
-    notifications.forEach(function (post, index) {
-      if(index > 4){
-        Notifications.remove({_id: post._id});
-      }
-    });
     return notifications;
   },
 

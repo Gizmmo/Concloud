@@ -92,8 +92,8 @@
 	background-color: #6fb3e0;
 }
 
-.yellowCircle{
-	background-color: #ffb752;
+.blackCircle{
+	background-color: #555;
 }
 
 .greenCircle:hover{
@@ -105,13 +105,15 @@
 	border-color: #6fb3e0;
 }
 
-.yellowCircle:hover{
-	background-color: #e59729!important;
-	border-color: #ffb752;
+.blackCircle:hover{
+	background-color: #303030!important;
+	border-color: #555;
 }
 
 .redCircle{
 	background-color: #d15b47;
+	padding-left:7px;
+	padding-right:7px;
 }
 
 .redCircle:hover{

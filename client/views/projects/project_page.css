@@ -8,6 +8,7 @@
 
 .widget-box {
 	margin-top:20px!important;
+	cursor:pointer;
 }
 
 .fileUpload{

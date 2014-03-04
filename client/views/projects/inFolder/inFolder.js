@@ -357,8 +357,6 @@ function downloadFile(itemName){
 		if(error){
 			console.log(error);
 		}else{
-			console.log("see exchange result");
-			console.log(result);
 			window.location.href = result+"?download=true";
 		}
 	});

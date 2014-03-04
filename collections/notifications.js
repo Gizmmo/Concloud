@@ -35,7 +35,6 @@ Meteor.methods({
     var found = Notifications.find({'userID': user._id, 'projectID': project._id, 'type': "Upload"}, {sort : {"submitted" : -1}}).fetch();
     if(found.length > 0){
       if(numSecondsBetween(found[0].submitted, (new Date().getTime())) > 2.0) {
-        console.log(found);
         var notification = {
           userID: user._id,
           projectID: project._id,

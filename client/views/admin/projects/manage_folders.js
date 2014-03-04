@@ -99,7 +99,7 @@ Template.manageFolders.events({
 
 			folder.permissions = permissions;
 
-			Meteor.call('updateFolder', folder, function (error, id) {
+			Meteor.call('updateDefaultFolder', folder, function (error, id) {
 				if (error) {
 		       	} 
 		       	else {

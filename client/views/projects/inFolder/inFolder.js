@@ -128,16 +128,14 @@ Template.inFolder.helpers({
 	},
 
 	projectData : function() {
-		var data = Folders.find({projectId: Session.get("currentProject"), parentId: this._id});
+		var data = Folders.find({projectId: this.projectId, parentId: this._id});
 		Session.set('thisId', this._id);
 		return data;
 
 	},
 
 	projectFiles : function() {
-		console.log("Get Project Files");
-		console.log(Files.find({projectId: Session.get("currentProject"), parentId: this._id}));
-		return Files.find({projectId: Session.get("currentProject"), parentId: this._id});
+		return Files.find({projectId: this.projectId, parentId: this._id});
 	},
 	officeManager: function () {
 		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){

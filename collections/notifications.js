@@ -13,6 +13,10 @@ Meteor.methods({
     var projectSubs = Subscriptions.find({projectID: project._id});
     projectSubs.forEach(function (sub) {
       if(sub.userID !== project.recentUpdate.updateAuthorID){
+        var found = Notifications.findOne({'userID': sub.userID, 'projectID': project._id, 'type': "Project"});
+        if(found){
+          Meteor.call('deleteNotification', found, function() {});
+        }
         Notifications.insert({
           userID: sub.userID,
           projectID: project._id,
@@ -27,6 +31,10 @@ Meteor.methods({
 
   createUploadNotification: function(project) {
     var user = Meteor.user();
+    var found = Notifications.findOne({'userID': user._id, 'projectID': project._id, 'type': "Upload"});
+      if(found){
+        Meteor.call('deleteNotification', found, function() {});
+      }
     var notification = {
       userID: user._id,
       projectID: project._id,
@@ -37,7 +45,7 @@ Meteor.methods({
         Notifications.insert(notification);
   },
 
-  deleteNotification: function(project){
-    Notifications.remove({_id: project._id});
+  deleteNotification: function(notification){
+    Notifications.remove({_id: notification._id});
   }
 });

@@ -7,6 +7,11 @@ Meteor.methods({
      updated: new Date().getTime()
    });
 
+    var found = Files.findOne({name: newFile.name, parentId: newFile.parentId});
+    if(found){
+      Meteor.call('removeFile', found, function(){});
+    }
+
     Files.insert(newFile);
   },
 

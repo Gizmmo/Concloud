@@ -6,8 +6,9 @@ Template.notification.events({
   'click a': function() {
   	var proj = this;
     Meteor.call('deleteNotification', proj, function (error, result) {});
-    Router.go('projectPage', {"_id": this._id});
-
+  },
+  'click #clickedNotification' : function() {
+  	Router.go('projectPage', {_id: this.projectID});
   }
 });
 

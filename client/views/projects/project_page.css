@@ -8,10 +8,15 @@
 
 .widget-box {
 	margin-top:20px!important;
+	cursor:pointer;
 }
 
 .fileUpload{
 	text-align:left;
+}
+
+.download-fileimage-link{
+	cursor:default!important;
 }
 
 .center{
@@ -87,8 +92,8 @@
 	background-color: #6fb3e0;
 }
 
-.yellowCircle{
-	background-color: #ffb752;
+.blackCircle{
+	background-color: #555;
 }
 
 .greenCircle:hover{
@@ -100,17 +105,30 @@
 	border-color: #6fb3e0;
 }
 
-.yellowCircle:hover{
-	background-color: #e59729!important;
-	border-color: #ffb752;
+.blackCircle:hover{
+	background-color: #303030!important;
+	border-color: #555;
 }
 
 .redCircle{
 	background-color: #d15b47;
+	padding-left:7px;
+	padding-right:7px;
 }
 
 .redCircle:hover{
 	background-color: #b74635;
+}
+
+.disabled{
+	background-color:#e7e7e7!important;
+	border-color:#e7e7e7!important;
+	cursor: default;
+}
+
+.disabled:hover{
+	background-color:#e7e7e7!important;
+	border-color:#e7e7e7!important;
 }
 
 .projectButtons{

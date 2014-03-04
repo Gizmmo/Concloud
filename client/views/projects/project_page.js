@@ -119,14 +119,14 @@ Template.projectPage.helpers({
 	},
 
 	projectData : function() {
-		var data = Folders.find({projectId: Session.get("currentProject"), parentId: Session.get('folderId')});
+		var data = Folders.find({projectId: Session.get("currentProject"), parentId: Session.get('folderId')}, {sort: {name: 1}});
 		console.log('hello');
 		return data;
 
 	},
 
 	projectFiles : function() {
-		return Files.find({projectId: Session.get("currentProject"), parentId: "none"});;
+		return Files.find({projectId: Session.get("currentProject"), parentId: "none"},  {sort: {name: 1}});
 	},
 	officeManager: function () {
 		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){

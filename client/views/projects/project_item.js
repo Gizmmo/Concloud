@@ -5,7 +5,6 @@ Template.projectItem.events({
       $("#project-password").val("");
       $("#incorrect-pass-label").text("");
       Session.set("projectId", this._id);
-      $("#passwordModal").modal("show");
     }else{
       Router.go('projectPage', {"_id": this._id});
     }

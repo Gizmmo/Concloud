@@ -293,7 +293,9 @@ Template.inFolder.destroyed = function () {
 };
 
 Template.inFolder.rendered = function() {
+	$('#deleteItem').popover('destroy');
 	$('#uploadItem').popover('destroy');
+	$('#add-folder').popover('destroy');
 	Session.set('folderId', 'none');
 	makePopover();
 	makeFilePopover();

@@ -120,6 +120,17 @@
 	background-color: #b74635;
 }
 
+.disabled{
+	background-color:#e7e7e7!important;
+	border-color:#e7e7e7!important;
+	cursor: default;
+}
+
+.disabled:hover{
+	background-color:#e7e7e7!important;
+	border-color:#e7e7e7!important;
+}
+
 .projectButtons{
 	cursor:pointer;
 	margin-top:20px;

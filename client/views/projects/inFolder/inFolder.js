@@ -28,62 +28,34 @@ Template.inFolder.events({
 		smartFileFolder(e,template);
 	},
 
-	'click .headerLink' : function(e, template) {
-	//Find which folder in the breadcrumbs has been clicked
-	var folderClicked = $(e.target).attr('id');
-	folderClicked = folderClicked.split("-")[1];
-	//Check if the folder stack is empty, thus being at base
-	if(folderStack.length != 0){
-	    //check if the clicked folder is last in the stack, thus being the currently viewed folder
-	    if(folderClicked != folderStack[(folderStack.length - 1)]){
-	    	folderStack.pop();
-	    	var foundFolder = true;
-	    	while(foundFolder){
-	    		if(folderClicked === folderStack[(folderStack.length - 1)]){
-	    			constructProject();
-	    			foundFolder = false;
-	    		}else if(folderStack.length == 0){
-	    			constructProject();
-	    			foundFolder = false;
-	    		}else{
-	    			folderStack.pop();
-	    		}
-	    	}
 
-	    }
-
-	}
-
-
-},
-
-'click #submitNewFolder' : function(){
-	var folderTitle = $('#addFolderName').val();
-	if(folderTitle != 'undefined'){
-		var projectData = Projects.findOne({_id: Session.get("currentProject")});
-		var folderData = getFolderData(projectData);
-		if(!(folderTitle in folderData.folders)){
-			folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
-			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
-				if(error)
-					console.log(error);
-			});
-			Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
-		}else{
-			throwError("This folder already existed, please create a new folder name.");
+	'click #submitNewFolder' : function(){
+		var folderTitle = $('#addFolderName').val();
+		if(folderTitle != 'undefined'){
+			var projectData = Projects.findOne({_id: Session.get("currentProject")});
+			var folderData = getFolderData(projectData);
+			if(!(folderTitle in folderData.folders)){
+				folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
+				Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
+					if(error)
+						console.log(error);
+				});
+				Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+			}else{
+				throwError("This folder already existed, please create a new folder name.");
+			}
 		}
-	}
-},
+	},
 
-'click #header-base' : function(){
-	Router.go('/project/'+ this.projectId);
-},
+	'click #header-base' : function(){
+		Router.go('/project/'+ this.projectId);
+	},
 
-'click .download-file-link' : function(event) {
-	downloadFile($(event.target).attr('id'));
-},
+	'click .download-file-link' : function(event) {
+		downloadFile($(event.target).attr('id'));
+	},
 
-'click #downloadItems' : function() {
+	'click #downloadItems' : function() {
 	// $('input:checkbox.projectCheckbox').each(function() {
 	// 	var thisVal = (this.checked ? $(this).attr('id') : "");
 
@@ -164,6 +136,7 @@ Template.inFolder.helpers({
 // 	}
 // 	return false;
 // }
+// 
 
 function isIn(checkArray, userGroup){
 	for(var perm in checkArray){
@@ -222,15 +195,20 @@ function makeFilePopover(){
 		}
 	}).on('shown.bs.popover', function(){
 		$($('.uploadData')[1]).find('#submitFile').on('click', function(){
+			if( document.getElementsByClassName('inFile')[1].files.length !== 0){
 			var files = document.getElementsByClassName('inFile')[1].files;
 			$('.popover').each(function(){
 				$(this).remove();
 			});
 			smartFileFile(files, new Date().getTime());
+		}else{
+			makeFilePopover();
+		}
 			
 		});
 
 		$($('.uploadData')[1]).find('#submitFolder').on('click', function(){
+			if(document.getElementsByClassName('inFolder')[1].files.length !== 0){
 			var files = document.getElementsByClassName('inFolder')[1].files;
 			$('.popover').each(function(){
 				$(this).remove();
@@ -238,6 +216,9 @@ function makeFilePopover(){
 			$('#uploadItem').popover('destroy');
 
 			smartFileFolder(files, new Date().getTime());
+		}else{
+			makeFilePopover();
+		}
 		});
 	}).on('hidden.bs.popover', function(){
 		makeFilePopover();

@@ -42,7 +42,7 @@
 						</span>
 					</span>
 					{{/if}}
-					<i class="fa fa-download createCircle blueCircle " id='downloadItems' title="download"></i>
+					<i class="fa fa-download createCircle blueCircle canDisable" id='downloadItems' title="download"></i>
 					{{#if officeManager}}
 					<span class="dropdown">
 						<i class="fa fa-folder createCircle blackCircle" id="add-folder" data-container="body" data-toggle="popover" data-placement="left"></i>
@@ -60,7 +60,7 @@
 					</span>
 					{{/if}}
 					{{#if officeManager}}
-					<i class="fa fa-minus createCircle redCircle" id="deleteItem" data-container="body" data-toggle="popover" data-placement="left"></i>
+					<i class="fa fa-minus createCircle redCircle canDisable" id="deleteItem" data-container="body" data-toggle="popover" data-placement="left"></i>
 					<span id="popoverContent">
 						<div id="deletehead" class="deletehead hide">Confirm Deletion</div>
 						<div id="deletecontent" class="deletecontent hide">

@@ -27,6 +27,14 @@ Template.dashboardside.helpers({
 		return formatDate(lastLogin);
 	},
 
+	atConcord  : function(){
+		if(Meteor.user().profile.userGroup === "Office Manager" || Meteor.user().profile.userGroup === "Employee"){
+			return true;
+		}else{
+			return false;
+		}
+	},
+
 	isProject : function(){
 		var lastProject = Meteor.user().profile.recent.lastProjectID;
 		if(lastProject === undefined || lastProject === null || lastProject === "None"){

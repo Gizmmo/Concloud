@@ -143,7 +143,42 @@ Template.userList.events({
 			$("#tableData").prepend(newRow);
 			$(newRow.find('td')[1]).find('input').focus();
 		}else{
-			alert("Already have a new Row, complete it before continuing.");
+			var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
+			//INSERT DATA HERE
+
+			var dataRows = completedRow.find("td");
+			if(validateRow(dataRows)){
+		        var time = new Date().getTime();
+		        var options = {
+		            email : $(dataRows[4]).find('input').val(),
+		            password : 'password',
+		                //Profile is the object within the user that can
+		                //be freely edited by the user
+		                profile : {
+		                    firstName : $(dataRows[2]).find('input').val(),
+		                    lastName: $(dataRows[1]).find('input').val(),
+		                    email: $(dataRows[4]).find('input').val(),
+		                    userGroup : $(dataRows[3]).find('select').val(),
+		                    joinDate: time,
+		                    recent: {
+		                        lastLogin: time,
+		                        lastProjectName: "None",
+		                        lastProjectID: "None"
+		                    }
+		                }
+		            }
+		        $(completedRow).remove();
+		        Meteor.call('createNewUser', options, function (error, id) {
+		            if(error){
+
+		            }else {
+		                Meteor.call("HREntry", {userId: id}, function (error, id){});
+		            }
+		        });
+		        $("#search-field").val("");
+
+				Session.set("NewRow", false);
+			}
 		}
 
 	},

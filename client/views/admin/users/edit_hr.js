@@ -154,7 +154,28 @@ Template.editHR.events({
 			$("#tableData").prepend(newRow);
 			$(newRow.find('td')[1]).find('input').focus();
 		}else{
-			alert("Already have a new Row, complete it before continuing.");
+			var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
+			//INSERT DATA HERE
+
+			var dataRows = completedRow.find("td");
+
+			if(validateRow(dataRows)){
+				var item = {
+					fieldName: $(dataRows[1]).find('input').val(),
+					defaultValue: $(dataRows[2]).find('input').val()
+				}
+				$(completedRow).remove();
+
+				// the newly created Project's path after creating
+				Meteor.call('HRField', item, function (error, id) {
+					if (error) {
+						console.log(error);
+					}
+				});
+
+
+				Session.set("NewRow", false);
+			}
 		}
 
 	},

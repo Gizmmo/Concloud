@@ -146,7 +146,51 @@ Template.projectsAdminList.events({
 			$("#tableData").prepend(newRow);
 			$(newRow.find('td')[1]).find('input').focus();
 		}else{
-			alert("Already have a new Row, complete it before continuing.");
+			var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
+
+			var dataRows = completedRow.find("td");
+
+			if(validateRow(dataRows)){
+				Session.set("addingProject", true);
+				var foldersData = DefaultFolders.find({}, {sort: {"name": 1}}).fetch();
+
+				var project = {
+					title: $(dataRows[1]).find('input').val(),
+					password: $(dataRows[2]).find('input').val(),
+				};
+
+				$(completedRow).remove();
+
+				 Meteor.call('createNewProjectDirectories', project.title, foldersData, function (error, result) {
+					
+
+					// the newly created Project's path after creating
+					Meteor.call('project', project, function (error, id) {
+						if (error) {
+							console.log(error);
+						}
+						foldersData.forEach(function (folder) {
+							var adapterFolder = {
+								name : folder.name,
+								parentId: 'none',
+								parentName: 'none',
+								projectId: id,
+								projectName: project.title,
+								permissions: folder.permissions
+							};
+							Meteor.call("createFolder", adapterFolder, function(){})
+						});
+
+						Session.set("addingProject", false);
+
+
+					});
+				});
+
+				
+
+				Session.set("NewRow", false);
+			}
 		}
 
 	},

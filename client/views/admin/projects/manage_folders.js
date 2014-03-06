@@ -148,21 +148,38 @@ Template.manageFolders.events({
 			$("#tableData").prepend(newRow);
 			$(newRow.find('td')[1]).find('input').focus();
 		}else{
-			alert("Already have a new Row, complete it before continuing.");
+			var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
+			var eachHeader = $($('#tableData').find("thead").find("tr")[0]).find("th");
+
+			var dataRows = completedRow.find("td");
+
+			if(validateRow(dataRows)){
+				var folder = {};
+				folder.name = $(dataRows[1]).find("input").val();
+				var permissions = [];
+
+				for(var i = 2; i < 6; i++){
+					if($(dataRows[i]).find("input").is(":checked")){
+						permissions[permissions.length] = $(eachHeader[i]).html();
+					}
+				}
+				$(completedRow).remove();
+
+				folder.permissions = permissions;
+
+				Meteor.call('addDefault', folder, function (error, id) {
+					if (error) {
+			       	} 
+			       	else {
+			       	}
+			    });
+
+
+				Session.set("NewRow", false);
+			}
 		}
 
 	},
-
-	// 'keypress input' : function (event) {
-	// 	var keyTarget = event.target
-	// 	if(keyTarget.id !== "search-field"){
-	// 		if(event.charCode===13){
-	// 			if(Session.get("NewRow")){
-	// 				$("#completedRow").click();
-	// 			}
-	// 		}
-	// 	}
-	// },
 
 	'click #CompleteRow' : function() {
 		var completedRow = $($('#tableData').find("tbody").find("tr")[0]);

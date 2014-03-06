@@ -99,7 +99,7 @@ Template.manageFolders.events({
 
 			folder.permissions = permissions;
 
-			Meteor.call('updateDefaultFolder', folder, function (error, id) {
+			Meteor.call('updateDefault', folder, function (error, id) {
 				if (error) {
 		       	} 
 		       	else {
@@ -184,7 +184,7 @@ Template.manageFolders.events({
 
 			folder.permissions = permissions;
 
-			Meteor.call('addFolder', folder, function (error, id) {
+			Meteor.call('addDefault', folder, function (error, id) {
 				if (error) {
 		       	} 
 		       	else {
@@ -228,7 +228,7 @@ Template.manageFolders.events({
 		var split = event.target.id.split("-");
 		var row = $('#row-' + split[1]);
 		var folder = DefaultFolders.findOne({_id: split[1]});
-		Meteor.call('removeFolder', folder, function (error, result) {});
+		Meteor.call('removeDefault', folder, function (error, result) {});
 	}
 });
 
@@ -275,7 +275,7 @@ function removeSelected(){
 				if($(myArray[i]).is(':checked')){
 					var split = $(myArray[i]).context.id.split("-");
 					var folder = DefaultFolders.findOne({_id: split[1]});
-					Meteor.call('removeFolder', folder, function (error, result){});
+					Meteor.call('removeDefault', folder, function (error, result){});
 				}
 			}
 		}
@@ -310,28 +310,6 @@ function updateView(searchValue){
 	}
 }
 
-Template.manageFolders.events({
-
-	'click .def-click': function(event, ui) {
-  		var splitId = ($(event)[0].target.id).split("-");
-  		var id = splitId[1];
-  		folder = DefaultFolders.findOne({_id: id});
-  		var empType = findEmpType(splitId[0]);
-  		var idString = '#'+splitId[0]+ '-'+id;
-  		if($(idString).is(":checked")){
-  			folder.permissions[folder.permissions.length] = empType;
-  		} else {
-  			folder.permissions.splice($.inArray(empType, folder.permissions),1);
-
-  		}
-  		Meteor.call('updateFolder', folder, function (error, id) {
-				if (error) {
-	           	} 
-	           	else {
-	           	}
-	        });
-	},
-});
 
 function validateRow(dataRows){
 	var returnValue = true;

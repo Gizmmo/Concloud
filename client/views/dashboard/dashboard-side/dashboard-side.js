@@ -73,6 +73,6 @@ Template.dashboardside.helpers({
 
 Template.dashboardside.events({
 	'click #lastProj': function () {
-		Router.go('projectPage', Meteor.user().profile.recent.lastProjectID)
+		Router.go('projectPage', {_id: Meteor.user().profile.recent.lastProjectID});
 	}
 });

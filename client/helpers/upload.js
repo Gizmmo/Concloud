@@ -60,7 +60,7 @@ smartFileFolder = function(template, timeStamp){
       }
     }
 
-
+    createUploadNotification
   };
 
   smartFileFile = function(template, timeStamp){
@@ -97,7 +97,6 @@ function uploadFile(file,projectData,path, timeStamp){
        console.log("upload failed", err);
        return;
      }
-
      var amount = parseInt(Session.get("uploadedAmount"+timeStamp)) + 1;
      if(amount === parseInt(Session.get('uploadAmount'+timeStamp))){
       Meteor.call('createUploadNotification', projectData, function(err, res){
@@ -105,7 +104,6 @@ function uploadFile(file,projectData,path, timeStamp){
           console.log(err);
         }
       });
-      Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
     }else{
       Session.set("uploadedAmount"+timeStamp, amount);
     }

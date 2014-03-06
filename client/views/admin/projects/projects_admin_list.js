@@ -97,8 +97,8 @@ Template.projectsAdminList.events({
 			}
 
 			//UPDATES PROJECT!!
-			project.title = $(dataRows[1]).html();
-			project.password = $(dataRows[2]).html();
+			project.title = replaceAmp($(dataRows[1]).html());
+			project.password = replaceAmp($(dataRows[2]).html());
 
 			Meteor.call('updateProjectVitals', project, function (error, result) {});
 		}
@@ -155,8 +155,8 @@ Template.projectsAdminList.events({
 				var foldersData = DefaultFolders.find({}, {sort: {"name": 1}}).fetch();
 
 				var project = {
-					title: $(dataRows[1]).find('input').val(),
-					password: $(dataRows[2]).find('input').val(),
+					title: replaceAmp($(dataRows[1]).find('input').val()),
+					password: replaceAmp($(dataRows[2]).find('input').val()),
 				};
 
 				$(completedRow).remove();
@@ -205,8 +205,8 @@ Template.projectsAdminList.events({
 			var foldersData = DefaultFolders.find({}, {sort: {"name": 1}}).fetch();
 
 			var project = {
-				title: $(dataRows[1]).find('input').val(),
-				password: $(dataRows[2]).find('input').val(),
+				title: replaceAmp($(dataRows[1]).find('input').val()),
+				password: replaceAmp($(dataRows[2]).find('input').val()),
 			};
 
 			$(completedRow).remove();
@@ -399,6 +399,8 @@ function validateRow(dataRows){
 					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
 					returnValue = false;
 				} else if (dataRow.hasClass('Unique')){
+					originalName = replaceAmp(originalName);
+					dataVal = replaceAmp(dataVal);
 					if(Projects.findOne({title: dataVal}) && dataVal !== originalName){
 						dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Please use a Unique Name"></i>');
 						returnValue = false;
@@ -410,4 +412,14 @@ function validateRow(dataRows){
 		}
 	}
 	return returnValue;
+}
+
+function replaceAmp(originalName){
+	if(originalName){
+		while (originalName.indexOf('&amp') > -1){
+			var n = originalName.indexOf('&amp');
+			originalName = originalName.substring(0,n) + "&" + originalName.substring((n+5),originalName.length);
+		}
+	}
+	return originalName
 }

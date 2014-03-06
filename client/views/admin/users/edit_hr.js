@@ -107,8 +107,8 @@ Template.editHR.events({
 
 
 			//UPDATES PROJECT!!
-			hrItem.fieldName = $(dataRows[1]).html();
-			hrItem.defaultValue = $(dataRows[2]).html();
+			hrItem.fieldName = replaceAmp($(dataRows[1]).html());
+			hrItem.defaultValue = replaceAmp($(dataRows[2]).html());
 
 			Meteor.call('HRFieldUpdate', hrItem, function (error, result) {});
 		}
@@ -161,8 +161,8 @@ Template.editHR.events({
 
 			if(validateRow(dataRows)){
 				var item = {
-					fieldName: $(dataRows[1]).find('input').val(),
-					defaultValue: $(dataRows[2]).find('input').val()
+					fieldName: replaceAmp($(dataRows[1]).find('input').val()),
+					defaultValue: replaceAmp($(dataRows[2]).find('input').val())
 				}
 				$(completedRow).remove();
 
@@ -188,8 +188,8 @@ Template.editHR.events({
 
 		if(validateRow(dataRows)){
 			var item = {
-				fieldName: $(dataRows[1]).find('input').val(),
-				defaultValue: $(dataRows[2]).find('input').val()
+				fieldName: replaceAmp($(dataRows[1]).find('input').val()),
+				defaultValue: replaceAmp($(dataRows[2]).find('input').val())
 			}
 			$(completedRow).remove();
 
@@ -304,6 +304,8 @@ function validateRow(dataRows){
 					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
 					returnValue = false;
 				} else if (dataRow.hasClass('Unique')){
+					originalName = replaceAmp(originalName);
+					dataVal = replaceAmp(originalName);
 					if(HRData.findOne({fieldName: dataVal}) && dataVal !== originalName){
 						dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Please use a Unique Name"></i>');
 						returnValue = false;
@@ -329,4 +331,14 @@ function validateRow(dataRows){
 		}
 	}
 	return returnValue;
+}
+
+function replaceAmp(originalName){
+	if(originalName){
+		while (originalName.indexOf('&amp') > -1){
+			var n = originalName.indexOf('&amp');
+			originalName = originalName.substring(0,n) + "&" + originalName.substring((n+5),originalName.length);
+		}
+	}
+	return originalName
 }

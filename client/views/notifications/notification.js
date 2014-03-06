@@ -2,7 +2,6 @@ Template.notification.events({
  'click #clickedNotification' : function() {
  	var proj = this;
     Meteor.call('deleteNotification', proj, function (error, result) {});
-    tooltip('destroy');
   	Router.go('projectPage', {_id: this.projectID});
   }
 });

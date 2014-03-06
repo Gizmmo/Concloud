@@ -90,9 +90,9 @@ Template.userList.events({
 				}
 			}
 
-			var firstName = $(dataRows[2]).html();
-			var lastName = $(dataRows[1]).html();
-			var userGroup = $(dataRows[3]).html();
+			var firstName = replaceAmp($(dataRows[2]).html());
+			var lastName = replaceAmp($(dataRows[1]).html());
+			var userGroup = replaceAmp($(dataRows[3]).html());
 			Meteor.users.update({_id: split[1]}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
 		}
 	},
@@ -155,10 +155,10 @@ Template.userList.events({
 		                //Profile is the object within the user that can
 		                //be freely edited by the user
 		                profile : {
-		                    firstName : $(dataRows[2]).find('input').val(),
-		                    lastName: $(dataRows[1]).find('input').val(),
-		                    email: $(dataRows[4]).find('input').val(),
-		                    userGroup : $(dataRows[3]).find('select').val(),
+		                    firstName : replaceAmp($(dataRows[2]).find('input').val()),
+		                    lastName: replaceAmp($(dataRows[1]).find('input').val()),
+		                    email: replaceAmp($(dataRows[4]).find('input').val()),
+		                    userGroup : replaceAmp($(dataRows[3]).find('select').val()),
 		                    joinDate: time,
 		                    recent: {
 		                        lastLogin: time,
@@ -196,10 +196,10 @@ Template.userList.events({
 	                //Profile is the object within the user that can
 	                //be freely edited by the user
 	                profile : {
-	                    firstName : $(dataRows[2]).find('input').val(),
-	                    lastName: $(dataRows[1]).find('input').val(),
-	                    email: $(dataRows[4]).find('input').val(),
-	                    userGroup : $(dataRows[3]).find('select').val(),
+	                    firstName : replaceAmp($(dataRows[2]).find('input').val()),
+	                    lastName: replaceAmp($(dataRows[1]).find('input').val()),
+	                    email: replaceAmp($(dataRows[4]).find('input').val()),
+	                    userGroup : replaceAmp($(dataRows[3]).find('select').val()),
 	                    joinDate: time,
 	                    recent: {
 	                        lastLogin: time,
@@ -394,4 +394,14 @@ function validateRow(dataRows){
 		}
 	}
 	return returnValue;
+}
+
+function replaceAmp(originalName){
+	if(originalName){
+		while (originalName.indexOf('&amp') > -1){
+			var n = originalName.indexOf('&amp');
+			originalName = originalName.substring(0,n) + "&" + originalName.substring((n+5),originalName.length);
+		}
+	}
+	return originalName
 }

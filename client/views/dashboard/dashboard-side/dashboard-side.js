@@ -62,3 +62,9 @@ Template.dashboardside.helpers({
 		return Meteor.user().profile.hr.vacationDays;
 	}
 });
+
+Template.dashboardside.events({
+	'click #lastProj': function () {
+		Router.go('projectPage', Meteor.user().profile.recent.lastProjectID)
+	}
+});

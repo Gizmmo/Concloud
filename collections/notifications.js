@@ -45,6 +45,16 @@ Meteor.methods({
         Notifications.insert(notification);
         Meteor.call('cleanUserNotifications', user._id, function (error, result) {}); 
       }
+    } else {
+        var notification = {
+          userID: user._id,
+          projectID: project._id,
+          title: project.title,
+          submitted: new Date().getTime(),
+          type: "Upload"
+        }
+        Notifications.insert(notification);
+        Meteor.call('cleanUserNotifications', user._id, function (error, result) {}); 
     }
   },
 

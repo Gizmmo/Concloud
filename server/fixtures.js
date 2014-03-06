@@ -29,22 +29,22 @@ if (Meteor.users.find().count() === 0) {
 
     if(DefaultFolders.find().count() === 0){
         var folder = {};
-        createFolder("Change Orders", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Consultant", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Contracts and PO's", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Daily Log's", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Drawings", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Estimates", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Inspections, Reports & Tests", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Legal, Civic & Utility", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Minutes of Meetings", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Owner", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("PCN's", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Pictures", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Preliminary", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Safety", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Shop Drawings", ["Office Manager", "Admin", "Employee", "Client"]);
-        createFolder("Subtrades", ["Office Manager", "Admin", "Employee", "Client", "Sub-Trade"]);
+        createFolder("Change Orders", ["Office Manager", "Employee", "Client"]);
+        createFolder("Consultant", ["Office Manager", "Employee", "Client"]);
+        createFolder("Contracts and PO's", ["Office Manager", "Employee", "Client"]);
+        createFolder("Daily Log's", ["Office Manager", "Employee", "Client"]);
+        createFolder("Drawings", ["Office Manager", "Employee", "Client"]);
+        createFolder("Estimates", ["Office Manager", "Employee", "Client"]);
+        createFolder("Inspections, Reports & Tests", ["Office Manager", "Employee", "Client"]);
+        createFolder("Legal, Civic & Utility", ["Office Manager", "Employee", "Client"]);
+        createFolder("Minutes of Meetings", ["Office Manager", "Employee", "Client"]);
+        createFolder("Owner", ["Office Manager", "Employee", "Client"]);
+        createFolder("PCN's", ["Office Manager", "Employee", "Client"]);
+        createFolder("Pictures", ["Office Manager", "Employee", "Client"]);
+        createFolder("Preliminary", ["Office Manager", "Employee", "Client"]);
+        createFolder("Safety", ["Office Manager", "Employee", "Client"]);
+        createFolder("Shop Drawings", ["Office Manager", "Employee", "Client"]);
+        createFolder("Subtrades", ["Office Manager", "Employee", "Client", "Sub-Trade"]);
 
     }
 

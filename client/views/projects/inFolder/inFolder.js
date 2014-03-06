@@ -102,6 +102,7 @@ Template.inFolder.helpers({
 	projectData : function() {
 		var data = Folders.find({projectId: this.projectId, parentId: this._id},  {sort: {name: 1}});
 		Session.set('thisId', this._id);
+		Session.set('currentProject', this.projectId);
 		return data;
 
 	},

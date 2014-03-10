@@ -342,3 +342,7 @@ function replaceAmp(originalName){
 	}
 	return originalName
 }
+
+Template.editHR.created = function () {
+	$("#search-field").val("")
+};

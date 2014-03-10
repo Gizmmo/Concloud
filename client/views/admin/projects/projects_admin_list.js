@@ -427,3 +427,7 @@ function replaceAmp(originalName){
 	}
 	return originalName
 }
+
+Template.projectsAdminList.created = function () {
+	$("#search-field").val("")
+};

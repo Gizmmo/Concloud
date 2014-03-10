@@ -43,3 +43,7 @@ function updateView(searchValue) {
 		});
 	}
 }
+
+Template.projectsList.created = function () {
+	$("#search-field").val("")
+};

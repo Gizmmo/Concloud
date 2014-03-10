@@ -405,3 +405,7 @@ function replaceAmp(originalName){
 	}
 	return originalName
 }
+
+Template.userList.created = function () {
+	$("#search-field").val("")
+};

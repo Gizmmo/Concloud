@@ -364,3 +364,7 @@ function replaceAmp(originalName){
 	}
 	return originalName
 }
+
+Template.manageFolders.created = function () {
+	$("#search-field").val("")
+};

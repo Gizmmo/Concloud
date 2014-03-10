@@ -5,7 +5,6 @@ Meteor.methods({
 		var user = Meteor.user();
 		var hrData = HRData.find({});
 		var hrInsertArray = new Array();
-		console.log("Hello");
 		hrData.forEach(function (field) {
 				if(hrAttributes[field.fieldName]){
 					var name = field.fieldName;

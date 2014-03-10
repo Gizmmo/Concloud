@@ -1,3 +1,4 @@
+var originalName = null;
 Template.projectsAdminList.events({
 	"click #newProjBtn" : function () {
 		$("#search-field").val("");
@@ -47,6 +48,9 @@ Template.projectsAdminList.events({
 			if(i>0){
 				var dataRow = $(dataRows[i]);
 				if(dataRow.hasClass('String')){
+					if(dataRow.hasClass('Unique')){
+						originalName = dataRow.html();
+					}
 					dataRow.html("<input type='text' id='txtName' value='"+dataRow.html()+"'/>");
 				} else if(dataRow.hasClass('Password')){
 					dataRow.html("<input type='password' id='txtName' value='"+project.password+"'/>");

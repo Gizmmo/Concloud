@@ -107,8 +107,8 @@ Template.editHR.events({
 
 
 			//UPDATES PROJECT!!
-			hrItem.fieldName = $(dataRows[1]).html();
-			hrItem.defaultValue = $(dataRows[2]).html();
+			hrItem.fieldName = replaceAmp($(dataRows[1]).html());
+			hrItem.defaultValue = replaceAmp($(dataRows[2]).html());
 
 			Meteor.call('HRFieldUpdate', hrItem, function (error, result) {});
 		}
@@ -154,7 +154,28 @@ Template.editHR.events({
 			$("#tableData").prepend(newRow);
 			$(newRow.find('td')[1]).find('input').focus();
 		}else{
-			alert("Already have a new Row, complete it before continuing.");
+			var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
+			//INSERT DATA HERE
+
+			var dataRows = completedRow.find("td");
+
+			if(validateRow(dataRows)){
+				var item = {
+					fieldName: replaceAmp($(dataRows[1]).find('input').val()),
+					defaultValue: replaceAmp($(dataRows[2]).find('input').val())
+				}
+				$(completedRow).remove();
+
+				// the newly created Project's path after creating
+				Meteor.call('HRField', item, function (error, id) {
+					if (error) {
+						console.log(error);
+					}
+				});
+
+
+				Session.set("NewRow", false);
+			}
 		}
 
 	},
@@ -167,8 +188,8 @@ Template.editHR.events({
 
 		if(validateRow(dataRows)){
 			var item = {
-				fieldName: $(dataRows[1]).find('input').val(),
-				defaultValue: $(dataRows[2]).find('input').val()
+				fieldName: replaceAmp($(dataRows[1]).find('input').val()),
+				defaultValue: replaceAmp($(dataRows[2]).find('input').val())
 			}
 			$(completedRow).remove();
 
@@ -283,6 +304,8 @@ function validateRow(dataRows){
 					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
 					returnValue = false;
 				} else if (dataRow.hasClass('Unique')){
+					originalName = replaceAmp(originalName);
+					dataVal = replaceAmp(originalName);
 					if(HRData.findOne({fieldName: dataVal}) && dataVal !== originalName){
 						dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Please use a Unique Name"></i>');
 						returnValue = false;
@@ -309,3 +332,17 @@ function validateRow(dataRows){
 	}
 	return returnValue;
 }
+
+function replaceAmp(originalName){
+	if(originalName){
+		while (originalName.indexOf('&amp') > -1){
+			var n = originalName.indexOf('&amp');
+			originalName = originalName.substring(0,n) + "&" + originalName.substring((n+5),originalName.length);
+		}
+	}
+	return originalName
+}
+
+Template.editHR.created = function () {
+	$("#search-field").val("")
+};

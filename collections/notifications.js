@@ -33,8 +33,26 @@ Meteor.methods({
   createUploadNotification: function(project) {
     var user = Meteor.user();
     var found = Notifications.find({'userID': user._id, 'projectID': project._id, 'type': "Upload"}, {sort : {"submitted" : -1}}).fetch();
+    console.log('created notification before if');
     if(found.length > 0){
       if(numSecondsBetween(found[0].submitted, (new Date().getTime())) > 2.0) {
+        console.log('in notification');
+        var notification = {
+          userID: user._id,
+          projectID: project._id,
+          title: project.title,
+          submitted: new Date().getTime(),
+          type: "Upload"
+        }
+
+        console.log('created notification');
+        Notifications.insert(notification);
+        Meteor.call('cleanUserNotifications', user._id, function (error, result) {
+          if(err)
+            console.log(err);
+        }); 
+      }
+    } else {
         var notification = {
           userID: user._id,
           projectID: project._id,
@@ -44,7 +62,6 @@ Meteor.methods({
         }
         Notifications.insert(notification);
         Meteor.call('cleanUserNotifications', user._id, function (error, result) {}); 
-      }
     }
   },
 

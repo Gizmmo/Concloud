@@ -1,3 +1,4 @@
+var originalName = null;
 Template.projectsAdminList.events({
 	"click #newProjBtn" : function () {
 		$("#search-field").val("");
@@ -47,6 +48,9 @@ Template.projectsAdminList.events({
 			if(i>0){
 				var dataRow = $(dataRows[i]);
 				if(dataRow.hasClass('String')){
+					if(dataRow.hasClass('Unique')){
+						originalName = dataRow.html();
+					}
 					dataRow.html("<input type='text' id='txtName' value='"+dataRow.html()+"'/>");
 				} else if(dataRow.hasClass('Password')){
 					dataRow.html("<input type='password' id='txtName' value='"+project.password+"'/>");
@@ -97,8 +101,8 @@ Template.projectsAdminList.events({
 			}
 
 			//UPDATES PROJECT!!
-			project.title = $(dataRows[1]).html();
-			project.password = $(dataRows[2]).html();
+			project.title = replaceAmp($(dataRows[1]).html());
+			project.password = replaceAmp($(dataRows[2]).html());
 
 			Meteor.call('updateProjectVitals', project, function (error, result) {});
 		}
@@ -146,7 +150,51 @@ Template.projectsAdminList.events({
 			$("#tableData").prepend(newRow);
 			$(newRow.find('td')[1]).find('input').focus();
 		}else{
-			alert("Already have a new Row, complete it before continuing.");
+			var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
+
+			var dataRows = completedRow.find("td");
+
+			if(validateRow(dataRows)){
+				Session.set("addingProject", true);
+				var foldersData = DefaultFolders.find({}, {sort: {"name": 1}}).fetch();
+
+				var project = {
+					title: replaceAmp($(dataRows[1]).find('input').val()),
+					password: replaceAmp($(dataRows[2]).find('input').val()),
+				};
+
+				$(completedRow).remove();
+
+				 Meteor.call('createNewProjectDirectories', project.title, foldersData, function (error, result) {
+					
+
+					// the newly created Project's path after creating
+					Meteor.call('project', project, function (error, id) {
+						if (error) {
+							console.log(error);
+						}
+						foldersData.forEach(function (folder) {
+							var adapterFolder = {
+								name : folder.name,
+								parentId: 'none',
+								parentName: 'none',
+								projectId: id,
+								projectName: project.title,
+								permissions: folder.permissions
+							};
+							Meteor.call("createFolder", adapterFolder, function(){})
+						});
+
+						Session.set("addingProject", false);
+
+
+					});
+				});
+
+				
+
+				Session.set("NewRow", false);
+			}
 		}
 
 	},
@@ -161,8 +209,8 @@ Template.projectsAdminList.events({
 			var foldersData = DefaultFolders.find({}, {sort: {"name": 1}}).fetch();
 
 			var project = {
-				title: $(dataRows[1]).find('input').val(),
-				password: $(dataRows[2]).find('input').val(),
+				title: replaceAmp($(dataRows[1]).find('input').val()),
+				password: replaceAmp($(dataRows[2]).find('input').val()),
 			};
 
 			$(completedRow).remove();
@@ -355,6 +403,8 @@ function validateRow(dataRows){
 					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
 					returnValue = false;
 				} else if (dataRow.hasClass('Unique')){
+					originalName = replaceAmp(originalName);
+					dataVal = replaceAmp(dataVal);
 					if(Projects.findOne({title: dataVal}) && dataVal !== originalName){
 						dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Please use a Unique Name"></i>');
 						returnValue = false;
@@ -367,3 +417,17 @@ function validateRow(dataRows){
 	}
 	return returnValue;
 }
+
+function replaceAmp(originalName){
+	if(originalName){
+		while (originalName.indexOf('&amp') > -1){
+			var n = originalName.indexOf('&amp');
+			originalName = originalName.substring(0,n) + "&" + originalName.substring((n+5),originalName.length);
+		}
+	}
+	return originalName
+}
+
+Template.projectsAdminList.created = function () {
+	$("#search-field").val("")
+};

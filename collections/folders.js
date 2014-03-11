@@ -13,7 +13,7 @@ Meteor.methods({
     	permissions: permission
     });
 
-    var found = Folders.findOne({name: newFolder.name, parentId: newFolder.parentId});
+    var found = Folders.findOne({name: newFolder.name, parentId: newFolder.parentId, projectId: newFolder.projectId});
     if(found){
       Meteor.call('removeFolder', found, function(){});
     }

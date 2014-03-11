@@ -2,9 +2,7 @@
 Template.projectItem.events({
   'click' : function () {
     if(user.profile.userGroup == "Sub-Trade"){
-      $("#project-password").val("");
-      $("#incorrect-pass-label").text("");
-      Session.set("projectId", this._id);
+      Router.go('subtradepassword', {"_id" : this._id});
     }else{
       Router.go('projectPage', {"_id": this._id});
     }

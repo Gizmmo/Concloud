@@ -4,7 +4,7 @@ var isSelectAll = false;
 
 Template.projectPage.events({
 	'click #update-btn': function () {
-		Meteor.call('updateProject', this._id, function (error, result) {
+		Meteor.call('updateProject',  Projects.findOne(this._id), function (error, result) {
 		});
 	},
 	'click #selectAll' : function () {
@@ -68,7 +68,7 @@ Template.projectPage.events({
 				if(error)
 					console.log(error);
 			});
-			Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+			Meteor.call('updateProject', Projects.findOne(Session.get('currentProject')),projectData.folders);
 		}else{
 			throwError("This folder already existed, please create a new folder name.");
 		}
@@ -300,7 +300,7 @@ function deleteFolder(folderName){
 		if(err)
 			console.log(err);
 	});
-	Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+	Meteor.call('updateProject',  Projects.findOne(Session.get('currentProject')),projectData.folders);
 
 }
 
@@ -313,7 +313,7 @@ function deleteFile(fileName){
 		if(err)
 			console.log(err);
 	});
-	Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+	Meteor.call('updateProject',  Projects.findOne(Session.get('currentProject')),projectData.folders);
 }
 
 function downloadFile(itemName){
@@ -351,7 +351,7 @@ function submitFolder(folderTitle) {
 		// 			clearBackground(event, "addFolder");
 		// 		}
 		// 	});
-		// 	Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+		// 	Meteor.call('updateProject',  Projects.findOne(Session.get('currentProject')),projectData.folders);
 		// }else{
 		// 	throwError("This folder already existed, please create a new folder name.");
 		// }

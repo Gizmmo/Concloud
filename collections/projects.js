@@ -56,11 +56,11 @@ Meteor.methods({
 	 * @param  String id The id of the project to be updated
 	 * @return void    Returns nothing
 	 */
-	updateProject: function(id, folders){
+	updateProject: function(project, folders){
 		var user = Meteor.user();
+		var id = project._id;
 		var userName = Meteor.user().profile.firstName + " " + Meteor.user().profile.lastName;
 
-		var project = Projects.findOne(id);
 		Meteor.users.update({_id: Meteor.userId()}, {$set : {'profile.recent.lastProjectID' : id, 'profile.recent.lastProjectName' : project.title } });
 		var update = {
 				updateDate: new Date().getTime(),
@@ -73,16 +73,38 @@ Meteor.methods({
 				}catch(e){
 					console.log("Error in folder update " + e.message);
 				}
-	}
+			}
+		project.updates[project.updates.length] = update;
+		project.recentUpdate = update;
 
-		Projects.update(id, {$addToSet: {updates: update}});
-		Projects.update(id, {$set : {recentUpdate: update}});
-		project = Projects.findOne(id);
+		Projects.update(id, project);
 		Meteor.call("createProjectNotification", project);
 	}
 ,
 	updateProjectVitals: function(project){
+		var oldProject = Projects.findOne(project._id);
 		Projects.update({_id: project._id}, project);
+		console.log(oldProject);
+		console.log(project);
+		if(oldProject.title !== project.title){
+			console.log("inside");
+			folders = Folders.find();
+			folders.forEach(function (folder) {
+				if (folder.projectId === oldProject._id){
+					folder.projectName = project.title;
+					Meteor.call('updateFolder', folder, function (error, result) {});
+					console.log("inFolders");
+				}
+			});
+
+			files = Files.find();
+			files.forEach(function (file) {
+				if (file.projectId === oldProject._id){
+					file.projectName = project.title;
+					Meteor.call('updateFile', file, function (error, result) {});
+				}
+			});
+		}
 
 	},
 	checkPassword: function (data) {

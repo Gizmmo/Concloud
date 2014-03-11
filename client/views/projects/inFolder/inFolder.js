@@ -4,7 +4,7 @@ var isSelectAll = false;
 
 Template.inFolder.events({
 	'click #update-btn': function () {
-		Meteor.call('updateProject', this._id, function (error, result) {
+		Meteor.call('updateProject', Projects.findOne(this._id), function (error, result) {
 		});
 	},
 	'click #selectAll' : function () {
@@ -40,7 +40,7 @@ Template.inFolder.events({
 					if(error)
 						console.log(error);
 				});
-				Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+				Meteor.call('updateProject',  Projects.findOne(Session.get('currentProject')),projectData.folders);
 			}else{
 				throwError("This folder already existed, please create a new folder name.");
 			}
@@ -386,7 +386,7 @@ function submitFolder(folderTitle) {
 				console.log(error);
 			}
 		});
-		// 	Meteor.call('updateProject', Session.get('currentProject'),projectData.folders);
+		// 	Meteor.call('updateProject',  Projects.findOne(Session.get('currentProject')),projectData.folders);
 		// }else{
 		// 	throwError("This folder already existed, please create a new folder name.");
 		// }

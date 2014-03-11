@@ -253,3 +253,7 @@ function updateView(searchValue){
 		});
 	}
 }
+
+Template.manageHR.created = function () {
+	$("#search-field").val("")
+};

@@ -31,9 +31,23 @@ Meteor.methods({
 	HRFieldUpdate: function (newEntry) {
 			var user = Meteor.user();
 			var entry = _.extend(_.pick(newEntry, 'fieldName', 'defaultValue'), {
-			createdOn: new Date().getTime(),
-			createdBy: user._id
-		});
+				createdOn: new Date().getTime(),
+				createdBy: user._id
+			});
+
+		var hr = HRData.findOne({"_id" : newEntry._id});
+		if(hr.fieldName !== newEntry.fieldName) {
+			var foundHR = HR.find();
+			foundHR.forEach(function (found) {
+				for(var i = 0; i < found.hrValues.length; i++){
+					if (found.hrValues[i].name === hr.fieldName){
+						found.hrValues[i].name = newEntry.fieldName;
+					}
+				}
+				found.hrValues.name = newEntry.fieldName;
+				Meteor.call('HRUpdate', found, function (error, result) {});
+			});
+		}
 
 		var entryID = HRData.update({"_id" : newEntry._id}, newEntry);
 

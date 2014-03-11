@@ -2,6 +2,10 @@ var sf = new SmartFile({});
 
 
 Template.projectAdminPage.events({
+	'click updateRoles': function() {
+
+	},
+
 	'keyup' : function () {
 		updateClientView($("#search-client-field").val());
 		updateEmployeeView($("#search-field").val());
@@ -147,4 +151,8 @@ Template.projectAdminPage.helpers({
 
 Template.projectAdminPage.created = function () {
 	projectID = this.data._id;
+	$("#search-field").val("");
 };
+
+// Template.projectAdminPage.rendered = function () {
+// }

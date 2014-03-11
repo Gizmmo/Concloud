@@ -88,7 +88,7 @@ Template.manageFolders.events({
 				}
 			}
 
-			folder.name = $(dataRows[1]).html();
+			folder.name = replaceAmp($(dataRows[1]).html());
 			var permissions = [];
 
 			for(var i = 2; i < 6; i++){
@@ -148,21 +148,38 @@ Template.manageFolders.events({
 			$("#tableData").prepend(newRow);
 			$(newRow.find('td')[1]).find('input').focus();
 		}else{
-			alert("Already have a new Row, complete it before continuing.");
+			var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
+			var eachHeader = $($('#tableData').find("thead").find("tr")[0]).find("th");
+
+			var dataRows = completedRow.find("td");
+
+			if(validateRow(dataRows)){
+				var folder = {};
+				folder.name = replaceAmp($(dataRows[1]).find("input").val());
+				var permissions = [];
+
+				for(var i = 2; i < 6; i++){
+					if($(dataRows[i]).find("input").is(":checked")){
+						permissions[permissions.length] = $(eachHeader[i]).html();
+					}
+				}
+				$(completedRow).remove();
+
+				folder.permissions = permissions;
+
+				Meteor.call('addDefault', folder, function (error, id) {
+					if (error) {
+			       	} 
+			       	else {
+			       	}
+			    });
+
+
+				Session.set("NewRow", false);
+			}
 		}
 
 	},
-
-	// 'keypress input' : function (event) {
-	// 	var keyTarget = event.target
-	// 	if(keyTarget.id !== "search-field"){
-	// 		if(event.charCode===13){
-	// 			if(Session.get("NewRow")){
-	// 				$("#completedRow").click();
-	// 			}
-	// 		}
-	// 	}
-	// },
 
 	'click #CompleteRow' : function() {
 		var completedRow = $($('#tableData').find("tbody").find("tr")[0]);
@@ -172,7 +189,7 @@ Template.manageFolders.events({
 
 		if(validateRow(dataRows)){
 			var folder = {};
-			folder.name = $(dataRows[1]).find("input").val();
+			folder.name = replaceAmp($(dataRows[1]).find("input").val());
 			var permissions = [];
 
 			for(var i = 2; i < 6; i++){
@@ -323,6 +340,8 @@ function validateRow(dataRows){
 					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
 					returnValue = false;
 				} else if (dataRow.hasClass('Unique')){
+						originalName = replaceAmp(originalName);
+						dataVal = replaceAmp(dataVal);
 					if(DefaultFolders.findOne({name: dataVal}) && dataVal !== originalName){
 						dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Please use a Unique Name"></i>');
 						returnValue = false;
@@ -335,3 +354,17 @@ function validateRow(dataRows){
 	}
 	return returnValue;
 }
+
+function replaceAmp(originalName){
+	if(originalName){
+		while (originalName.indexOf('&amp') > -1){
+			var n = originalName.indexOf('&amp');
+			originalName = originalName.substring(0,n) + "&" + originalName.substring((n+5),originalName.length);
+		}
+	}
+	return originalName
+}
+
+Template.manageFolders.created = function () {
+	$("#search-field").val("")
+};

@@ -6,24 +6,27 @@
 						<div><span class="miniTitle">Name</span>: {{userName}}</div>
 						<div><span class="miniTitle">Role:</span> {{userGroup}}</div>
 						<div><span class="miniTitle">Joined:</span> {{joinDate}}</div>
+						{{#if atConcord}}
 						<hr>
 						<h6 class="userTitle">Previous Work</h6>
 						<div><span class="miniTitle">Last Login:</span> {{lastLogin}}</div>
 						<div>
 							<span class="miniTitle">Last Project:</span>
 							{{#if isProject}}
-								<a href = "projects/{{lastProjectID}}"> 
+								<a id="lastProj"> 
 							{{/if}}
 							{{lastProject}}
 							{{#if isProject}}
 								</a> 
 							{{/if}}
 						</div>
+						
 						<hr>
 						<h6 class="userTitle">H.R. Info</h6>
 						{{#each hrEntries}}
 							<div><span class="miniTitle">{{name}}:</span> {{value}}</div>
 						{{/each}}
+						{{/if}}
 						{{#if isOfficeManager}}
 							<hr>
 							<h6 class="userTitle">Admin Data</h6>

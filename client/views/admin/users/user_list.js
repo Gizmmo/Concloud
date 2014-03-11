@@ -41,7 +41,8 @@ Template.userList.events({
 						var selectVal = dataRow.html();
 						dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Office Manager'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");
 						var select = $(dataRow.find("select")).attr('id');
-						$("#" + select +' option[value=' + selectVal +']').attr('selected', 'selected');
+						console.log(select);
+						$("#" + select +' option[value="' + selectVal +'"]').attr('selected', 'selected');
 				} else if(dataRow.hasClass("Boolean")){
 					if(dataRow.find("i").hasClass("fa-check")){
 						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");

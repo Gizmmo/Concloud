@@ -12,7 +12,9 @@ Meteor.methods({
       Meteor.call('removeFile', found, function(){});
     }
 
+    project = Projects.findOne(newFile.projectId);
     Files.insert(newFile);
+    Meteor.call("createProjectNotification", project);
   },
 
   removeFile: function(file){

@@ -84,16 +84,12 @@ Meteor.methods({
 	updateProjectVitals: function(project){
 		var oldProject = Projects.findOne(project._id);
 		Projects.update({_id: project._id}, project);
-		console.log(oldProject);
-		console.log(project);
 		if(oldProject.title !== project.title){
-			console.log("inside");
 			folders = Folders.find();
 			folders.forEach(function (folder) {
 				if (folder.projectId === oldProject._id){
 					folder.projectName = project.title;
 					Meteor.call('updateFolder', folder, function (error, result) {});
-					console.log("inFolders");
 				}
 			});
 

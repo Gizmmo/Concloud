@@ -429,5 +429,6 @@ function replaceAmp(originalName){
 }
 
 Template.projectsAdminList.created = function () {
-	$("#search-field").val("")
+	$("#search-field").val("");
+	Session.set("NewRow", false);
 };

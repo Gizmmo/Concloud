@@ -255,5 +255,6 @@ function updateView(searchValue){
 }
 
 Template.manageHR.created = function () {
-	$("#search-field").val("")
+	$("#search-field").val("");
+	Session.set("NewRow", false);
 };

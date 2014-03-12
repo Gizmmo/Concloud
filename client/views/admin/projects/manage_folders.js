@@ -362,9 +362,10 @@ function replaceAmp(originalName){
 			originalName = originalName.substring(0,n) + "&" + originalName.substring((n+5),originalName.length);
 		}
 	}
-	return originalName
+	return originalName;
 }
 
 Template.manageFolders.created = function () {
-	$("#search-field").val("")
+	$("#search-field").val("");
+	Session.set("NewRow", false);
 };

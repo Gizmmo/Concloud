@@ -6,9 +6,11 @@
 
 			<!--Wall Entry -->
 			<div class="col-xs-12 col-sm-9">
-				{{#each entry}}
-					{{> dashboardEntry}}
-				{{/each}}
+				{{#if notSub}}
+					{{#each entry}}
+						{{> dashboardEntry}}
+					{{/each}}
+				{{/if}}
 			</div>
 
 			<!--User Data -->

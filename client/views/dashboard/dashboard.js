@@ -40,6 +40,14 @@ Template.dashboard.helpers({
 		});
 	},
 
+	notSub: function() {
+		if (Meteor.user().profile.userGroup == "Sub-Trade"){
+			return false;
+		} else {
+			return true;
+		}
+	},
+
     removeHeight : function() {
 	    $('body').css('height', "auto");
 	}

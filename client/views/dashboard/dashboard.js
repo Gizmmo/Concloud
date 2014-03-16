@@ -58,5 +58,15 @@ Template.dashboard.created = function() {
   $('body').height('auto');
   Session.set("LoggedIn", true);
   Session.set("userGroup", Meteor.user().profile.userGroup);
+  Meteor.subscribe('projects', Meteor.user().profile.userGroup);
+Meteor.subscribe('notifications');
+Meteor.subscribe('subscriptions');
+Meteor.subscribe('users', Meteor.user().profile.userGroup);
+Meteor.subscribe('hrData', Meteor.user().profile.userGroup);
+Meteor.subscribe('hr', Meteor.user().profile.userGroup);
+Meteor.subscribe('folders');
+Meteor.subscribe('files');
+Meteor.subscribe('defaultFolders');
+Meteor.subscribe("my_channel");
 }
 

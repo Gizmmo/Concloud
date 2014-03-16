@@ -141,9 +141,33 @@ function addToDatabase(file, folder){
       projectName: folder.projectName
     };
 
+
     Meteor.call('createFile', createdFile, function(err,res){
       if(err){
         console.log(err);
+      }else{
+        var parent = Folders.findOne({_id: folder._id});
+        var repeat = true;
+
+        while(repeat){
+          //Update Folder
+          Meteor.call('updateFolder', parent, function(err,res){
+            if(err)
+              console.log(err);
+          });
+
+          if(parent.parentId == "none"){
+            repeat = false;
+          }else{
+            parent = Folders.findOne({_id: parent.parentId});
+          }
+
+        }
+
+        Meteor.call('updateProject', Projects.findOne({_id: parent.projectId}), function(err, res){
+          if(err)
+            console.log(err);
+        });
       }
     });
   }
@@ -188,8 +212,8 @@ function createFoldersOnServer(folderStack, projectData){
 
   }
 
-  return parent;
-}
+    return parent;
+  }
 }
 
 function createFolderWithId(temp){

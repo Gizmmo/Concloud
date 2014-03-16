@@ -1,13 +1,17 @@
 var sf = new SmartFile({});
+var globalChoice = false;
 
 smartFileFolder = function(template, timeStamp){
-  var files = template;
-  var folder = Folders.findOne({_id: Session.get('thisId')});
-  var projectData = Projects.findOne({_id: Session.get("currentProject")});
-  counter = 0;
-  Session.set("uploadAmount" + timeStamp, files.length);
-  Session.set("uploadedAmount"+timeStamp, 0);
-  var uniqueFolders = [];
+  globalChoice = confirm("This may override previous data, are you sure you wish to proceed?");
+  
+  if(globalChoice){
+    var files = template;
+    var folder = Folders.findOne({_id: Session.get('thisId')});
+    var projectData = Projects.findOne({_id: Session.get("currentProject")});
+    counter = 0;
+    Session.set("uploadAmount" + timeStamp, files.length);
+    Session.set("uploadedAmount"+timeStamp, 0);
+    var uniqueFolders = [];
       //Download Folder(s)
       for (i = 0; i< files.length; i++) {
 
@@ -49,8 +53,7 @@ smartFileFolder = function(template, timeStamp){
           createFoldersOnSmartfile(createPath);
           var currentFolder = createFoldersOnServer(pathStack, projectData);
           if(typeof currentFolder !== 'undefined'){
-            uploadFile(files[i], projectData, filePath, timeStamp);
-            addToDatabase(files[i], currentFolder);
+            uploadFile(files[i], projectData, filePath, timeStamp, currentFolder);
           // removeEmptyString(currentFolder);
         }
 
@@ -59,71 +62,94 @@ smartFileFolder = function(template, timeStamp){
         upload(files[i],projectData, folder, timeStamp);
       }
     }
+    globalChoice = false;
+  }else{
+    $('.popover').each(function(){
+        $(this).remove();
+      });
 
-    createUploadNotification
-  };
+    makeFilePopover();
+  }
+};
 
-  smartFileFile = function(template, timeStamp){
-   var projectData = Projects.findOne({_id: Session.get("currentProject")});
-   var folder = Folders.findOne({_id: Session.get('thisId')});
-   var file = template[0];
+smartFileFile = function(template, timeStamp){
+ var projectData = Projects.findOne({_id: Session.get("currentProject")});
+ var folder = Folders.findOne({_id: Session.get('thisId')});
+ var file = template[0];
 
-   Session.set("uploadedAmount"+timeStamp, 0);
-   Session.set("uploadAmount"+timeStamp, 1);
-   upload(file,projectData, folder, timeStamp);  
+ Session.set("uploadedAmount"+timeStamp, 0);
+ Session.set("uploadAmount"+timeStamp, 1);
+ upload(file,projectData, folder, timeStamp);  
 
- };
+};
 
- function upload(file, projectData, folder, timeStamp){
-  uploadFile(file,projectData, getDirectoryFromStack(projectData, true), timeStamp);
-  addToDatabase(file, folder);
+function upload(file, projectData, folder, timeStamp){
+  uploadFile(file,projectData, getDirectoryFromStack(projectData, true), timeStamp, folder);
   // removeEmptyString(folderData);
 }
 
-function uploadFile(file,projectData,path, timeStamp){
+function uploadFile(file,projectData,path, timeStamp, folder){
 
   if(typeof file.name !== 'undefined' && file.name !== "" && file.name !== "."){
     if(typeof path === 'undefined'){
       path = getDirectoryFromStack(projectData, true);
     }
+    
+    var choice = false;
+    console.log(globalChoice);
+    if(!globalChoice){
+      console.log("inside");
+      choice = true;
+      var temp = splitFileName(file);
+      var fileName = temp[0];
+      var type = temp[1];
+      var fileData = Files.findOne({name: fileName, type:type, parentId: folder._id});
 
-    console.log(path);
-
-    sf.upload(file, {
-      file: file.name.replace(/\s/g, "%20"),
-      path : path
-    },
-
-    function (err, res){
-      if (err) {
-       console.log("upload failed", err);
-       return;
-     }
-     var amount = parseInt(Session.get("uploadedAmount"+timeStamp)) + 1;
-     if(amount === parseInt(Session.get('uploadAmount'+timeStamp))){
-      Meteor.call('createUploadNotification', projectData, function(err, res){
-        if(err){
-          console.log(err);
-        }
-      });
-    }else{
-      Session.set("uploadedAmount"+timeStamp, amount);
+      if(typeof fileData !== 'undefined'){
+        choice = confirm("You have overwritten data");
+      }
     }
-  });
+
+    if(choice || globalChoice){
+
+      sf.upload(file, {
+        file: file.name.replace(/\s/g, "%20"),
+        path : path
+      },
+
+      function (err, res){
+        if (err) {
+         console.log("upload failed", err);
+         return;
+       }
+       var amount = parseInt(Session.get("uploadedAmount"+timeStamp)) + 1;
+       if(amount === parseInt(Session.get('uploadAmount'+timeStamp))){
+        Meteor.call('createUploadNotification', projectData, function(err, res){
+          if(err){
+            console.log(err);
+          }
+        });
+        addToDatabase(file, folder);
+      }else{
+        Session.set("uploadedAmount"+timeStamp, amount);
+        addToDatabase(file, folder);
+      }
+    });
+    }else{
+       $('.popover').each(function(){
+        $(this).remove();
+      });
+
+    makeFilePopover();
+    }
   }
 }
 
-function removeEmptyString(folderData){
-  delete folderData.files[""];
-}
-
-function addToDatabase(file, folder){
-  if(typeof file.name !== 'undefined' && file.name !== "" && file.name !== "."){
-    //Find the document type by splitting on the .
-    var nameSplit = file.name.split(".");
-    var type = "";
-    var fileName = file.name;
-    if(nameSplit.length > 0){
+function splitFileName(file){
+  var nameSplit = file.name.split(".");
+  var type = "";
+  var fileName = file.name;
+  if(nameSplit.length > 0){
       //get type after .
       type = nameSplit[1];
       //Collect file name without .
@@ -131,6 +157,20 @@ function addToDatabase(file, folder){
     }else{
       type = "none";
     }
+
+    var temp = [];
+    temp[0] = fileName;
+    temp[1] = type;
+
+    return temp;
+  }
+
+  function addToDatabase(file, folder){
+    if(typeof file.name !== 'undefined' && file.name !== "" && file.name !== "."){
+    //Find the document type by splitting on the .
+    var temp = splitFileName(file);
+    var fileName = temp[0];
+    var type = temp[1];
 
     var createdFile = {
       name: fileName,
@@ -212,8 +252,8 @@ function createFoldersOnServer(folderStack, projectData){
 
   }
 
-    return parent;
-  }
+  return parent;
+}
 }
 
 function createFolderWithId(temp){

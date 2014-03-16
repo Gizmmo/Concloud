@@ -57,24 +57,6 @@ Template.projectPage.events({
 
 },
 
-'click #submitNewFolder' : function(){
-	var folderTitle = $('#addFolderName').val();
-	if(folderTitle != 'undefined'){
-		var projectData = Projects.findOne({_id: Session.get("currentProject")});
-		var folderData = getFolderData(projectData);
-		if(!(folderTitle in folderData.folders)){
-			folderData.folders[folderTitle] = createFolder(folderTitle, folderTitle);
-			Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
-				if(error)
-					console.log(error);
-			});
-			Meteor.call('updateProject', Projects.findOne(Session.get('currentProject')),projectData.folders);
-		}else{
-			throwError("This folder already existed, please create a new folder name.");
-		}
-	}
-},
-
 'click .download-file-link' : function(event) {
 	downloadFile($(event.target).html());
 },
@@ -198,7 +180,7 @@ function makePopover(){
 	});
 }
 
-function makeFilePopover(){
+makeFilePopover = function(){
 	$('#uploadItem').popover({
 		html: true,
 		title: function () {
@@ -342,7 +324,16 @@ function submitFolder(folderTitle) {
 			projectName: currentProject.projectName,
 			projectId: currentProject.projectId,
 		};
-		Meteor.call('createFolder', folder, function(err,res){if(err){console.log(err);}});
+
+		var folderExists = Folders.findOne({name: folderTitle, parentId: currentProject._id});
+		console.log('folder');
+		console.log(folderExists);
+
+		if(typeof folderExists !== 'undefined'){
+			alert("This folder already exists, please use a new name, or delete the old folder.");
+		}else{
+			Meteor.call('createFolder', folder, function(err,res){if(err){console.log(err);}});
+		}
 		// 	Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
 		// 		if(error){
 		// 			console.log(error);

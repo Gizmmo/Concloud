@@ -293,7 +293,11 @@ getDirectoryFromStack = function(projectData, fillSpaces){
 	}
 	console.log(projectData);
 	var folderStack = getPathStack(Session.get('thisId'));
-	var directory = projectData.title + "/";
+	var directory;
+	if(fillSpaces)
+		directory = projectData.title.replace(/\s/g, "%20") + "/";
+	else
+		directory = projectData.title + "/";
 	for (var i = 0; i < folderStack.length; i++) {
 		var hold = "";
 		if(fillSpaces){

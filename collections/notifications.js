@@ -47,7 +47,7 @@ Meteor.methods({
 
         console.log('created notification');
         Notifications.insert(notification);
-        Meteor.call('cleanUserNotifications', user._id, function (error, result) {
+        Meteor.call('cleanUserNotifications', user._id, function (err, result) {
           if(err)
             console.log(err);
         }); 

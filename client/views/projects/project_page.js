@@ -120,7 +120,6 @@ Template.projectPage.helpers({
 
 	projectData : function() {
 		var data = Folders.find({projectId: Session.get("currentProject"), parentId: Session.get('folderId')}, {sort: {name: 1}});
-		console.log('hello');
 		return data;
 
 	},

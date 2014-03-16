@@ -8,8 +8,17 @@
 				<h3 class="alignLeft col-xs-6" id="projectBreadcrumbs"><span class="headerLink" id="header-base">{{title}}</span></h3>
 
 
-				
+				<span class="pull-right projectButtons col-xs-6">
+					<!--Folders and Files -->
+					
+					{{#if officeManager}}
+					<span class="dropdown">
+						<i class="fa fa-folder createCircle blackCircle" id="addrootfolder" data-container="body" data-toggle="popover" data-placement="left"></i>
+					</span>
+					{{/if}}
+				</span>
 			</div>
+			
 
 			<div id="browse-sort" class="clearfix">
 				 <input type="checkbox" class="selectAllCheckbox" id="selectAll">

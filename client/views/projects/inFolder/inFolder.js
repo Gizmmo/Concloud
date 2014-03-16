@@ -152,23 +152,24 @@ function makePopover(){
 	$('#add-folder').popover({
 		html: true,
 		title: function () {
-			return $('.head').html();
+			return $('#folderHead').html();
 		},
 		content: function () {
-			return $('.content').html();
+			return $('#folderContent').html();
 		}
 	}).on('shown.bs.popover', function(){
 		$($('.addFolderPopover')[1]).find('#submit-FolderName').on('click', function(){
 			if($(document.getElementsByClassName('textPopover')[1]).val().length !== 0){
-			var temp = $(document.getElementsByClassName('textPopover')[1]).val();
-			$('.popover').each(function(){
-				$(this).remove();
-			});
-			submitFolder(temp);
-			$('#add-folder').popover('destroy');
-		}else{
-			makePopover();
-		}
+				var temp = $(document.getElementsByClassName('textPopover')[1]).val();
+				$('.popover').each(function(){
+					$(this).remove();
+				});
+				submitFolder(temp);
+				$('#add-folder').popover('destroy');
+				makePopover();
+			}else{
+				makePopover();
+			}
 		}).on('hidden.bs.popover', function(){
 			makePopover();
 		});
@@ -200,29 +201,29 @@ function makeFilePopover(){
 	}).on('shown.bs.popover', function(){
 		$($('.uploadData')[1]).find('#submitFile').on('click', function(){
 			if( document.getElementsByClassName('inFile')[1].files.length !== 0){
-			var files = document.getElementsByClassName('inFile')[1].files;
-			$('.popover').each(function(){
-				$(this).remove();
-			});
-			smartFileFile(files, new Date().getTime());
-		}else{
-			makeFilePopover();
-		}
+				var files = document.getElementsByClassName('inFile')[1].files;
+				$('.popover').each(function(){
+					$(this).remove();
+				});
+				smartFileFile(files, new Date().getTime());
+			}else{
+				makeFilePopover();
+			}
 			
 		});
 
 		$($('.uploadData')[1]).find('#submitFolder').on('click', function(){
 			if(document.getElementsByClassName('inFolder')[1].files.length !== 0){
-			var files = document.getElementsByClassName('inFolder')[1].files;
-			$('.popover').each(function(){
-				$(this).remove();
-			});
-			$('#uploadItem').popover('destroy');
+				var files = document.getElementsByClassName('inFolder')[1].files;
+				$('.popover').each(function(){
+					$(this).remove();
+				});
+				$('#uploadItem').popover('destroy');
 
-			smartFileFolder(files, new Date().getTime());
-		}else{
-			makeFilePopover();
-		}
+				smartFileFolder(files, new Date().getTime());
+			}else{
+				makeFilePopover();
+			}
 		});
 	}).on('hidden.bs.popover', function(){
 		makeFilePopover();
@@ -374,18 +375,26 @@ function submitFolder(folderTitle) {
 	if(typeof folderTitle !== 'undefined'){
 		var parentFolder = Folders.findOne({_id: Session.get('thisId')});
 		var projectData = Projects.findOne({_id: parentFolder.projectId});
-		var folder = createFolder(folderTitle, parentFolder);
-		Meteor.call('createFolder', folder, function(err,res){if(err){console.log(err);}});
-		Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
-			if(error){
-				console.log(error);
-			}
-		});
-		// 	Meteor.call('updateProject',  Projects.findOne(Session.get('currentProject')),projectData.folders);
-		// }else{
-		// 	throwError("This folder already existed, please create a new folder name.");
-		// }
+		var folder = createFolder(folderTitle, parentFolder);		
+		var folderExists = Folders.findOne({name: folderTitle, parentId: folder.parentId});
+
+		if(typeof folderExists !== 'undefined'){
+
+			alert("This folder already exists, please use a new name, or delete the old folder.");
+
+		}else{
+			Meteor.call('createFolder', folder, function(err,res){
+				if(err){console.log(err);
+				}
+				Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
+					if(error){
+						console.log(error);
+					}
+				});
+			});
+		}
 	}
+
 }
 
 

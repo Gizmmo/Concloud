@@ -46,14 +46,16 @@
 					{{#if officeManager}}
 					<span class="dropdown">
 						<i class="fa fa-folder createCircle blackCircle" id="add-folder" data-container="body" data-toggle="popover" data-placement="left"></i>
-						<div class="head hide">Add New Folder</div>
-						<div class="content hide">
+						<span id="popoverContent">
+						<div id="folderHead" class="hide">Add New Folder</div>
+						<div class="hide" id="folderContent">
 							<div class="form-group addFolderPopover">
 								<input type="text" class="form-control textPopover col-xs-9" placeholder="Enter Folder Name..." id="folder-Name">
 								<button type="submit" id="submit-FolderName" class="btn btn-primary submitPopover col-xs-3"><i class="fa fa-check"></i></button>
 							</div>
 							
 						</div>
+					</span>
 						<ul class="dropdown-menu folderDropdown alignLeft" aria-labelledby="add-folder"> 
 							<li class="dataInput"></li><br>
 						</ul>

@@ -148,16 +148,12 @@ Template.projectPage.helpers({
 function isAccepted(id){
 	var user = Meteor.user();
 	var folderData = Folders.findOne({_id: id});
-	console.log(folderData)
 	if(folderData.permissions.length > 0){
 		if(isIn(folderData.permissions, user.profile.userGroup)){
-			console.log(true);
 			return true;
 		}
-		console.log('false');
 		return false;
 	}
-	console.log('outside true');
 	return true;
 }
 

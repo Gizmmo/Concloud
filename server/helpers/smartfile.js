@@ -36,7 +36,6 @@ Meteor.methods({
 				}
 			});
 			var url = httpResponse.data.url;
-			console.log(url);
 			return url;
 
 		}catch(e){
@@ -64,7 +63,6 @@ Meteor.methods({
 	},
 
 	exchangeSmartFiles : function(pathName) {
-		console.log(pathName);
 		try{
 			var httpResponse = HTTP.post(exchange+"?download=true",{
 				auth:sf._getApiAuthString(),
@@ -73,7 +71,6 @@ Meteor.methods({
 				},
 			});
 			var url = httpResponse.data.url;
-			console.log(url);
 			return url;
 
 		}catch(e){

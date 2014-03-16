@@ -291,7 +291,6 @@ getDirectoryFromStack = function(projectData, fillSpaces){
 	if(typeof projectData === 'undefined'){
 		projectData = Projects.findOne({_id: Session.get("currentProject")});
 	}
-	console.log(projectData);
 	var folderStack = getPathStack(Session.get('thisId'));
 	var directory;
 	if(fillSpaces)
@@ -314,11 +313,8 @@ getDirectoryFromStack = function(projectData, fillSpaces){
 };
 
 function deleteFolder(folderId){
-	console.log("delete folder");
-	console.log(folderId);
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
 	var folder = Folders.findOne({_id: folderId});
-	console.log(folder);
 	Meteor.call("remove",getDirectoryFromStack(projectData, false) + folder.name, function(err,result){
 		if(err)
 			console.log(err);
@@ -349,15 +345,11 @@ function deleteFile(fileId){
 }
 
 function downloadFile(itemName){
-	console.log("itemName");
-	console.log(itemName);
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
 	var file = Files.findOne({_id: itemName, parentId: Session.get('thisId')});
 	var parent = Folders.findOne({_id: Session.get('thisId')});
 
 	var directory = getDirectoryFromStack(projectData, false) + file.name.split(file.type)[0] + "." + file.type;
-
-	console.log(directory);
 	Meteor.call('exchangeSmartFiles', directory, function (error, result) {
 		if(error){
 			console.log(error);
@@ -383,7 +375,6 @@ function submitFolder(folderTitle) {
 		var parentFolder = Folders.findOne({_id: Session.get('thisId')});
 		var projectData = Projects.findOne({_id: parentFolder.projectId});
 		var folder = createFolder(folderTitle, parentFolder);
-		console.log(getDirectoryFromStack(projectData, false) + folderTitle);
 		Meteor.call('createFolder', folder, function(err,res){if(err){console.log(err);}});
 		Meteor.call('createDirectory', getDirectoryFromStack(projectData, false) + folderTitle, function (error, result) {
 			if(error){

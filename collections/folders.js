@@ -34,7 +34,7 @@ Meteor.methods({
     });
 
     var myId = Folders.insert(newFolder);
-    console.log("Inserted Id: " + myId);
+
   },
 
   removeFolder: function(folder){

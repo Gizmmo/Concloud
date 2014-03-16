@@ -87,8 +87,10 @@ function uploadFile(file,projectData,path, timeStamp){
       path = getDirectoryFromStack(projectData, true);
     }
 
+    console.log(path);
+
     sf.upload(file, {
-      file: file.name,
+      file: file.name.replace(/\s/g, "%20"),
       path : path
     },
 

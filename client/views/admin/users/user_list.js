@@ -43,9 +43,9 @@ Template.userList.events({
 					var dataRow = $(dataRows[i]);
 					if(dataRow.hasClass('String')){
 						editData[i] = dataRow.html();
-						dataRow.html("<input type='text' id='txtName' value='"+dataRow.html()+"'/>");
+						dataRow.html("<input type='text' maxlength='20' id='txtName' value='"+dataRow.html()+"'/>");
 					} else if(dataRow.hasClass('Password')){
-						dataRow.html("<input type='password' id='txtName' value=''/>");
+						dataRow.html("<input type='password' maxlength='20' id='txtName' value=''/>");
 					} else if (dataRow.hasClass("Selection")){
 							var selectVal = dataRow.html();
 							dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Office Manager'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");
@@ -125,11 +125,11 @@ Template.userList.events({
 				if(i>0){
 					var dataRow = $(dataRows[i]);
 					if(dataRow.hasClass('String')){
-						dataRow.html("<input type='text' id='txtName' value=''/>");
+						dataRow.html("<input type='text' id='txtName' maxlength='20' value=''/>");
 					}else if (dataRow.hasClass('Password')){
-						dataRow.html("<input type='password' id='txtName' value=''/>");
+						dataRow.html("<input type='password' id='txtName' maxlength='20' value=''/>");
 					}else if(dataRow.hasClass('Email')){
-					dataRow.html("<input type='text' id='email' value=''/>");
+					dataRow.html("<input type='text' id='email' maxlength='20' value=''/>");
 					}else if(dataRow.hasClass("Boolean")){
 						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
 					}else if (dataRow.hasClass("Selection")){
@@ -440,25 +440,25 @@ function validateRow(dataRows){
 			dataRow.find('.valCheck').remove();
 			if(dataRow.hasClass('String') || dataRow.hasClass('Password')){
 				if($(dataRow).find('input').val().length < 1){
-					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
+					dataRow.find('input').addClass("formError");
 					returnValue = false;
 				} else {
-					$(dataRow).append('<i class="valCheck fa fa-check fa-2x greenCheck"></i>');
+					dataRow.find('input').addClass("formCorrect");
 				}
 			}else if (dataRow.hasClass('Email')){
 				emailValue = $(dataRow).find('input').val();
 				emailFound = Meteor.users.findOne({"profile.email" : emailValue});
 				if(emailValue.length < 1){
-					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
+					dataRow.find('input').addClass("formError");
 					returnValue = false;
 				} else if(emailValue.indexOf('@') === -1 || emailValue.indexOf('.') === -1){
-					$(dataRow).append('<i class="valCheck fa fa-times fa-2x redX" title="Please enter a valid email"></i>');
+					dataRow.find('input').addClass("formError");
 					returnValue = false;
 				} else if (emailFound){
-					$(dataRow).append('<i class="valCheck fa fa-times fa-2x redX" title="This email has already been used"></i>');
+					dataRow.find('input').addClass("formError");
 					returnValue = false;
 				} else {
-					$(dataRow).append('<i class="valCheck fa fa-check fa-2x greenCheck"></i>');
+					dataRow.find('input').addClass("formCorrect");
 				}
 			}
 		}

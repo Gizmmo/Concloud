@@ -58,6 +58,7 @@ Meteor.methods({
   },
 
   updateFolder: function(folder){
+    folder.updated = new Date().getTime();
   	Folders.update({"_id": folder._id}, folder, function(){});
   },
 

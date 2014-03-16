@@ -1,3 +1,4 @@
+var isEdit;
 Template.manageHR.events({
 	'keyup #search-field' : function () {
 		updateView($("#search-field").val());
@@ -18,35 +19,42 @@ Template.manageHR.events({
 	},
 
 	'click .editProject' : function(event, template) {
-		event.preventDefault();
-		var split = event.target.id.split("-");
-		var button = $("#editbutton-" + split[1]);
-		var confirmbutton = $("#confirmbutton-" + split[1]);
+		if(!isEdit){
+			event.preventDefault();
+			isEdit = true;
+			var split = event.target.id.split("-");
+			var button = $("#editbutton-" + split[1]);
+			var confirmbutton = $("#confirmbutton-" + split[1]);
+			var deleteButton = $("#deletebutton-" + split[1]);
 
-		button.attr("disabled",true);
-		confirmbutton.attr("disabled", false);
+			deleteButton.find('i').attr('class', 'fa fa-ban bigger-120');
+			deleteButton.addClass("cancelProject");
 
-		var row = $('#row-' + split[1]);
-		var dataRows = row.find("td");
+			button.attr("disabled",true);
+			confirmbutton.attr("disabled", false);
 
-		var user = Meteor.users.findOne({_id: split[1]});
-		for (var i = 0; i < dataRows.length; i++) {
-			if(i>0){
-				var dataRow = $(dataRows[i]);
-				if(dataRow.hasClass('String')){
-					dataRow.html("<input type='text' id='txtName' value='"+dataRow.html()+"'/>");
-				} else if(dataRow.hasClass('Password')){
-					dataRow.html("<input type='password' id='txtName' value=''/>");
-				} else if (dataRow.hasClass("Selection")){
-						var selectVal = dataRow.html();
-						dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Admin'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");
-						var select = $(dataRow.find("select")).attr('id');
-						$("#" + select +' option[value=' + selectVal +']').attr('selected', 'selected');
-				} else if(dataRow.hasClass("Boolean")){
-					if(dataRow.find("i").hasClass("fa-check")){
-						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
-					}else{
-						dataRow.html("<input type='checkbox' id='checkbox' checked = 'false' />");
+			var row = $('#row-' + split[1]);
+			var dataRows = row.find("td");
+
+			var user = Meteor.users.findOne({_id: split[1]});
+			for (var i = 0; i < dataRows.length; i++) {
+				if(i>0){
+					var dataRow = $(dataRows[i]);
+					if(dataRow.hasClass('String')){
+						dataRow.html("<input type='text' id='txtName' value='"+dataRow.html()+"'/>");
+					} else if(dataRow.hasClass('Password')){
+						dataRow.html("<input type='password' id='txtName' value=''/>");
+					} else if (dataRow.hasClass("Selection")){
+							var selectVal = dataRow.html();
+							dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Admin'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");
+							var select = $(dataRow.find("select")).attr('id');
+							$("#" + select +' option[value=' + selectVal +']').attr('selected', 'selected');
+					} else if(dataRow.hasClass("Boolean")){
+						if(dataRow.find("i").hasClass("fa-check")){
+							dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
+						}else{
+							dataRow.html("<input type='checkbox' id='checkbox' checked = 'false' />");
+						}
 					}
 				}
 			}
@@ -59,6 +67,7 @@ Template.manageHR.events({
 		var button = $("#editbutton-" + split[1]);
 		var confirmbutton = $("#confirmbutton-" + split[1]);
 		var currentHR =  HR.findOne({userId: split[1]});
+		var deleteButton = $("#deletebutton-" + split[1]);
 
 		confirmbutton.attr("disabled",true);
 		button.attr("disabled", false);
@@ -92,6 +101,8 @@ Template.manageHR.events({
 
 		var hrD= HRData.find({}, {sort: {fieldName: 1}}).fetch();
 		var eachHeader = $($('#tableData').find("thead").find("tr")[0]).find("th");
+		deleteButton.removeClass("cancelProject");
+		deleteButton.find('i').attr('class', 'fa fa-trash-o bigger-120');
 
 		for (var n = 0; n < dataRows.length; n++){
 			var dataRow = $(dataRows[n]);
@@ -111,6 +122,7 @@ Template.manageHR.events({
 		}
 
 		Meteor.call('HRUpdate', currentHR, function (error, result) {});
+		isEdit = false;
 	},
 
 	'click #addRow' : function(){
@@ -257,4 +269,5 @@ function updateView(searchValue){
 Template.manageHR.created = function () {
 	$("#search-field").val("");
 	Session.set("NewRow", false);
+	isEdit = false;
 };

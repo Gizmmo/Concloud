@@ -1,3 +1,5 @@
+var isEdit;
+var editData;
 Template.userList.events({
 	'keyup #search-field' : function () {
 		updateView($("#search-field").val());
@@ -18,36 +20,46 @@ Template.userList.events({
 	},
 
 	'click .editProject' : function(event, template) {
-		event.preventDefault();
-		var split = event.target.id.split("-");
-		var button = $("#editbutton-" + split[1]);
-		var confirmbutton = $("#confirmbutton-" + split[1]);
+		if(!isEdit){
+			event.preventDefault();
+			isEdit = true;
+			var split = event.target.id.split("-");
+			var button = $("#editbutton-" + split[1]);
+			var confirmbutton = $("#confirmbutton-" + split[1]);
+			var deleteButton = $("#deletebutton-" + split[1]);
 
-		button.attr("disabled",true);
-		confirmbutton.attr("disabled", false);
+			deleteButton.find('i').attr('class', 'fa fa-ban bigger-120');
+			deleteButton.addClass("cancelProject");
 
-		var row = $('#row-' + split[1]);
-		var dataRows = row.find("td");
+			button.attr("disabled",true);
+			confirmbutton.attr("disabled", false);
 
-		var user = Meteor.users.findOne({_id: split[1]});
-		for (var i = 0; i < dataRows.length; i++) {
-			if(i>0){
-				var dataRow = $(dataRows[i]);
-				if(dataRow.hasClass('String')){
-					dataRow.html("<input type='text' id='txtName' value='"+dataRow.html()+"'/>");
-				} else if(dataRow.hasClass('Password')){
-					dataRow.html("<input type='password' id='txtName' value=''/>");
-				} else if (dataRow.hasClass("Selection")){
-						var selectVal = dataRow.html();
-						dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Office Manager'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");
-						var select = $(dataRow.find("select")).attr('id');
-						console.log(select);
-						$("#" + select +' option[value="' + selectVal +'"]').attr('selected', 'selected');
-				} else if(dataRow.hasClass("Boolean")){
-					if(dataRow.find("i").hasClass("fa-check")){
-						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
-					}else{
-						dataRow.html("<input type='checkbox' id='checkbox' checked = 'false' />");
+			var row = $('#row-' + split[1]);
+			var dataRows = row.find("td");
+
+			var user = Meteor.users.findOne({_id: split[1]});
+			for (var i = 0; i < dataRows.length; i++) {
+				if(i>0){
+					var dataRow = $(dataRows[i]);
+					if(dataRow.hasClass('String')){
+						editData[i] = dataRow.html();
+						dataRow.html("<input type='text' id='txtName' value='"+dataRow.html()+"'/>");
+					} else if(dataRow.hasClass('Password')){
+						dataRow.html("<input type='password' id='txtName' value=''/>");
+					} else if (dataRow.hasClass("Selection")){
+							var selectVal = dataRow.html();
+							dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Office Manager'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");
+							var select = $(dataRow.find("select")).attr('id');
+							$("#" + select +' option[value="' + selectVal +'"]').attr('selected', 'selected');
+							editData[i] = selectVal;
+					} else if(dataRow.hasClass("Boolean")){
+						if(dataRow.find("i").hasClass("fa-check")){
+							dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
+							editData[i] = true;
+						}else{
+							dataRow.html("<input type='checkbox' id='checkbox' checked = 'false' />");
+							editData[i] = false;
+						}
 					}
 				}
 			}
@@ -60,6 +72,7 @@ Template.userList.events({
 		var button = $("#editbutton-" + split[1]);
 		var confirmbutton = $("#confirmbutton-" + split[1]);
 		var user = Meteor.users.findOne({_id: split[1]});
+		var deleteButton = $("#deletebutton-" + split[1]);
 
 		var row = $('#row-' + split[1]);
 		var dataRows = row.find("td");
@@ -95,6 +108,9 @@ Template.userList.events({
 			var lastName = replaceAmp($(dataRows[1]).html());
 			var userGroup = replaceAmp($(dataRows[3]).html());
 			Meteor.users.update({_id: split[1]}, {$set:{"profile.firstName": firstName, "profile.lastName": lastName, "profile.userGroup": userGroup}})
+			deleteButton.removeClass("cancelProject");
+			deleteButton.find('i').attr('class', 'fa fa-trash-o bigger-120');
+			isEdit = false;
 		}
 	},
 
@@ -242,21 +258,60 @@ Template.userList.events({
 	'click .deleteProject' : function(event, template) {
 		event.preventDefault();
 		var split = event.target.id.split("-");
-		targetParent = $(event.target)[0].parentNode;
-		while(!$(targetParent).hasClass('btn-group')){
-			targetParent = targetParent.parentNode;
-		}
-		if($(targetParent).find('.confirmDelete').length ==0){
-			$(targetParent).append(Template['confirmDeleteButton']({_id: this._id}));
-			var foundButton = $(targetParent).find('.confirmDelete');
-			var height = $("#confirmbutton-"+split[1]).css('height');
-			$(foundButton).toggle('show');
+		var deleteButton = $("#deletebutton-" + split[1]);
+		if($(deleteButton).hasClass("cancelProject")){
+			deleteButton.find('i').attr('class', 'fa fa-trash-o bigger-120');
+			deleteButton.removeClass('cancelProject');
+			var button = $("#editbutton-" + split[1]);
+			var confirmbutton = $("#confirmbutton-" + split[1]);
+			var row = $('#row-' + split[1]);
+			var dataRows = row.find("td");
+
+			confirmbutton.attr("disabled",true);
+			button.attr("disabled", false);
+			for (var i = 0; i < dataRows.length; i++) {
+				if(i>0){
+					var dataRow = $(dataRows[i]);
+					if(dataRow.hasClass('String')){
+						dataRow.html(editData[i]);
+					}else if(dataRow.hasClass('Password')){
+						var data = $(editData[i]).find("input").val();
+						var returnString = "";
+						for(var t = 0; t < data.length; t++){
+							returnString += '*';
+						}
+						dataRow.html(returnString);
+					} else if (dataRow.hasClass("Selection")){
+						dataRow.html(editData[i]);
+					}else if(dataRow.hasClass("Boolean")){
+						if(editData[i]){
+							dataRow.html("<i class=\"fa fa-check\"></i>");
+						}else{
+							dataRow.html("<i class=\"fa fa-ban\"></i>");
+						}
+					}
+				}
+			}
+
+
+			isEdit = false;
 		} else {
-			var foundButton = $(targetParent).find('.confirmDelete');
-			$(foundButton).toggle('show', function() {
-				$(foundButton).remove();
-			});
-			
+			targetParent = $(event.target)[0].parentNode;
+			while(!$(targetParent).hasClass('btn-group')){
+				targetParent = targetParent.parentNode;
+			}
+			if($(targetParent).find('.confirmDelete').length ==0){
+				$(targetParent).append(Template['confirmDeleteButton']({_id: this._id}));
+				var foundButton = $(targetParent).find('.confirmDelete');
+				var height = $("#confirmbutton-"+split[1]).css('height');
+				$(foundButton).toggle('show');
+			} else {
+				var foundButton = $(targetParent).find('.confirmDelete');
+				$(foundButton).toggle('show', function() {
+					$(foundButton).remove();
+				});
+				
+			}
 		}
 
 	},
@@ -410,4 +465,6 @@ function replaceAmp(originalName){
 Template.userList.created = function () {
 	$("#search-field").val("");
 	Session.set("NewRow", false);
+	isEdit = false;
+	editData = [];
 };

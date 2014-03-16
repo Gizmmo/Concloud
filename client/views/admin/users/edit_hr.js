@@ -1,4 +1,6 @@
 originalName = null;
+var isEdit;
+var editData;
 Template.editHR.events({
 	'keyup #search-field' : function () {
 		updateView($("#search-field").val());
@@ -37,33 +39,41 @@ Template.editHR.events({
 	},
 
 	'click .editProject' : function(event, template) {
-		event.preventDefault();
-		var split = event.target.id.split("-");
-		var button = $("#editbutton-" + split[1]);
-		var confirmbutton = $("#confirmbutton-" + split[1]);
+		if(!isEdit){
+			event.preventDefault();
+			isEdit = true;
+			var split = event.target.id.split("-");
+			var button = $("#editbutton-" + split[1]);
+			var confirmbutton = $("#confirmbutton-" + split[1]);
+			var deleteButton = $("#deletebutton-" + split[1]);
 
-		button.attr("disabled",true);
-		confirmbutton.attr("disabled", false);
+			deleteButton.find('i').attr('class', 'fa fa-ban bigger-120');
+			deleteButton.addClass("cancelProject");
 
-		var row = $('#row-' + split[1]);
-		var dataRows = row.find("td");
+			button.attr("disabled",true);
+			confirmbutton.attr("disabled", false);
 
-		var project = Projects.findOne({_id: split[1]});
-		for (var i = 0; i < dataRows.length; i++) {
-			if(i>0){
-				var dataRow = $(dataRows[i]);
-				if(dataRow.hasClass('String')){
-					if(dataRow.hasClass('Unique')){
-						originalName = dataRow.html();
-					}
-					dataRow.html("<input type='text' id='txtName' value='"+dataRow.html()+"'/>");
-				} else if(dataRow.hasClass('Password')){
-					dataRow.html("<input type='password' id='txtName' value='"+project.password+"'/>");
-				} else if(dataRow.hasClass("Boolean")){
-					if(dataRow.find("i").hasClass("fa-check")){
-						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
-					}else{
-						dataRow.html("<input type='checkbox' id='checkbox' checked = 'false' />");
+			var row = $('#row-' + split[1]);
+			var dataRows = row.find("td");
+			for (var i = 0; i < dataRows.length; i++) {
+				if(i>0){
+					var dataRow = $(dataRows[i]);
+					if(dataRow.hasClass('String')){
+						if(dataRow.hasClass('Unique')){
+							originalName = dataRow.html();
+						}
+						editData[i] = dataRow.html();
+						dataRow.html("<input type='text' id='txtName' value='"+dataRow.html()+"'/>");
+					} else if(dataRow.hasClass('Password')){
+						dataRow.html("<input type='password' id='txtName' value='"+"'/>");
+					} else if(dataRow.hasClass("Boolean")){
+						if(dataRow.find("i").hasClass("fa-check")){
+							dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
+							editData[i] = true;
+						}else{
+							dataRow.html("<input type='checkbox' id='checkbox' checked = 'false' />");
+							editData[i] = false;
+						}
 					}
 				}
 			}
@@ -76,6 +86,7 @@ Template.editHR.events({
 		var button = $("#editbutton-" + split[1]);
 		var confirmbutton = $("#confirmbutton-" + split[1]);
 		var hrItem = HRData.findOne({_id: split[1]});
+		var deleteButton = $("#deletebutton-" + split[1]);
 
 		var row = $('#row-' + split[1]);
 		var dataRows = row.find("td");
@@ -109,8 +120,11 @@ Template.editHR.events({
 			//UPDATES PROJECT!!
 			hrItem.fieldName = replaceAmp($(dataRows[1]).html());
 			hrItem.defaultValue = replaceAmp($(dataRows[2]).html());
+			deleteButton.removeClass("cancelProject");
+			deleteButton.find('i').attr('class', 'fa fa-trash-o bigger-120');
 
 			Meteor.call('HRFieldUpdate', hrItem, function (error, result) {});
+			isEdit = false;
 		}
 	},
 
@@ -224,21 +238,60 @@ Template.editHR.events({
 	'click .deleteProject' : function(event, template) {
 		event.preventDefault();
 		var split = event.target.id.split("-");
-		targetParent = $(event.target)[0].parentNode;
-		while(!$(targetParent).hasClass('btn-group')){
-			targetParent = targetParent.parentNode;
-		}
-		if($(targetParent).find('.confirmDelete').length ==0){
-			$(targetParent).append(Template['confirmDeleteButton']({_id: this._id}));
-			var foundButton = $(targetParent).find('.confirmDelete');
-			var height = $("#confirmbutton-"+split[1]).css('height');
-			$(foundButton).toggle('show');
+		var deleteButton = $("#deletebutton-" + split[1]);
+		if($(deleteButton).hasClass("cancelProject")){
+			deleteButton.find('i').attr('class', 'fa fa-trash-o bigger-120');
+			deleteButton.removeClass('cancelProject');
+			var button = $("#editbutton-" + split[1]);
+			var confirmbutton = $("#confirmbutton-" + split[1]);
+			var row = $('#row-' + split[1]);
+			var dataRows = row.find("td");
+
+			confirmbutton.attr("disabled",true);
+			button.attr("disabled", false);
+			for (var i = 0; i < dataRows.length; i++) {
+				if(i>0){
+					var dataRow = $(dataRows[i]);
+					if(dataRow.hasClass('String')){
+						dataRow.html(editData[i]);
+					}else if(dataRow.hasClass('Password')){
+						var data = $(editData[i]).find("input").val();
+						var returnString = "";
+						for(var t = 0; t < data.length; t++){
+							returnString += '*';
+						}
+						dataRow.html(returnString);
+					}else if(dataRow.hasClass("Boolean")){
+						if(editData[i]){
+							dataRow.html("<i class=\"fa fa-check\"></i>");
+						}else{
+							dataRow.html("<i class=\"fa fa-ban\"></i>");
+						}
+					}
+				}
+			}
+
+
+			isEdit = false;
+
+
 		} else {
-			var foundButton = $(targetParent).find('.confirmDelete');
-			$(foundButton).toggle('show', function() {
-				$(foundButton).remove();
-			});
-			
+			targetParent = $(event.target)[0].parentNode;
+			while(!$(targetParent).hasClass('btn-group')){
+				targetParent = targetParent.parentNode;
+			}
+			if($(targetParent).find('.confirmDelete').length ==0){
+				$(targetParent).append(Template['confirmDeleteButton']({_id: this._id}));
+				var foundButton = $(targetParent).find('.confirmDelete');
+				var height = $("#confirmbutton-"+split[1]).css('height');
+				$(foundButton).toggle('show');
+			} else {
+				var foundButton = $(targetParent).find('.confirmDelete');
+				$(foundButton).toggle('show', function() {
+					$(foundButton).remove();
+				});
+				
+			}
 		}
 
 	},
@@ -346,4 +399,6 @@ function replaceAmp(originalName){
 Template.editHR.created = function () {
 	$("#search-field").val("");
 	Session.set("NewRow", false);
+	isEdit = false;
+	editData = [];
 };

@@ -426,25 +426,25 @@ function validateRow(dataRows){
 			dataRow.find('.valCheck').remove();
 			if(dataRow.hasClass('String') || dataRow.hasClass('Password')){
 				if($(dataRow).find('input').val().length < 1){
-					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
+					dataRow.find('input').addClass("formError");
 					returnValue = false;
 				} else {
-					$(dataRow).append('<i class="valCheck fa fa-check fa-2x greenCheck"></i>');
+					dataRow.find('input').addClass("formCorrect");
 				}
 			}else if (dataRow.hasClass('Email')){
 				emailValue = $(dataRow).find('input').val();
 				emailFound = Meteor.users.findOne({"profile.email" : emailValue});
 				if(emailValue.length < 1){
-					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
+					dataRow.find('input').addClass("formError");
 					returnValue = false;
 				} else if(emailValue.indexOf('@') === -1 || emailValue.indexOf('.') === -1){
-					$(dataRow).append('<i class="valCheck fa fa-times fa-2x redX" title="Please enter a valid email"></i>');
+					dataRow.find('input').addClass("formError");
 					returnValue = false;
 				} else if (emailFound){
-					$(dataRow).append('<i class="valCheck fa fa-times fa-2x redX" title="This email has already been used"></i>');
+					dataRow.find('input').addClass("formError");
 					returnValue = false;
 				} else {
-					$(dataRow).append('<i class="valCheck fa fa-check fa-2x greenCheck"></i>');
+					dataRow.find('input').addClass("formCorrect");
 				}
 			}
 		}

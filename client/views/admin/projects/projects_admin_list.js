@@ -453,17 +453,17 @@ function validateRow(dataRows){
 			if(dataRow.hasClass('String')){
 				var dataVal = $(dataRow).find('input').val();
 				if($(dataRow).find('input').val().length < 1){
-					dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Need to fill in a value"></i>');
+					dataRow.find('input').addClass("formError");
 					returnValue = false;
 				} else if (dataRow.hasClass('Unique')){
 					originalName = replaceAmp(originalName);
 					dataVal = replaceAmp(dataVal);
 					if(Projects.findOne({title: dataVal}) && dataVal !== originalName){
-						dataRow.html(dataRow.html() + '<i class="valCheck fa fa-times fa-2x redX" title="Please use a Unique Name"></i>');
+						dataRow.find('input').addClass("formError");
 						returnValue = false;
 					}
 				} else {
-					$(dataRow).append('<i class="valCheck fa fa-check fa-2x greenCheck"></i>');
+					dataRow.find('input').addClass("formCorrect");
 				}
 			}
 		}

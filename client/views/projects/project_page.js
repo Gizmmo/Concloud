@@ -24,6 +24,10 @@ Template.projectPage.events({
 		}
 	},
 
+	'click #addrootfolder' : function () {
+		Router.go('addrootfolder');
+	},
+
 	'click #submitFolder' : function(e, template){
 		smartFileFolder(e,template);
 	},

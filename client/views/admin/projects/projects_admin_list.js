@@ -42,6 +42,8 @@ Template.projectsAdminList.events({
 			var confirmbutton = $("#confirmbutton-" + split[1]);
 			var deleteButton = $("#deletebutton-" + split[1]);
 
+			Session.set("inEditItem", split[1]);
+
 			deleteButton.find('i').attr('class', 'fa fa-ban bigger-120');
 			deleteButton.addClass("cancelProject");
 			button.attr("disabled",true);
@@ -112,6 +114,7 @@ Template.projectsAdminList.events({
 				}
 			}
 
+			Session.set("inEditItem", null);
 			//UPDATES PROJECT!!
 			project.title = replaceAmp($(dataRows[1]).html());
 			project.password = replaceAmp($(dataRows[2]).html());
@@ -313,7 +316,7 @@ Template.projectsAdminList.events({
 				}
 			}
 
-
+			Session.set("inEditItem", null);
 			isEdit = false;
 
 
@@ -372,6 +375,13 @@ function confirmDelete(){
 }
 
 Template.projectsAdminList.rendered = function () {
+	if(Session.get("inEditItem")){
+		var deleteButton = $("#deletebutton-" + Session.get("inEditItem"));
+		if(!deleteButton.hasClass("cancelProject")){
+			Session.set("inEditItem", null);
+			isEdit = false;
+		}
+	}
 	confirmDelete();
 };
 
@@ -486,4 +496,5 @@ Template.projectsAdminList.created = function () {
 	Session.set("NewRow", false);
 	isEdit = false;
 	editData = [];
+	Session.set("inEditItem", null);
 };

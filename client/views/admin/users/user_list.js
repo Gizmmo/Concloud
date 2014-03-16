@@ -28,6 +28,8 @@ Template.userList.events({
 			var confirmbutton = $("#confirmbutton-" + split[1]);
 			var deleteButton = $("#deletebutton-" + split[1]);
 
+			Session.set("inEditItem", split[1]);
+
 			deleteButton.find('i').attr('class', 'fa fa-ban bigger-120');
 			deleteButton.addClass("cancelProject");
 
@@ -104,6 +106,7 @@ Template.userList.events({
 				}
 			}
 
+			Session.set("inEditItem", null);
 			var firstName = replaceAmp($(dataRows[2]).html());
 			var lastName = replaceAmp($(dataRows[1]).html());
 			var userGroup = replaceAmp($(dataRows[3]).html());
@@ -293,7 +296,7 @@ Template.userList.events({
 				}
 			}
 
-
+			Session.set("inEditItem", null);
 			isEdit = false;
 		} else {
 			targetParent = $(event.target)[0].parentNode;
@@ -342,6 +345,13 @@ Template.userList.helpers({
 
 Template.userList.rendered = function () {
 	confirmDelete();
+	if(Session.get("inEditItem")){
+		var deleteButton = $("#deletebutton-" + Session.get("inEditItem"));
+		if(!deleteButton.hasClass("cancelProject")){
+			Session.set("inEditItem", null);
+			isEdit = false;
+		}
+	}
 };
 
 function confirmDelete(){
@@ -481,4 +491,5 @@ Template.userList.created = function () {
 	Session.set("NewRow", false);
 	isEdit = false;
 	editData = [];
+	Session.set("inEditItem", null);
 };

@@ -47,6 +47,8 @@ Template.editHR.events({
 			var confirmbutton = $("#confirmbutton-" + split[1]);
 			var deleteButton = $("#deletebutton-" + split[1]);
 
+			Session.set("inEditItem", split[1]);
+
 			deleteButton.find('i').attr('class', 'fa fa-ban bigger-120');
 			deleteButton.addClass("cancelProject");
 
@@ -125,6 +127,7 @@ Template.editHR.events({
 
 			Meteor.call('HRFieldUpdate', hrItem, function (error, result) {});
 			isEdit = false;
+			Session.set("inEditItem", null);
 		}
 	},
 
@@ -271,7 +274,7 @@ Template.editHR.events({
 				}
 			}
 
-
+			Session.set("inEditItem", null);
 			isEdit = false;
 
 
@@ -401,4 +404,15 @@ Template.editHR.created = function () {
 	Session.set("NewRow", false);
 	isEdit = false;
 	editData = [];
+	Session.set("inEditItem", null);
+};
+
+Template.editHR.rendered = function () {
+	if(Session.get("inEditItem")){
+		var deleteButton = $("#deletebutton-" + Session.get("inEditItem"));
+		if(!deleteButton.hasClass("cancelProject")){
+			Session.set("inEditItem", null);
+			isEdit = false;
+		}
+	}
 };

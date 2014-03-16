@@ -16,6 +16,8 @@ Template.manageFolders.events({
 			var confirmbutton = $("#confirmbutton-" + split[1]);
 			var deleteButton = $("#deletebutton-" + split[1]);
 
+			Session.set("inEditItem", split[1]);
+
 			deleteButton.find('i').attr('class', 'fa fa-ban bigger-120');
 			deleteButton.addClass("cancelProject");
 
@@ -112,6 +114,7 @@ Template.manageFolders.events({
 
 			folder.permissions = permissions;
 			isEdit = false;
+			Session.set("inEditItem", null);
 			deleteButton.removeClass("cancelProject");
 			deleteButton.find('i').attr('class', 'fa fa-trash-o bigger-120');
 
@@ -271,7 +274,7 @@ Template.manageFolders.events({
 				}
 			}
 
-
+			Session.set("inEditItem", null);
 			isEdit = false;
 
 
@@ -311,6 +314,13 @@ Template.manageFolders.helpers({
 });
 
 Template.manageFolders.rendered = function () {
+	if(Session.get("inEditItem")){
+		var deleteButton = $("#deletebutton-" + Session.get("inEditItem"));
+		if(!deleteButton.hasClass("cancelProject")){
+			Session.set("inEditItem", null);
+			isEdit = false;
+		}
+	}
 	confirmDelete();
 };
 
@@ -425,4 +435,5 @@ Template.manageFolders.created = function () {
 	Session.set("NewRow", false);
 	isEdit = false;
 	editData = [];
+	Session.set("inEditItem", null);
 };

@@ -14,7 +14,7 @@ $("[rel='tooltip']").tooltip();
 Template.menu.helpers({
 	projectListOk: function () {
 		user = Meteor.user();
-		if(user.profile.userGroup === "Admin" || user.profile.userGroup === "Office Manager" || user.profile.userGroup === "Employee" || user.profile.userGroup === "Client"){
+		if(user.profile.userGroup === "Office Manager" || user.profile.userGroup === "Employee" || user.profile.userGroup === "Client"){
 			return true;
 		}
 		return false;
@@ -26,12 +26,28 @@ Template.menu.helpers({
 		}
 		return false;
 	},
-	admin: function () {
+	projectAdmin: function () {
+		user = Meteor.user();
+		if(user.profile.userGroup == "Office Manager"){
+			return true;
+		}
+		return false;
+	},
+
+	userAdmin: function () {
 		user = Meteor.user();
 		if(user.profile.userGroup == "Admin" || user.profile.userGroup == "Office Manager"){
 			return true;
 		}
 		return false;
+	},
+
+	notSuper: function () {
+		user = Meteor.user();
+		if(user.profile.userGroup == "Admin"){
+			return false;
+		}
+		return true;
 	},
 
 	projects: function () {

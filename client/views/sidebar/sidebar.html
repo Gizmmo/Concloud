@@ -9,8 +9,8 @@
 	<div class="sidebar" id="sidebar">
 		<img src="/img/logo.jpg" class="concord-logo">
 
-
 		<ul class="nav nav-list">
+			{{#if notSuper}}
 			<li>
 				<a href="{{pathFor 'dashboard'}}">
 					<i class="fa fa-dashboard"></i>
@@ -25,8 +25,9 @@
 				</a>
 
 			</li>
+			{{/if}}
 
-			{{#if admin}}
+			{{#if projectAdmin}}
 			<li>
 				<a href="#" class="dropdown-toggle">
 					<i class="fa fa-pencil-square-o"></i>
@@ -49,6 +50,8 @@
 							</ul>
 				
 			</li>
+			{{/if}}
+			{{#if userAdmin}}
 			<li>
 				<a href="#" class="dropdown-toggle">
 					<i class="fa fa-gavel"></i>
@@ -62,7 +65,7 @@
 										Manage Users
 									</a>
 								</li>
-
+								{{#if projectAdmin}}
 								<li>
 									<a href="{{pathFor 'manageHR'}}">
 										<i class="icon-double-angle-right"></i>
@@ -75,6 +78,7 @@
 										Edit HR Fields
 									</a>
 								</li>
+								{{/if}}
 							</ul>
 				
 			</li>

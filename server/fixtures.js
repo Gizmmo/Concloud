@@ -5,7 +5,7 @@ if (Meteor.users.find().count() === 0) {
 
     var options = {
         email : "travisscott301@gmail.com",
-        password : 'password',
+        password : 'concloudSuper',
                 //Profile is the object within the user that can
                 //be freely edited by the user
                 profile : {
@@ -25,7 +25,28 @@ if (Meteor.users.find().count() === 0) {
         var id = Accounts.createUser(options);
         Meteor.call("HREntry", {userId: id}, function (error, id){});
         Accounts.sendEnrollmentEmail(id);
+
+    options = {
+        email : "super@concordprojects.com",
+        password : 'password',
+                //Profile is the object within the user that can
+                //be freely edited by the user
+                profile : {
+                    firstName : "Super",
+                    lastName: "Admin",
+                    email: "super@concordprojects.com",
+                    userGroup : "Admin",
+                    joinDate: time,
+                    recent: {
+                        lastLogin: time,
+                        lastProjectName: "None",
+                        lastProjectID: "None"
+                    }
+                }
     }
+
+    var id = Accounts.createUser(options);
+}
 
     if(DefaultFolders.find().count() === 0){
         var folder = {};

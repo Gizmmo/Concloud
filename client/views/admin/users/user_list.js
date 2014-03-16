@@ -327,7 +327,7 @@ Template.userList.events({
 
 Template.userList.helpers({
 	users: function() {
-	 	return Meteor.users.find({}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
+	 	return Meteor.users.find({"profile.userGroup": {$ne: "Admin"}}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
 	 },
 
 	convertedTime: function () {
@@ -413,9 +413,23 @@ function updateView(searchValue){
 }
 
 function removeUser(id){
-	Meteor.users.remove({_id: id}, function(error, result){
-		Meteor.call("HRDelete", id);
-	});
+	var found = Meteor.users.findOne({_id: id});
+	var canDelete = true;
+	if(found.profile.userGroup === "Office Manager"){
+		if(Meteor.users.find({'profile.userGroup': "Office Manager"}).count() < 2){
+			canDelete = false;
+		}
+	}
+
+	if(found._id === Meteor.user()._id){
+		canDelete = false;
+	}
+
+	if(canDelete){
+		Meteor.users.remove({_id: id}, function(error, result){
+			Meteor.call("HRDelete", id);
+		});
+	}
 }
 
 function validateRow(dataRows){

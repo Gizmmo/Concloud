@@ -18,9 +18,9 @@ Template.header.helpers({
 		return Meteor.user().profile.firstName;
 	},
 
-	notSub: function() {
+	notSubOrSuper: function() {
 		var user = Meteor.user();
-		if(user.profile.userGroup == "Sub-Trade"){
+		if(user.profile.userGroup == "Sub-Trade" || user.profile.userGroup == "Admin"){
 			return false;
 		}
 		return true;

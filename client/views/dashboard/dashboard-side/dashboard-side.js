@@ -2,7 +2,7 @@ Template.dashboardside.helpers({
 	hrEntries: function (){
 		var hr = HR.findOne({userId: Meteor.user()._id});
 		if(HR.findOne({userId: Meteor.user()._id})){
-			return  HR.findOne({userId: Meteor.user()._id}).hrValues;
+			return  sortHR(HR.findOne({userId: Meteor.user()._id}).hrValues);
 		} else {
 			return [];
 		}
@@ -76,3 +76,20 @@ Template.dashboardside.events({
 		Router.go('projectPage', {_id: Meteor.user().profile.recent.lastProjectID});
 	}
 });
+
+function sortHR(data){
+	outputArray = [];
+	var totalTimes = data.length;
+	for(var i = 0; i < totalTimes; i++){
+		var index = 0;
+		for(var x = 0; x < data.length; x++){
+			if(data[index].name > data[x].name){
+				index = x;
+			}
+		}
+		outputArray.push(data[index]);
+		data.splice(index, 1);
+	}
+
+	return outputArray;
+}

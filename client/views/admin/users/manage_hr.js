@@ -46,9 +46,9 @@ Template.manageHR.events({
 					var dataRow = $(dataRows[i]);
 					if(dataRow.hasClass('String')){
 						editData[i] = dataRow.html();
-						dataRow.html("<input type='text' maxlength='20' id='txtName' value='"+dataRow.html()+"'/>");
+						dataRow.html("<input type='text' maxlength='40' id='txtName' value='"+dataRow.html()+"'/>");
 					} else if(dataRow.hasClass('Password')){
-						dataRow.html("<input type='password' maxlength='20' id='txtName' value=''/>");
+						dataRow.html("<input type='password' maxlength='40' id='txtName' value=''/>");
 					} else if (dataRow.hasClass("Selection")){
 						var selectVal = dataRow.html();
 						dataRow.html("<select name=''user-group' id ='user-create-group' class='groupSelect'><option value='Employee'>Employee</option><option value='Client''>Client</option><option value='Admin'>Office Manager</option><option value='Sub-Trade'>Sub-Trade</option></select>");
@@ -142,9 +142,9 @@ Template.manageHR.events({
 				if(i>0){
 					var dataRow = $(dataRows[i]);
 					if(dataRow.hasClass('String')){
-						dataRow.html("<input type='text' maxlength='20' id='txtName' value=''/>");
+						dataRow.html("<input type='text' maxlength='40' id='txtName' value=''/>");
 					}else if (dataRow.hasClass('Password')){
-						dataRow.html("<input type='password' maxlength='20' id='txtName' value=''/>");
+						dataRow.html("<input type='password' maxlength='40' id='txtName' value=''/>");
 					}else if(dataRow.hasClass("Boolean")){
 						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
 					}else if (dataRow.hasClass("Selection")){

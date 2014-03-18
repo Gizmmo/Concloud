@@ -9,11 +9,11 @@
 		<td class="String">{{profile.lastName}}</td>
 		<td class="String">{{profile.firstName}}</td>
 		<td class="Selection">{{profile.userGroup}}</td>
-		<td>{{profile.email}}</td>
-		<td>{{convertedTime}}</td>	
+		<td class="hidden-xs">{{profile.email}}</td>
+		<td class="hidden-xs">{{convertedTime}}</td>	
 
 		<td>
-			<div class="visible-md visible-lg hidden-sm hidden-xs btn-group">
+			<div class="btn-group">
 				<button class="btn btn-xs btn-success confirmProject" title="Confirm User Changes" disabled="true" id="confirmbutton-{{_id}}">
 					<i class="fa fa-check bigger-120" id="i-{{_id}}"></i>
 				</button>
@@ -26,39 +26,6 @@
 
 			</div>
 
-			<div class="visible-xs visible-sm hidden-md hidden-lg">
-				<div class="inline position-relative">
-					<button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown">
-						<i class="icon-cog icon-only bigger-110"></i>
-					</button>
-
-					<ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-						<li>
-							<a href="#" class="tooltip-info" data-rel="tooltip" title="" data-original-title="View">
-								<span class="blue">
-									<i class="icon-zoom-in bigger-120"></i>
-								</span>
-							</a>
-						</li>
-
-						<li>
-							<a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Edit">
-								<span class="green">
-									<i class="icon-edit bigger-120"></i>
-								</span>
-							</a>
-						</li>
-
-						<li>
-							<a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
-								<span class="red">
-									<i class="icon-trash bigger-120"></i>
-								</span>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
 		</td>
 	</tr>
 </template>

@@ -182,9 +182,17 @@ a.button:hover {
 	text-align: center;
 }
 
+.frontPane{
+	background:rgba(100,100,100, .4);
+	text-align:center;
+	padding-top:5px;
+	border-radius: 25px;
+	padding-bottom: 35px;
+}
+
  .splash-header{
- 	background-color: #0a0705;
-	background-image: url(/img/workstation.jpg);
+ 	background-color: #06050a;
+	background-image: url(/img/splash.jpg);
 	background-size: 100%;
 	background-repeat: no-repeat;
 	background-position: top center;
@@ -196,7 +204,7 @@ a.button:hover {
  }
  @media only screen and (max-width: 1300px) {
      .splash-header{
-	 	background-size:150%;
+	 	background-size:130%;
 
  }
 }

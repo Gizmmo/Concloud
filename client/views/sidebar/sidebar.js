@@ -1,12 +1,11 @@
 Template.menu.rendered = function () {
-	
-metroNotifications();
 /**
  * Create Sidebar Menu
  */
 	initAce();
 	ace_elements();
 	ace_extra();
+	$('#simple-menu').sidr();
 
 $("[rel='tooltip']").tooltip();
 };
@@ -78,6 +77,7 @@ Template.menu.events({
 		}
 		closeTips();
 	},
+
 	"click #accountBtn" : function () {
 		$("#updatePass").modal("toggle");
 		$('#old-password').val("");

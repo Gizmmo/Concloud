@@ -14,3 +14,7 @@
 .arrow{
 	font-size:12px!important;
 }
+
+.sidr-btn{
+	z-index:1000;
+}

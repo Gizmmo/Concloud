@@ -17,6 +17,10 @@
 	height:100%;
 }
 
+.overflowXWipe{
+	overflow-x:hidden;
+}
+
 html,body{
 	max-width: 100%;
 	font-family: 'Ubuntu', sans-serif;
@@ -24,7 +28,10 @@ html,body{
 
 .main-container{
 	height:100%;
-	overflow:hidden!important;
+}
+
+.overflowWipe{
+		overflow:hidden!important;
 }
 
 .breadcrumbs {

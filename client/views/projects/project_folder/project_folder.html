@@ -2,20 +2,21 @@
  
   <li class="browse-file" data-identity="121387510_46753" c dropzone="copy move">
 
-    
-    <div class="filename-col col-xs-6">
+    <div class="filename-col col-xs-12 col-sm-6 overflowXWipe">
       <input type="checkbox" class="projectCheckbox" id="folder-{{_id}}">
    
 
-      <img class="sprite sprite_web s_web_folder_user_32 icon fileimage-link" alt="marks" draggable="true" src="/img/icon_spacer.gif" id="{{_id}}"> <a class="filename-link" draggable="true" hidefocus="hideFocus" id="{{_id}}" target="_self">{{name}}</a> 
+      <img class="sprite sprite_web s_web_folder_user_32 icon fileimage-link" alt="marks" draggable="true" src="/img/icon_spacer.gif" id="{{_id}}"> <a class="filename-link" draggable="true" hidefocus="hideFocus" id="{{_id}}" target="_self"><span class="visible-xs">{{formatName}}</span><span class="hidden-xs">{{name}}</span></a> 
     </div>
 
-    <div class="kind col-xs-2"> 
+
+
+    <div class="kind col-sm-2 hidden-xs" > 
       <span class="category">folder</span> 
       <span class="extension secondary"></span> 
     </div>
 
-    <div class="modified col-xs-4"> 
+    <div class="modified col-sm-4 hidden-xs"> 
       <span class="modified-time">{{getDate}}</span> 
 
     </div>

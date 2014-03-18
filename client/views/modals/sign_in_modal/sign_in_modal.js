@@ -1,12 +1,3 @@
-Template.signInModal.rendered = function () {
-   $('#myModal').on('shown.bs.modal', function () {
-	   $("#incorrect-log-label").text("");
-	   $("#incorrect-email-label").text("");
-	   $('#email').val("");
-	   $('#passwd').val("");
-	   $('#find-email').val("");
-	});
-};
 
 Template.signInModal.events({
 	'click #myModal' : function (event) {

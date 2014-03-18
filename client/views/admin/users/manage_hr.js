@@ -260,7 +260,7 @@ Template.manageHR.helpers({
 		return formatDate(new Date().getTime());
 	},
 	users: function() {
-		return Meteor.users.find({"profile.userGroup": {$ne: "Admin"}}, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
+		return Meteor.users.find({$or: [{"profile.userGroup": "Office Manager"}, {"profile.userGroup": "Employee"} ] }, {sort : {"profile.lastName" : 1, "profile.firstName" : 1}});
 	}
 });
 

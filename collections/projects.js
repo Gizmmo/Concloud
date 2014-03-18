@@ -27,7 +27,7 @@ Meteor.methods({
 		}
 
 		//filling in other keys
-		var proj = _.extend(_.pick(projectAttributes, 'title', 'password', 'folders', 'files'), {
+		var proj = _.extend(_.pick(projectAttributes, 'title', 'password'), {
 			authorID: user._id,
 			authorName: userName,
 			submitted: new Date().getTime(),
@@ -67,13 +67,6 @@ Meteor.methods({
 				updateAuthorName: userName,
 				updateAuthorID: user._id
 			};
-	        if(typeof folders != 'undefined'){
-	            try{
-	            	Projects.update(id,{$set : {folders: folders}});
-				}catch(e){
-					console.log("Error in folder update " + e.message);
-				}
-			}
 		project.updates[project.updates.length] = update;
 		project.recentUpdate = update;
 

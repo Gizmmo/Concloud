@@ -1596,7 +1596,7 @@ blockquote,blockquote.pull-right {
     }
 
     .ace-nav>li:nth-last-child(2)>.dropdown-menu.pull-right {
-        right: -50px;
+        right: -80px;
     }
 
     .ace-nav>li:nth-last-child(2)>.dropdown-menu.pull-right:before,.ace-nav>li:nth-last-child(2)>.dropdown-menu.pull-right:after {
@@ -1632,7 +1632,7 @@ ull-right {
     }
 
     .ace-nav>li:nth-last-child(2)>.dropdown-menu.pull-right:before,.ace-nav>li:nth-last-child(2)>.dropdown-menu.pull-right:after {
-        left: 130px;
+        left: 180px;
         right: auto;
     }
 }
@@ -1650,11 +1650,7 @@ ull-right {
 
     .ace-nav {
         display: block;
-        float: none!important;
         text-align: center;
-        background-color: #404040;
-        border: 1px solid #DDD;
-        border-width: 1px 0;
         letter-spacing: -3px;
     }
 

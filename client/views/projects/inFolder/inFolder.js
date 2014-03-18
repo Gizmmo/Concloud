@@ -52,7 +52,7 @@ Template.inFolder.events({
 	},
 
 	'click .download-file-link' : function(event) {
-		downloadFile($(event.target).attr('id'));
+		downloadFile($(event.target).parent().attr('id'));
 	},
 
 	'click #downloadItems' : function() {

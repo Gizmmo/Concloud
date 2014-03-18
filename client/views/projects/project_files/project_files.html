@@ -1,18 +1,18 @@
 <template name="project_files">
   <li class="browse-file" data-identity="121387510_46753" id="f_121387510_46753" dropzone="copy move">
 
-    <div class="filename-col col-xs-6">
+    <div class="filename-col col-sm-6 col-xs-12">
       <input type="checkbox" class="projectCheckbox" id="file-{{_id}}">
       <img class="sprite sprite_web download-fileimage-link {{getImage}} icon" alt="YAML Call.txt" draggable="true" src="/img/icon_spacer.gif">
-      <a class="filename-link download-file-link" draggable="true" hidefocus="hideFocus" id="{{_id}}" target="_self">{{collectFileName}}</a> 
+      <a class="filename-link download-file-link" draggable="true" hidefocus="hideFocus" id="{{_id}}" target="_self"><span class="visible-xs">{{collectFileNameFormat}}</span><span class="hidden-xs">{{collectFileName}}</span></a> 
     </div>
 
-    <div class="kind col-xs-2"> 
+    <div class="kind col-xs-2 hidden-xs"> 
       <span class="category">document</span> 
       <span class="extension secondary">{{type}}</span> 
     </div>
 
-    <div class="modified col-xs-4"> 
+    <div class="modified col-xs-4 hidden-xs"> 
       <span class="modified-time">{{getDate}}</span>
 
     </div>

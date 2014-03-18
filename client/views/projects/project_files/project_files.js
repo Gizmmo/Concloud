@@ -10,5 +10,15 @@ Template.project_files.helpers({
 
 	collectFileName : function(event){
 		return this.name.split(this.type)[0];
+	},
+
+	collectFileNameFormat : function(event){
+		var name = this.name.split(this.type)[0];
+
+		if(name.length > 20){
+			return name.substring(0,15) + "...";
+		}else{
+			return name;
+		}
 	}
 });

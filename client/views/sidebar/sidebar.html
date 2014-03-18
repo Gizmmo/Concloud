@@ -2,7 +2,59 @@
 	<!-- User must be logged in to see this -->
 	{{#if currentUser}}
 
-	<a class="menu-toggler" id="menu-toggler" href="#">
+	<div id="sidr" class="sidr left">
+		<ul>
+			{{#if notSuper}}
+			<li>
+				<a href="{{pathFor 'dashboard'}}">
+Dashboard 
+				</a>
+			</li>
+
+			<li>
+				<a href="{{pathFor 'projectsList'}}">
+Projects
+				</a>
+
+			</li>
+			{{/if}}
+			{{#if projectAdmin}}
+
+			<li>
+				<a href="{{pathFor 'projectsAdminList'}}">
+					Manage Projects
+				</a>
+			</li>
+			<li>
+				<a href="{{pathFor 'manageFolders'}}">
+					Manage Default Folders
+				</a>
+			</li>
+
+			{{/if}}
+			{{#if userAdmin}}
+			
+			<li>
+				<a href="{{pathFor 'userList'}}">
+					Manage Users
+				</a>
+			</li>
+			{{#if projectAdmin}}
+			<li>
+				<a href="{{pathFor 'manageHR'}}">
+					Manage H.R.
+				</a>
+			</li>
+			<li>
+				<a href="{{pathFor 'editHR'}}">
+					Edit HR Fields
+				</a>
+			</li>
+			{{/if}}
+			{{/if}}
+		</ul>
+	</div>
+	<a class="menu-toggler" id="simple-menu" href="#sidr">
 		<span class="menu-text"></span>
 	</a>
 
@@ -33,21 +85,21 @@
 					<i class="fa fa-pencil-square-o"></i>
 					<span class="menu-text"> Project Administration </span>
 					<b class="arrow fa fa-chevron-down"></b>
-					</a>
-					<ul class="submenu">
-								<li>
-									<a href="{{pathFor 'projectsAdminList'}}">
-										<i class="icon-double-angle-right"></i>
-										Manage Projects
-									</a>
-								</li>
-								<li>
-									<a href="{{pathFor 'manageFolders'}}">
-										<i class="icon-double-angle-right"></i>
-										Manage Default Folders
-									</a>
-								</li>
-							</ul>
+				</a>
+				<ul class="submenu">
+					<li>
+						<a href="{{pathFor 'projectsAdminList'}}">
+							<i class="icon-double-angle-right"></i>
+							Manage Projects
+						</a>
+					</li>
+					<li>
+						<a href="{{pathFor 'manageFolders'}}">
+							<i class="icon-double-angle-right"></i>
+							Manage Default Folders
+						</a>
+					</li>
+				</ul>
 				
 			</li>
 			{{/if}}
@@ -57,33 +109,33 @@
 					<i class="fa fa-gavel"></i>
 					<span class="menu-text"> User Administration </span>
 					<b class="arrow fa fa-chevron-down"></b>
-					</a>
-					<ul class="submenu">
-								<li>
-									<a href="{{pathFor 'userList'}}">
-										<i class="icon-double-angle-right"></i>
-										Manage Users
-									</a>
-								</li>
-								{{#if projectAdmin}}
-								<li>
-									<a href="{{pathFor 'manageHR'}}">
-										<i class="icon-double-angle-right"></i>
-										Manage H.R.
-									</a>
-								</li>
-								<li>
-									<a href="{{pathFor 'editHR'}}">
-										<i class="icon-double-angle-right"></i>
-										Edit HR Fields
-									</a>
-								</li>
-								{{/if}}
-							</ul>
+				</a>
+				<ul class="submenu">
+					<li>
+						<a href="{{pathFor 'userList'}}">
+							<i class="icon-double-angle-right"></i>
+							Manage Users
+						</a>
+					</li>
+					{{#if projectAdmin}}
+					<li>
+						<a href="{{pathFor 'manageHR'}}">
+							<i class="icon-double-angle-right"></i>
+							Manage H.R.
+						</a>
+					</li>
+					<li>
+						<a href="{{pathFor 'editHR'}}">
+							<i class="icon-double-angle-right"></i>
+							Edit HR Fields
+						</a>
+					</li>
+					{{/if}}
+				</ul>
 				
 			</li>
 			{{/if}}
-			</ul>
+		</ul>
 
 	</div>
 	{{/if}}

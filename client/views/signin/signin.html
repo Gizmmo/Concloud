@@ -1,0 +1,32 @@
+<template name="signin">
+	{{> staticHeader}}
+	<div class="container">
+    <div class="row signform">
+      
+      <div class="entry col-md-4 col-md-offset-4">
+        
+        <!--empty-->
+        
+          <div class="email-option">
+            <h3>Sign In</h3>
+          </div>
+        
+        
+          <form class="entry-form" id="signIn">
+          	<div class="row">
+							<label id="incorrect-log-label" class = "col-xs-12 incorrect-text"></label>
+						</div>
+            <div class="form-group">
+              <input autofocus="" id="email" name="email" type="email" class="form-control" value="" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <input name="password" id="passwd" type="password" class="form-control" value="" placeholder="Password">
+            </div>
+            <p><a href="{{pathFor 'forgot'}}">Forgot your password?</a></p>
+            <button id="logButton" class="submit btn btn-block btn-default">Sign In</button>
+          </form>
+      </div>
+    </div>
+  </div>
+	{{> footer}}
+</template>

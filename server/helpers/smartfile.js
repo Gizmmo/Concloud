@@ -29,10 +29,12 @@ Meteor.methods({
 
 	compressSmartFiles : function(pathName){
 		try{
+			console.log(pathName);
 			var httpResponse = HTTP.post(compress,{
 				auth:sf._getApiAuthString(),
 				data: {
-					path: pathName,
+					name: 'test.zip',
+					path: "%2F" + pathName
 				}
 			});
 			var url = httpResponse.data.url;

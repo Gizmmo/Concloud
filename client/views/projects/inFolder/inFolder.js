@@ -56,23 +56,23 @@ Template.inFolder.events({
 	},
 
 	'click #downloadItems' : function() {
-	// $('input:checkbox.projectCheckbox').each(function() {
-	// 	var thisVal = (this.checked ? $(this).attr('id') : "");
+	$('input:checkbox.projectCheckbox').each(function() {
+		var thisVal = (this.checked ? $(this).attr('id') : "");
 
-	// 	if(thisVal !== ""){
-	// 		var itemType = thisVal.split("-")[0];
-	// 		var itemName = thisVal.split("-")[1];
-	// 		if(itemType == 'folder'){
+		if(thisVal !== ""){
+			var itemType = thisVal.split("-")[0];
+			var itemName = thisVal.split("-")[1];
+			if(itemType == 'folder'){
+				downloadFolder(itemName);
+			}else if (itemType == "file"){
+				downloadFile(itemName);
 
-	// 		}else if (itemType == "file"){
-	// 			downloadFile(itemName);
-
-	// 		}
-	// 	}
+			}
+		}
 
 
-	// });
-	// 
+	});
+	
 	Meteor.call('smartFileSize', function(err, result){
 		if(err){
 			console.log(err);
@@ -343,6 +343,17 @@ function deleteFile(fileId){
 			}
 		});
 	}
+}
+
+function downloadFolder(folderId){
+	var projectData = Projects.findOne({_id: Session.get("currentProject")});
+	var folder = Folders.findOne({_id: folderId});
+	Meteor.call('compressSmartFiles', getDirectoryFromStack(projectData, false) + folder.name, function(err, res){
+		if(err)
+			console.log(err);
+		else
+			window.location.href = res+"?download=true";
+	} );
 }
 
 function downloadFile(itemName){

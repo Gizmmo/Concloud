@@ -4,7 +4,9 @@ var compress = "https://app.smartfile.com/api/2/path/oper/compress/";
 var info = "https://app.smartfile.com/api/2/path/info/?children=on";
 var key = "XFrwhXrnX5YdEGucym71yWnzP1EFpW";
 var password = "1z3CPFe6gn8BuEs0cJjLCLtoMBnZn8";
-
+Meteor.startup(function () {
+	Future = Npm.require('fibers/future');
+})
 sf.configure({
 	key: key,
 	password: password,
@@ -27,18 +29,39 @@ Meteor.methods({
 		return sf.ls("");
 	},
 
-	compressSmartFiles : function(pathName){
+	compressSmartFiles : function(pathName, user){
+		
 		try{
+			var splitName = pathName.split(['/']);
+			var fullName = splitName[splitName.length-1]+'.zip';
+			var tmp = user + Date.now();
+			sf.mkdir(tmp);
+			var future = new Future();
 			console.log(pathName);
 			var httpResponse = HTTP.post(compress,{
 				auth:sf._getApiAuthString(),
-				data: {
-					name: 'test.zip',
-					path: "%2F" + pathName
+			params : {
+				path: pathName,
+				name: fullName,
+				dst : tmp
+			},
+				headers: {
+					"Content-Type" : 'application/x-www-form-urlencoded'
+				}
+			}, function(err, res){
+				if(err){
+					console.log(err);
+				}
+				else{
+					Meteor.setTimeout(function(){
+						console.log("remove " + tmp);
+						sf.rm(tmp);
+					},60000);
+					future['return'](tmp+"/"+fullName);
 				}
 			});
-			var url = httpResponse.data.url;
-			return url;
+
+			return future.wait();
 
 		}catch(e){
 			console.log(e.message);
@@ -46,6 +69,7 @@ Meteor.methods({
 	},
 
 	smartFileSize : function(){
+		this.unblock();
 		try{
 			var httpResponse = HTTP.get(info,{
 				auth:sf._getApiAuthString(),
@@ -65,6 +89,7 @@ Meteor.methods({
 	},
 
 	exchangeSmartFiles : function(pathName) {
+		this.unblock();
 		try{
 			var httpResponse = HTTP.post(exchange+"?download=true",{
 				auth:sf._getApiAuthString(),

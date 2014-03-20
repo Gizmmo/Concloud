@@ -32,7 +32,7 @@ Template.projectPage.events({
 		smartFileFolder(e,template);
 	},
 
-     'click .headerLink' : function(e, template) {
+	'click .headerLink' : function(e, template) {
 	//Find which folder in the breadcrumbs has been clicked
 	var folderClicked = $(e.target).attr('id');
 	folderClicked = folderClicked.split("-")[1];
@@ -65,31 +65,28 @@ Template.projectPage.events({
 	downloadFile($(event.target).html());
 },
 
-'click #downloadItems' : function() {
-	// $('input:checkbox.projectCheckbox').each(function() {
-	// 	var thisVal = (this.checked ? $(this).attr('id') : "");
-
-	// 	if(thisVal !== ""){
-	// 		var itemType = thisVal.split("-")[0];
-	// 		var itemName = thisVal.split("-")[1];
-	// 		if(itemType == 'folder'){
-
-	// 		}else if (itemType == "file"){
-	// 			downloadFile(itemName);
-
-	// 		}
-	// 	}
-
-
-	// });
-	// 
-	Meteor.call('smartFileSize', function(err, result){
-		if(err){
-			console.log(err);
+'click #download-project' : function() {
+	var check = true;
+	var uncheck = true;
+	$('input:checkbox.projectCheckbox').each(function() {
+		if(!this.checked){
+			check = false;
+		}else{
+			uncheck = false;
 		}
-
-		Session.set("smartFileSize", result);
 	});
+	if(check || uncheck){
+		downloadProject();
+	}else{
+		$('input:checkbox.projectCheckbox').each(function() {
+			var thisVal = (this.checked ? $(this).attr('id') : "");
+			if(thisVal !== ""){
+				var itemType = thisVal.split("-")[0];
+				var itemName = thisVal.split("-")[1];
+				downloadFolder(itemName);
+			}
+		});
+	}
 
 }
 });
@@ -234,18 +231,18 @@ function confirmDelete(){
 
 function deleteItems(){
 	$('input:checkbox.projectCheckbox').each(function() {
-			var thisVal = (this.checked ? $(this).attr('id') : "");
+		var thisVal = (this.checked ? $(this).attr('id') : "");
 
-			if(thisVal != ""){
-				var itemType = thisVal.split("-")[0];
-				var itemName = thisVal.split("-")[1];
-				if(itemType == 'folder'){
-					deleteFolder(itemName);
-				}else if (itemType == "file"){
-					deleteFile(itemName);
-				}
+		if(thisVal != ""){
+			var itemType = thisVal.split("-")[0];
+			var itemName = thisVal.split("-")[1];
+			if(itemType == 'folder'){
+				deleteFolder(itemName);
+			}else if (itemType == "file"){
+				deleteFile(itemName);
 			}
-		});
+		}
+	});
 }
 
 Template.projectPage.rendered = function() {
@@ -295,6 +292,45 @@ function deleteFile(fileName){
 			console.log(err);
 	});
 	Meteor.call('updateProject',  Projects.findOne(Session.get('currentProject')),projectData.folders);
+}
+
+function downloadFolder(folderId){
+	var projectData = Projects.findOne({_id: Session.get("currentProject")});
+	var folder = Folders.findOne({_id: folderId});
+	Meteor.call('compressSmartFiles', getDirectoryFromStack(projectData, false) + folder.name, Meteor.user()._id ,function(err, res){
+		if(err)
+			console.log(err);
+		else{
+			Meteor.call('exchangeSmartFiles', res, function (error, result) {
+		if(error){
+			console.log(error);
+		}else{
+			window.location.href = result+"?download=true";
+		}
+	});
+			// window.location.href = res.data.url+"?download=true";
+		}
+		});
+}
+
+function downloadProject(){
+	var projectData = Projects.findOne({_id: Session.get("currentProject")});
+	Meteor.call('compressSmartFiles', projectData.title, Meteor.user()._id, function(err, res){
+		if(err)
+			console.log(err);
+		else{
+			Meteor.call('exchangeSmartFiles', res, function (error, result) {
+		if(error){
+			console.log(error);
+		}else{
+			window.location.href = result+"?download=true";
+		}
+	});
+			// window.location.href = res.data.url+"?download=true";
+		}
+		
+
+	} );
 }
 
 function downloadFile(itemName){

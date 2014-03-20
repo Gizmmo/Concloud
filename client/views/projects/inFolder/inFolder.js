@@ -54,7 +54,6 @@ Template.inFolder.events({
 	'click .download-file-link' : function(event) {
 		downloadFile($(event.target).parent().attr('id'));
 	},
-
 	'click #downloadItems' : function() {
 	$('input:checkbox.projectCheckbox').each(function() {
 		var thisVal = (this.checked ? $(this).attr('id') : "");
@@ -71,14 +70,6 @@ Template.inFolder.events({
 		}
 
 
-	});
-	
-	Meteor.call('smartFileSize', function(err, result){
-		if(err){
-			console.log(err);
-		}
-
-		Session.set("smartFileSize", result);
 	});
 
 }
@@ -228,6 +219,7 @@ function makeFilePopover(){
 	}).on('hidden.bs.popover', function(){
 		makeFilePopover();
 	});
+
 }
 
 function confirmDelete(){
@@ -280,6 +272,7 @@ Template.inFolder.rendered = function() {
 	$('#deleteItem').popover('destroy');
 	$('#uploadItem').popover('destroy');
 	$('#add-folder').popover('destroy');
+	$($('.uploadData')).find('.fileNameArea').toggle();
 	Session.set('folderId', 'none');
 	makePopover();
 	makeFilePopover();
@@ -348,12 +341,21 @@ function deleteFile(fileId){
 function downloadFolder(folderId){
 	var projectData = Projects.findOne({_id: Session.get("currentProject")});
 	var folder = Folders.findOne({_id: folderId});
-	Meteor.call('compressSmartFiles', getDirectoryFromStack(projectData, false) + folder.name, function(err, res){
+	Meteor.call('compressSmartFiles', getDirectoryFromStack(projectData, false) + folder.name, Meteor.user()._id,function(err, res){
 		if(err)
 			console.log(err);
-		else
-			window.location.href = res+"?download=true";
-	} );
+		else{
+			Meteor.call('exchangeSmartFiles', res, function (error, result) {
+		if(error){
+			console.log(error);
+		}else{
+			window.location.href = result+"?download=true";
+		}
+	});
+			// window.location.href = res.data.url+"?download=true";
+		}
+		});
+
 }
 
 function downloadFile(itemName){

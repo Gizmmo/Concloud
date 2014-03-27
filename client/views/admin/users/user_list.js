@@ -132,7 +132,7 @@ Template.userList.events({
 					}else if (dataRow.hasClass('Password')){
 						dataRow.html("<input type='password' id='txtName' maxlength='40' value=''/>");
 					}else if(dataRow.hasClass('Email')){
-					dataRow.html("<input type='text' id='email' maxlength='20' value=''/>");
+					dataRow.html("<input type='text' id='email' maxlength='40' value=''/>");
 					}else if(dataRow.hasClass("Boolean")){
 						dataRow.html("<input type='checkbox' id='checkbox' checked = 'true' />");
 					}else if (dataRow.hasClass("Selection")){

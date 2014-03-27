@@ -12,6 +12,11 @@ Template.inFolder.events({
 		$('.projectCheckbox').prop('checked', isSelectAll);
 	},
 
+	'click .projectCheckbox' : function () {
+		isSelectAll = false;
+		$('.selectAllCheckbox').prop('checked', isSelectAll);
+	},
+
 	'click #file-upload' :function () {
 		if(Session.get("uploadType") != "file"){
 			Session.set("uploadType", "file");
@@ -278,6 +283,12 @@ Template.inFolder.rendered = function() {
 	makeFilePopover();
 	confirmDelete();
 	
+};
+
+Template.inFolder.created = function () {
+	isSelectAll = false;
+	$('.projectCheckbox').prop('checked', isSelectAll);
+	$('.selectAllCheckbox').prop('checked', isSelectAll);
 };
 
 getDirectoryFromStack = function(projectData, fillSpaces){

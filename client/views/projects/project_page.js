@@ -12,6 +12,11 @@ Template.projectPage.events({
 		$('.projectCheckbox').prop('checked', isSelectAll);
 	},
 
+	'click .projectCheckbox' : function () {
+		isSelectAll = false;
+		$('.selectAllCheckbox').prop('checked', isSelectAll);
+	},
+
 	'click #file-upload' :function () {
 		if(Session.get("uploadType") != "file"){
 			Session.set("uploadType", "file");
@@ -152,7 +157,9 @@ function isIn(checkArray, userGroup){
 Template.projectPage.created = function() {
 	folderStack = [];
 	Session.set("uploadType", "file");
-	
+	isSelectAll = false;
+	$('.projectCheckbox').prop('checked', isSelectAll);
+	$('.selectAllCheckbox').prop('checked', isSelectAll);
 };
 
 function makePopover(){
@@ -206,7 +213,7 @@ makeFilePopover = function(){
 	}).on('hidden.bs.popover', function(){
 		makeFilePopover();
 	});
-}
+};
 
 function confirmDelete(){
 	$('#deleteItem').popover({

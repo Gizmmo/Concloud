@@ -22,14 +22,14 @@ function changePass(event){
 			Accounts.changePassword(oldPass, newPass, function (error){
 				if(error){
 					$("#incorrect-label").text("You either entered an incorrect old password, or there was an internal error");
+					$('.passwordError').toggle();
 				} else {
-					clearBackground(event, "updatePass");
-					$("#updatePass").modal("hide");
-					$('.modal-backdrop').remove();
+					Router.go("dashboard");
 
 				}
 			});
 		} else {
-			$("#not-match-label").text("Passwords did not match");
+			$("#incorrect-label").text("Passwords did not match");
+			$('.passwordError').toggle();
 		}
 }
